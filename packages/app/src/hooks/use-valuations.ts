@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 
+import { dispatchDataChanged } from "@/lib/backup-data"
 import type { ValuationEntry } from "@/types/valuation"
 
 const STORAGE_KEY = "vsop-valuations"
@@ -23,6 +24,7 @@ export function useValuations() {
 
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(valuations))
+    dispatchDataChanged()
   }, [valuations])
 
   const addValuation = (entry: ValuationEntry) => {

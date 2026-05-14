@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from "react"
 
+import { dispatchDataChanged } from "@/lib/backup-data"
 import {
   COLUMN_DEFS,
   DEFAULT_COLUMN_CONFIG,
@@ -60,6 +61,7 @@ export function useColumnConfig() {
 
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(columnConfig))
+    dispatchDataChanged()
   }, [columnConfig])
 
   useEffect(() => {

@@ -1,6 +1,8 @@
 /* eslint-disable react-refresh/only-export-components */
 import * as React from "react"
 
+import { dispatchDataChanged } from "@/lib/backup-data"
+
 type Theme = "dark" | "light" | "system"
 type ResolvedTheme = "dark" | "light"
 
@@ -96,6 +98,7 @@ export function ThemeProvider({
   const setTheme = React.useCallback(
     (nextTheme: Theme) => {
       localStorage.setItem(storageKey, nextTheme)
+      dispatchDataChanged()
       setThemeState(nextTheme)
     },
     [storageKey]
@@ -168,6 +171,7 @@ export function ThemeProvider({
                 : "dark"
 
         localStorage.setItem(storageKey, nextTheme)
+        dispatchDataChanged()
         return nextTheme
       })
     }

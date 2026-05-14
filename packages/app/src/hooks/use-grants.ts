@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react"
 
+import { dispatchDataChanged } from "@/lib/backup-data"
 import type { Grant } from "@/types/grant"
 
 export interface GrantTotals {
@@ -27,6 +28,7 @@ export function useGrants() {
 
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(grants))
+    dispatchDataChanged()
   }, [grants])
 
   const addGrant = (grant: Grant) => {

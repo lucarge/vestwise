@@ -1,6 +1,6 @@
 import { useRef, useState } from "react"
-import { Download, Trash2, Upload } from "lucide-react"
-import { format } from "date-fns"
+import { Download, Link as LinkIcon, Trash2, Unlink, Upload } from "lucide-react"
+import { format, formatDistanceToNow } from "date-fns"
 
 import { useTheme } from "@/components/theme-provider"
 import { Button } from "@/components/ui/button"
@@ -12,38 +12,17 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import { useBackupSync } from "@/hooks/use-backup-sync"
+import {
+  applyDataSnapshot,
+  type BackupData,
+  getDataSnapshot,
+  isValidBackup,
+  serializeSnapshot,
+} from "@/lib/backup-data"
 
-interface BackupData {
-  version: number
-  grants: unknown[]
-  valuations?: unknown[]
-  columnConfig?: unknown[]
-  theme?: string
-}
-
-function isValidBackup(data: unknown): data is BackupData {
-  return (
-    typeof data === "object" &&
-    data !== null &&
-    "version" in data &&
-    ((data as BackupData).version === 1 || (data as BackupData).version === 2) &&
-    "grants" in data &&
-    Array.isArray((data as BackupData).grants)
-  )
-}
-
-function exportData() {
-  const backup: BackupData = {
-    version: 2,
-    grants: JSON.parse(localStorage.getItem("vsop-grants") || "[]"),
-    valuations: JSON.parse(localStorage.getItem("vsop-valuations") || "[]"),
-    columnConfig: JSON.parse(
-      localStorage.getItem("vsop-column-config") || "[]",
-    ),
-    theme: localStorage.getItem("theme") || undefined,
-  }
-
-  const blob = new Blob([JSON.stringify(backup, null, 2)], {
+function downloadExport() {
+  const blob = new Blob([serializeSnapshot(getDataSnapshot())], {
     type: "application/json",
   })
   const url = URL.createObjectURL(blob)
@@ -56,6 +35,7 @@ function exportData() {
 
 export function SettingsPage() {
   const { theme, setTheme } = useTheme()
+  const backup = useBackupSync()
   const fileInputRef = useRef<HTMLInputElement>(null)
   const [importError, setImportError] = useState<string | null>(null)
   const [pendingBackup, setPendingBackup] = useState<BackupData | null>(null)
@@ -80,26 +60,18 @@ export function SettingsPage() {
       }
     }
     reader.readAsText(file)
-    // Reset so the same file can be selected again
     e.target.value = ""
   }
 
-  function applyBackup(backup: BackupData) {
-    localStorage.setItem("vsop-grants", JSON.stringify(backup.grants))
-    if (backup.valuations) {
-      localStorage.setItem("vsop-valuations", JSON.stringify(backup.valuations))
-    }
-    if (backup.columnConfig) {
-      localStorage.setItem(
-        "vsop-column-config",
-        JSON.stringify(backup.columnConfig),
-      )
-    }
-    if (backup.theme) {
-      localStorage.setItem("theme", backup.theme)
-    }
+  function applyBackup(data: BackupData) {
+    applyDataSnapshot(data)
     setPendingBackup(null)
     window.location.reload()
+  }
+
+  async function handleLoadFromConnectedFile() {
+    const data = await backup.loadFromFile()
+    if (data) setPendingBackup(data)
   }
 
   return (
@@ -137,7 +109,7 @@ export function SettingsPage() {
           Export or import your grants and preferences.
         </p>
         <div className="flex gap-2">
-          <Button variant="outline" size="sm" onClick={exportData}>
+          <Button variant="outline" size="sm" onClick={downloadExport}>
             <Download className="mr-1.5 size-4" />
             Export
           </Button>
@@ -184,6 +156,144 @@ export function SettingsPage() {
               </Button>
             </div>
           </div>
+        )}
+      </div>
+      <div className="max-w-sm space-y-2">
+        <Label>Connected file</Label>
+        <p className="text-xs text-muted-foreground">
+          Keep a JSON file on your computer in sync with your data. Save it
+          inside your Google Drive or iCloud Drive folder and it backs up
+          automatically.
+        </p>
+
+        {backup.status === "unsupported" && (
+          <p className="text-xs text-muted-foreground">
+            Your browser doesn't support this. Try Chrome, Edge, or another
+            Chromium-based browser.
+          </p>
+        )}
+
+        {backup.status === "loading" && (
+          <p className="text-xs text-muted-foreground">Loading…</p>
+        )}
+
+        {backup.status === "disconnected" && (
+          <Button variant="outline" size="sm" onClick={backup.connect}>
+            <LinkIcon className="mr-1.5 size-4" />
+            Connect a file
+          </Button>
+        )}
+
+        {backup.status === "needs-permission" && (
+          <div className="rounded-md border border-border bg-muted/50 p-3 space-y-2">
+            <p className="text-xs">
+              Browser permission needed to access{" "}
+              <span className="font-medium">{backup.fileName}</span>.
+            </p>
+            <div className="flex gap-2">
+              <Button size="sm" variant="outline" onClick={backup.reconnect}>
+                Grant access
+              </Button>
+              <Button size="sm" variant="ghost" onClick={backup.disconnect}>
+                Disconnect
+              </Button>
+            </div>
+          </div>
+        )}
+
+        {(backup.status === "connected" || backup.status === "syncing") && (
+          <div className="rounded-md border border-border bg-muted/50 p-3 space-y-2">
+            <div className="min-w-0">
+              <p
+                className="truncate text-xs font-medium"
+                title={backup.fileName ?? undefined}
+              >
+                {backup.fileName}
+              </p>
+              <p className="text-xs text-muted-foreground">
+                {backup.status === "syncing"
+                  ? "Saving…"
+                  : backup.lastSyncedAt
+                    ? `Last saved ${formatDistanceToNow(backup.lastSyncedAt, { addSuffix: true })}`
+                    : "Connected"}
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={backup.saveNow}
+                disabled={backup.status === "syncing"}
+              >
+                <Download className="mr-1.5 size-4" />
+                Save now
+              </Button>
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={handleLoadFromConnectedFile}
+              >
+                <Upload className="mr-1.5 size-4" />
+                Load from file
+              </Button>
+              <Button size="sm" variant="ghost" onClick={backup.disconnect}>
+                <Unlink className="mr-1.5 size-4" />
+                Disconnect
+              </Button>
+            </div>
+          </div>
+        )}
+
+        {backup.status === "conflict" && (
+          <div className="rounded-md border border-destructive/40 bg-muted/50 p-3 space-y-2">
+            <p className="text-xs">
+              <span className="font-medium">{backup.fileName}</span> and your
+              local data don't match. This usually means the file was updated
+              from another device. Pick which version to keep — the other will
+              be overwritten.
+            </p>
+            <div className="flex flex-wrap gap-2">
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={handleLoadFromConnectedFile}
+              >
+                Use file
+              </Button>
+              <Button
+                size="sm"
+                variant="destructive"
+                onClick={backup.resolveConflictKeepLocal}
+              >
+                Keep local
+              </Button>
+              <Button size="sm" variant="ghost" onClick={backup.disconnect}>
+                Disconnect
+              </Button>
+            </div>
+          </div>
+        )}
+
+        {backup.status === "error" && (
+          <div className="rounded-md border border-destructive/40 bg-muted/50 p-3 space-y-2">
+            <p className="text-xs text-destructive">
+              {backup.error ?? "Something went wrong."}
+            </p>
+            <div className="flex gap-2">
+              {backup.fileName && (
+                <Button size="sm" variant="outline" onClick={backup.reconnect}>
+                  Retry
+                </Button>
+              )}
+              <Button size="sm" variant="ghost" onClick={backup.disconnect}>
+                Disconnect
+              </Button>
+            </div>
+          </div>
+        )}
+
+        {backup.status !== "error" && backup.error && (
+          <p className="text-xs text-destructive">{backup.error}</p>
         )}
       </div>
       <div className="max-w-sm space-y-2">
