@@ -16,6 +16,26 @@ type HandleWithPermissions = FileSystemFileHandle & {
   requestPermission(descriptor?: FsaPermissionDescriptor): Promise<FsaPermissionState>
 }
 
+// showSaveFilePicker is also missing from lib.dom.d.ts — augment Window
+// globally rather than casting at the call site.
+interface ShowSaveFilePickerOptions {
+  suggestedName?: string
+  types?: Array<{
+    description?: string
+    accept: Record<string, string[]>
+  }>
+  excludeAcceptAllOption?: boolean
+  id?: string
+}
+
+declare global {
+  interface Window {
+    showSaveFilePicker(
+      options?: ShowSaveFilePickerOptions,
+    ): Promise<FileSystemFileHandle>
+  }
+}
+
 export function isFileBackupSupported(): boolean {
   return typeof window !== "undefined" && "showSaveFilePicker" in window
 }
