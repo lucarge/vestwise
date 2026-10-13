@@ -9,6 +9,7 @@ import { HeroChart } from "@/components/hero-chart"
 import { TrustBadges } from "@/components/trust-badges"
 import { CumulativeSection, MultiGrantSection, YearlySection } from "@/components/feature-sections"
 import { ScrollAnimate } from "@/components/scroll-animate"
+import { cn } from "@/lib/utils"
 
 function ThemeToggle() {
   const { theme, setTheme } = useTheme()
@@ -54,6 +55,21 @@ function Header() {
   )
 }
 
+function CtaLink({ className }: { className?: string }) {
+  return (
+    <a
+      href="https://app.vestwise.app"
+      className={cn(
+        "group inline-flex items-center gap-2 rounded-md bg-primary px-6 py-3 text-sm font-medium text-primary-foreground transition-[background-color,scale] duration-150 ease-out hover:bg-primary/90 active:scale-[0.97]",
+        className
+      )}
+    >
+      Open app
+      <ArrowRight className="size-4 transition-transform duration-150 ease-out group-hover:translate-x-0.5" />
+    </a>
+  )
+}
+
 function Hero() {
   return (
     <section className="relative pt-14">
@@ -83,13 +99,7 @@ function Hero() {
             could be worth.
           </p>
           <div className="mt-10 flex items-center justify-center gap-4">
-            <a
-              href="https://app.vestwise.app"
-              className="inline-flex items-center gap-2 rounded-md bg-primary px-6 py-3 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
-            >
-              Open app
-              <ArrowRight className="size-4" />
-            </a>
+            <CtaLink />
             <span className="text-xs text-muted-foreground">
               Free &middot; No sign-up required
             </span>
@@ -97,15 +107,9 @@ function Hero() {
         </div>
       </div>
 
-      {/* Chart blending into the background */}
-      <div className="relative -mt-4 sm:-mt-8">
-        <div className="mx-auto max-w-6xl px-6">
-          <HeroChart />
-        </div>
-        {/* Fade edges into background */}
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent" />
-        <div className="pointer-events-none absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-background to-transparent sm:w-32" />
-        <div className="pointer-events-none absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-background to-transparent sm:w-32" />
+      {/* Chart blending into the background (edge fades live on the chart) */}
+      <div className="mx-auto mt-4 max-w-6xl px-6">
+        <HeroChart />
       </div>
     </section>
   )
@@ -124,13 +128,7 @@ function CallToAction() {
               No account needed. Your data stays in your browser. Open the
               app and add your first grant in under a minute.
             </p>
-            <a
-              href="https://app.vestwise.app"
-              className="mt-8 inline-flex items-center gap-2 rounded-md bg-primary px-6 py-3 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
-            >
-              Open app
-              <ArrowRight className="size-4" />
-            </a>
+            <CtaLink className="mt-8" />
           </div>
         </ScrollAnimate>
       </div>

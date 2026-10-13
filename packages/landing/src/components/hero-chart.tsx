@@ -17,9 +17,14 @@ const chartMin = heroChartData[0].date
 const chartMax = heroChartData[heroChartData.length - 1].date
 const todayPct = `${((SAMPLE_TODAY - chartMin) / (chartMax - chartMin)) * 100}%`
 
+// Edges fade via a mask (not background-colored overlays), so the fades
+// track the chart at any width and work in either theme
 export function HeroChart() {
   return (
-    <div className="pointer-events-none select-none" aria-hidden="true">
+    <div
+      className="pointer-events-none select-none mask-x-from-85% mask-t-from-80% mask-b-from-50%"
+      aria-hidden="true"
+    >
       <ChartContainer config={chartConfig} className="aspect-[3/1] w-full sm:aspect-[4/1]">
         <AreaChart data={heroChartData} stackOffset="none" margin={{ top: 0, right: 0, bottom: 0, left: 0 }}>
           <defs>

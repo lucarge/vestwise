@@ -42,26 +42,26 @@ function formatNumber(v: number): string {
 }
 
 // --- Chart that only mounts when scrolled into view ---
+// Drop-in for ChartContainer. The placeholder takes the chart's own sizing
+// classes, so mounting the chart doesn't shift the layout.
 
 function ScrollChart({
-  children,
+  config,
   className,
-  aspectPlaceholder = "aspect-[4/3] md:aspect-[2/1]",
+  children,
 }: {
-  children: React.ReactNode
-  className?: string
-  aspectPlaceholder?: string
+  config: ChartConfig
+  className: string
+  children: React.ComponentProps<typeof ChartContainer>["children"]
 }) {
   const { ref, inView } = useInView({ threshold: 0.1, triggerOnce: true })
 
+  if (!inView) return <div ref={ref} className={className} />
+
   return (
-    <div ref={ref} className={className}>
-      {inView ? (
-        children
-      ) : (
-        <div className={`${aspectPlaceholder} w-full animate-pulse rounded-lg bg-muted/30`} />
-      )}
-    </div>
+    <ChartContainer config={config} className={className}>
+      {children}
+    </ChartContainer>
   )
 }
 
@@ -100,8 +100,8 @@ export function CumulativeSection() {
           </div>
         </ScrollAnimate>
 
-        <ScrollChart className="mt-16 sm:mt-20 rounded-xl border border-border/50 bg-card p-4 sm:p-6">
-          <ChartContainer config={cumulativeConfig} className="aspect-[4/3] w-full md:aspect-[5/2]">
+        <div className="mt-16 sm:mt-20 rounded-xl border border-border/50 bg-card p-4 sm:p-6">
+          <ScrollChart config={cumulativeConfig} className="aspect-[4/3] w-full md:aspect-[5/2]">
             <AreaChart data={cumulativeData} stackOffset="none">
               <defs>
                 <linearGradient id="s1-vestedFade" x1="0" y1="0" x2="1" y2="0">
@@ -132,6 +132,7 @@ export function CumulativeSection() {
               />
               <YAxis tickLine={false} axisLine={false} width={60} tickFormatter={formatNumber} />
               <ChartTooltip
+                isAnimationActive={false}
                 content={
                   <ChartTooltipContent
                     labelFormatter={(_, payload) => {
@@ -174,8 +175,8 @@ export function CumulativeSection() {
                 }}
               />
             </AreaChart>
-          </ChartContainer>
-        </ScrollChart>
+          </ScrollChart>
+        </div>
       </div>
     </section>
   )
@@ -213,7 +214,7 @@ function GrantChart({
           {formatNumber(info.shares)} shares &middot; {info.months}mo &middot; {info.cliff}mo cliff
         </p>
       </div>
-      <ChartContainer config={grantConfig} className="aspect-[4/3] w-full md:aspect-[2/1]">
+      <ScrollChart config={grantConfig} className="aspect-[4/3] w-full md:aspect-[2/1]">
         <AreaChart data={events}>
           {todayPct && (
             <defs>
@@ -238,6 +239,7 @@ function GrantChart({
           />
           <YAxis tickLine={false} axisLine={false} width={50} tickFormatter={formatNumber} />
           <ChartTooltip
+            isAnimationActive={false}
             content={
               <ChartTooltipContent
                 labelFormatter={(_, payload) => {
@@ -283,7 +285,7 @@ function GrantChart({
             animationEasing="ease-out"
           />
         </AreaChart>
-      </ChartContainer>
+      </ScrollChart>
     </div>
   )
 }
@@ -310,13 +312,10 @@ export function MultiGrantSection() {
           </div>
         </ScrollAnimate>
 
-        <ScrollChart
-          className="mt-16 sm:mt-20 grid gap-4 sm:grid-cols-2"
-          aspectPlaceholder="aspect-[4/3] sm:col-span-2"
-        >
+        <div className="mt-16 sm:mt-20 grid gap-4 sm:grid-cols-2">
           <GrantChart events={grantAEvents} info={grantAInfo} prefix="s2a" />
           <GrantChart events={grantBEvents} info={grantBInfo} prefix="s2b" />
-        </ScrollChart>
+        </div>
       </div>
     </section>
   )
@@ -352,13 +351,14 @@ export function YearlySection() {
           </div>
         </ScrollAnimate>
 
-        <ScrollChart className="mt-16 sm:mt-20 rounded-xl border border-border/50 bg-card p-4 sm:p-6" aspectPlaceholder="aspect-[4/3] md:aspect-[5/2]">
-          <ChartContainer config={yearlyConfig} className="aspect-[4/3] w-full md:aspect-[5/2]">
+        <div className="mt-16 sm:mt-20 rounded-xl border border-border/50 bg-card p-4 sm:p-6">
+          <ScrollChart config={yearlyConfig} className="aspect-[4/3] w-full md:aspect-[5/2]">
             <BarChart data={yearlySummaryData}>
               <CartesianGrid vertical={false} />
               <XAxis dataKey="year" tickLine={false} axisLine={false} />
               <YAxis tickLine={false} axisLine={false} width={60} tickFormatter={formatNumber} />
               <ChartTooltip
+                isAnimationActive={false}
                 content={
                   <ChartTooltipContent
                     formatter={(value) => (
@@ -377,8 +377,8 @@ export function YearlySection() {
                 animationEasing="ease-out"
               />
             </BarChart>
-          </ChartContainer>
-        </ScrollChart>
+          </ScrollChart>
+        </div>
       </div>
     </section>
   )
