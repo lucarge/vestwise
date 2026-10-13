@@ -30,11 +30,12 @@ function ThemeToggle() {
   return (
     <button
       onClick={toggle}
-      className="inline-flex size-9 cursor-pointer items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
+      className="inline-flex size-9 cursor-pointer items-center justify-center rounded-md text-muted-foreground transition-[color,background-color,scale] duration-150 ease-out hover:bg-accent hover:text-accent-foreground active:scale-95"
       aria-label="Toggle theme"
     >
-      <Sun className="size-4 scale-100 rotate-0 dark:scale-0 dark:-rotate-90" />
-      <Moon className="absolute size-4 scale-0 rotate-90 dark:scale-100 dark:rotate-0" />
+      {/* Crossfade: never from scale(0), and the blur hides the overlap */}
+      <Sun className="size-4 transition-[opacity,scale,filter] duration-200 ease-out dark:scale-50 dark:opacity-0 dark:blur-[2px]" />
+      <Moon className="absolute size-4 scale-50 opacity-0 blur-[2px] transition-[opacity,scale,filter] duration-200 ease-out dark:scale-100 dark:opacity-100 dark:blur-none" />
     </button>
   )
 }
@@ -119,17 +120,15 @@ function CallToAction() {
   return (
     <section className="border-t border-border/50">
       <div className="mx-auto max-w-5xl px-6 py-24 sm:py-32">
-        <ScrollAnimate>
-          <div className="flex flex-col items-center text-center">
-            <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">
-              Start tracking your vesting
-            </h2>
-            <p className="mt-3 max-w-md text-sm leading-relaxed text-muted-foreground">
-              No account needed. Your data stays in your browser. Open the
-              app and add your first grant in under a minute.
-            </p>
-            <CtaLink className="mt-8" />
-          </div>
+        <ScrollAnimate stagger={60} className="flex flex-col items-center text-center">
+          <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">
+            Start tracking your vesting
+          </h2>
+          <p className="mt-3 max-w-md text-sm leading-relaxed text-muted-foreground">
+            No account needed. Your data stays in your browser. Open the
+            app and add your first grant in under a minute.
+          </p>
+          <CtaLink className="mt-8" />
         </ScrollAnimate>
       </div>
     </section>

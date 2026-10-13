@@ -54,7 +54,7 @@ export function HeroChart() {
             fill="url(#hero-vestedFade)"
             stroke="url(#hero-vestedStroke)"
             fillOpacity={1}
-            animationDuration={2000}
+            animationDuration={1200}
             animationEasing="ease-out"
           />
           <Area
@@ -64,7 +64,7 @@ export function HeroChart() {
             fill="url(#hero-unvestedFade)"
             stroke="url(#hero-unvestedStroke)"
             fillOpacity={1}
-            animationDuration={2000}
+            animationDuration={1200}
             animationEasing="ease-out"
           />
           <ReferenceLine

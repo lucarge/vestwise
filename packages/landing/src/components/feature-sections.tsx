@@ -81,24 +81,20 @@ const cumTodayPct = `${((SAMPLE_TODAY - cumMin) / (cumMax - cumMin)) * 100}%`
 export function CumulativeSection() {
   return (
     <section className="border-t border-border/50">
-      <div className="mx-auto max-w-5xl px-6 py-32 sm:py-40">
-        <ScrollAnimate>
-          <div className="mx-auto max-w-2xl text-center">
-            <p className="text-sm font-medium tracking-widest text-muted-foreground uppercase">
-              The full picture
-            </p>
-            <h2 className="mt-4 text-3xl font-extrabold tracking-tight sm:text-4xl md:text-5xl">
-              See your total equity
-              <br />
-              at a glance
-            </h2>
-            <p className="mt-5 text-base leading-relaxed text-muted-foreground sm:text-lg">
-              The cumulative chart shows your combined vested and unvested shares
-              across all grants. Past vesting is highlighted, future tranches
-              fade — so you always know where you stand.
-            </p>
-          </div>
-        </ScrollAnimate>
+      <ScrollAnimate stagger={60} className="mx-auto max-w-5xl px-6 py-32 sm:py-40">
+        <p className="text-center text-sm font-medium tracking-widest text-muted-foreground uppercase">
+          The full picture
+        </p>
+        <h2 className="mx-auto mt-4 max-w-2xl text-center text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl">
+          See your total equity
+          <br />
+          at a glance
+        </h2>
+        <p className="mx-auto mt-5 max-w-2xl text-center text-base leading-relaxed text-muted-foreground sm:text-lg">
+          The cumulative chart shows your combined vested and unvested shares
+          across all grants. Past vesting is highlighted, future tranches
+          fade — so you always know where you stand.
+        </p>
 
         <div className="mt-16 sm:mt-20 rounded-xl border border-border/50 bg-card p-4 sm:p-6">
           <ScrollChart config={cumulativeConfig} className="aspect-[4/3] w-full md:aspect-[5/2]">
@@ -150,7 +146,7 @@ export function CumulativeSection() {
                 fill="url(#s1-vestedFade)"
                 stroke="url(#s1-vestedStroke)"
                 fillOpacity={1}
-                animationDuration={2500}
+                animationDuration={1200}
                 animationEasing="ease-out"
               />
               <Area
@@ -160,7 +156,7 @@ export function CumulativeSection() {
                 fill="url(#s1-unvestedFade)"
                 stroke="url(#s1-unvestedStroke)"
                 fillOpacity={1}
-                animationDuration={2500}
+                animationDuration={1200}
                 animationEasing="ease-out"
               />
               <ReferenceLine
@@ -177,7 +173,7 @@ export function CumulativeSection() {
             </AreaChart>
           </ScrollChart>
         </div>
-      </div>
+      </ScrollAnimate>
     </section>
   )
 }
@@ -254,9 +250,11 @@ function GrantChart({
               x={info.cliffDate}
               stroke="var(--color-muted-foreground)"
               strokeDasharray="4 4"
+              // Right of its line (Today sits left of its own), so the two
+              // labels can't collide when the cliff is just ahead of today
               label={{
                 value: "Cliff",
-                position: "insideTopRight",
+                position: "insideTopLeft",
                 fontSize: 11,
                 fill: "var(--color-muted-foreground)",
               }}
@@ -281,7 +279,7 @@ function GrantChart({
             fill={todayPct ? `url(#${prefix}-fade)` : "var(--color-vested)"}
             stroke={todayPct ? `url(#${prefix}-stroke)` : "var(--color-vested)"}
             fillOpacity={todayPct ? 1 : 0.4}
-            animationDuration={2000}
+            animationDuration={1200}
             animationEasing="ease-out"
           />
         </AreaChart>
@@ -293,30 +291,26 @@ function GrantChart({
 export function MultiGrantSection() {
   return (
     <section className="border-t border-border/50">
-      <div className="mx-auto max-w-5xl px-6 py-32 sm:py-40">
-        <ScrollAnimate>
-          <div className="mx-auto max-w-2xl text-center">
-            <p className="text-sm font-medium tracking-widest text-muted-foreground uppercase">
-              Multiple grants
-            </p>
-            <h2 className="mt-4 text-3xl font-extrabold tracking-tight sm:text-4xl md:text-5xl">
-              Track every grant,
-              <br />
-              side by side
-            </h2>
-            <p className="mt-5 text-base leading-relaxed text-muted-foreground sm:text-lg">
-              Got a refresh grant on top of your initial package? Different cliff
-              dates and vesting cadences? Each grant gets its own chart with cliff
-              markers, and everything rolls up into a single view.
-            </p>
-          </div>
-        </ScrollAnimate>
+      <ScrollAnimate stagger={60} className="mx-auto max-w-5xl px-6 py-32 sm:py-40">
+        <p className="text-center text-sm font-medium tracking-widest text-muted-foreground uppercase">
+          Multiple grants
+        </p>
+        <h2 className="mx-auto mt-4 max-w-2xl text-center text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl">
+          Track every grant,
+          <br />
+          side by side
+        </h2>
+        <p className="mx-auto mt-5 max-w-2xl text-center text-base leading-relaxed text-muted-foreground sm:text-lg">
+          Got a refresh grant on top of your initial package? Different cliff
+          dates and vesting cadences? Each grant gets its own chart with cliff
+          markers, and everything rolls up into a single view.
+        </p>
 
         <div className="mt-16 sm:mt-20 grid gap-4 sm:grid-cols-2">
           <GrantChart events={grantAEvents} info={grantAInfo} prefix="s2a" />
           <GrantChart events={grantBEvents} info={grantBInfo} prefix="s2b" />
         </div>
-      </div>
+      </ScrollAnimate>
     </section>
   )
 }
@@ -332,24 +326,20 @@ const yearlyConfig = {
 export function YearlySection() {
   return (
     <section className="border-t border-border/50">
-      <div className="mx-auto max-w-5xl px-6 py-32 sm:py-40">
-        <ScrollAnimate>
-          <div className="mx-auto max-w-2xl text-center">
-            <p className="text-sm font-medium tracking-widest text-muted-foreground uppercase">
-              Year by year
-            </p>
-            <h2 className="mt-4 text-3xl font-extrabold tracking-tight sm:text-4xl md:text-5xl">
-              Know how much
-              <br />
-              vests each year
-            </h2>
-            <p className="mt-5 text-base leading-relaxed text-muted-foreground sm:text-lg">
-              When you have grants with different start dates and schedules,
-              the yearly breakdown shows exactly how many shares vest per calendar
-              year — across all your grants combined.
-            </p>
-          </div>
-        </ScrollAnimate>
+      <ScrollAnimate stagger={60} className="mx-auto max-w-5xl px-6 py-32 sm:py-40">
+        <p className="text-center text-sm font-medium tracking-widest text-muted-foreground uppercase">
+          Year by year
+        </p>
+        <h2 className="mx-auto mt-4 max-w-2xl text-center text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl">
+          Know how much
+          <br />
+          vests each year
+        </h2>
+        <p className="mx-auto mt-5 max-w-2xl text-center text-base leading-relaxed text-muted-foreground sm:text-lg">
+          When you have grants with different start dates and schedules,
+          the yearly breakdown shows exactly how many shares vest per calendar
+          year — across all your grants combined.
+        </p>
 
         <div className="mt-16 sm:mt-20 rounded-xl border border-border/50 bg-card p-4 sm:p-6">
           <ScrollChart config={yearlyConfig} className="aspect-[4/3] w-full md:aspect-[5/2]">
@@ -373,13 +363,13 @@ export function YearlySection() {
                 dataKey="sharesVesting"
                 fill="var(--color-sharesVesting)"
                 radius={[4, 4, 0, 0]}
-                animationDuration={2000}
-                animationEasing="ease-out"
+                animationDuration={1200}
+                animationEasing="cubic-bezier(0.23,1,0.32,1)"
               />
             </BarChart>
           </ScrollChart>
         </div>
-      </div>
+      </ScrollAnimate>
     </section>
   )
 }
