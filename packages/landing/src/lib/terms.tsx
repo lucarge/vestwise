@@ -1,5 +1,6 @@
 /* eslint-disable react-refresh/only-export-components */
 import { createContext, useContext, useMemo, useState, type ReactNode } from "react"
+import { buildHandoffUrl } from "@/lib/handoff"
 import {
   addMonths,
   payout,
@@ -71,6 +72,8 @@ function useAgreementState() {
         ]
       : [{ terms: grant, events }]
 
+    const isSample = sameTerms(grant, SAMPLE_GRANT)
+
     return {
       problem,
       events,
@@ -84,7 +87,9 @@ function useAgreementState() {
         dilution,
       ),
       totalShares: held.reduce((sum, h) => sum + h.terms.shares, 0),
-      isSample: sameTerms(grant, SAMPLE_GRANT),
+      isSample,
+      // Edited terms go with the visitor to the app; the sample keeps the plain link
+      handoffUrl: isSample ? null : buildHandoffUrl(grant),
     }
   }, [grant, withRefresh, multiple, dilution])
 

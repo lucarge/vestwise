@@ -20,8 +20,15 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
+import { validateGrantForm, type GrantFormErrors } from "@/lib/grant-validation"
 import { cn } from "@/lib/utils"
-import type { Grant, GrantFormData, VestingSchedule } from "@/types/grant"
+import type {
+  Grant,
+  GrantFormData,
+  GrantPrefill,
+  GrantValueMode,
+  VestingSchedule,
+} from "@/types/grant"
 
 const defaultFormData: GrantFormData = {
   grantDate: new Date(),
@@ -47,19 +54,23 @@ function grantToFormData(grant: Grant): GrantFormData {
 
 interface GrantFormProps {
   onAddGrant?: (grant: Grant) => void
+  /** Starting values when adding a grant; ignored when editing */
+  prefill?: GrantPrefill
   initialGrant?: Grant
   onUpdateGrant?: (grant: Grant) => void
   className?: string
 }
 
-export function GrantForm({ onAddGrant, initialGrant, onUpdateGrant, className }: GrantFormProps) {
+export function GrantForm({ onAddGrant, prefill, initialGrant, onUpdateGrant, className }: GrantFormProps) {
   const isEditing = !!initialGrant
   const [form, setForm] = useState<GrantFormData>(
-    initialGrant ? grantToFormData(initialGrant) : defaultFormData,
+    initialGrant ? grantToFormData(initialGrant) : (prefill?.form ?? defaultFormData),
   )
-  const [errors, setErrors] = useState<Partial<Record<keyof GrantFormData, string>>>({})
+  const [errors, setErrors] = useState<GrantFormErrors>({})
   const [datePickerOpen, setDatePickerOpen] = useState(false)
-  const [valueMode, setValueMode] = useState<"total" | "per-share">("total")
+  const [valueMode, setValueMode] = useState<GrantValueMode>(
+    initialGrant ? "total" : (prefill?.valueMode ?? "total"),
+  )
 
   function updateField<K extends keyof GrantFormData>(key: K, value: GrantFormData[K]) {
     setForm((prev) => ({ ...prev, [key]: value }))
@@ -72,7 +83,7 @@ export function GrantForm({ onAddGrant, initialGrant, onUpdateGrant, className }
     }
   }
 
-  function switchValueMode(mode: "total" | "per-share") {
+  function switchValueMode(mode: GrantValueMode) {
     if (mode === valueMode) return
     const value = parseFloat(form.vsopsValue)
     const shares = parseFloat(form.grantedAmount)
@@ -83,45 +94,10 @@ export function GrantForm({ onAddGrant, initialGrant, onUpdateGrant, className }
     setValueMode(mode)
   }
 
-  function validate(): Partial<Record<keyof GrantFormData, string>> | null {
-    const errs: Partial<Record<keyof GrantFormData, string>> = {}
-
-    if (!form.grantDate) errs.grantDate = "Required"
-
-    const vestingPeriod = parseInt(form.vestingPeriodMonths)
-    if (!form.vestingPeriodMonths || isNaN(vestingPeriod) || vestingPeriod < 1) {
-      errs.vestingPeriodMonths = "Must be at least 1"
-    }
-
-    const cliff = parseInt(form.cliffMonths)
-    if (form.cliffMonths === "" || isNaN(cliff) || cliff < 0) {
-      errs.cliffMonths = "Must be 0 or more"
-    } else if (!isNaN(vestingPeriod) && cliff >= vestingPeriod) {
-      errs.cliffMonths = "Must be less than vesting period"
-    }
-
-    const amount = parseFloat(form.grantedAmount)
-    if (!form.grantedAmount || isNaN(amount) || amount <= 0) {
-      errs.grantedAmount = "Must be greater than 0"
-    }
-
-    const value = parseFloat(form.vsopsValue)
-    if (!form.vsopsValue || isNaN(value) || value <= 0) {
-      errs.vsopsValue = "Must be greater than 0"
-    }
-
-    const strike = parseFloat(form.vsopsStrikePrice)
-    if (!form.vsopsStrikePrice || isNaN(strike) || strike <= 0) {
-      errs.vsopsStrikePrice = "Must be greater than 0"
-    }
-
-    return Object.keys(errs).length > 0 ? errs : null
-  }
-
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
 
-    const validationErrors = validate()
+    const validationErrors = validateGrantForm(form)
     if (validationErrors) {
       setErrors(validationErrors)
       return

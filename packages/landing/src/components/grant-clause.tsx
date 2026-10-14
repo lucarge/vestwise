@@ -32,7 +32,7 @@ function useStartOptions(today: Date) {
 const delay = (ms: number) => ({ "--d": `${ms}ms` }) as CSSProperties
 
 export function GrantClause({ heroEnd }: { heroEnd: RefObject<HTMLDivElement | null> }) {
-  const { grant, setGrant, resetGrant, isSample, summary, problem, today, exit, multiple: m, dilution } =
+  const { grant, setGrant, resetGrant, isSample, handoffUrl, summary, problem, today, exit, multiple: m, dilution } =
     useAgreement()
   const startOptions = useStartOptions(today)
   const vested = euro(summary.vestedNet)
@@ -161,9 +161,7 @@ export function GrantClause({ heroEnd }: { heroEnd: RefObject<HTMLDivElement | n
             )}
           </div>
           <p className="mt-2 text-[0.875rem] text-ink-soft">
-            {isSample
-              ? "The Participant"
-              : "The Participant. The app starts empty, so bring these terms with you."}
+            {handoffUrl ? "The Participant. The app opens with these terms filled in." : "The Participant"}
           </p>
         </div>
 

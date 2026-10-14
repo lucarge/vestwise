@@ -13,7 +13,7 @@ Audience and job: employees of European startups holding VSOPs who want to know 
 
 Memorable moment: typing your own numbers into the blanks of a contract and watching the margin answer in euros, with those numbers carried through the whole document, down to the closing redline.
 
-Unresolved: the app cannot receive the visitor's terms (no URL params), so the hand-off starts the app empty; the page says so once the terms are edited.
+Hand-off: once the visitor edits the terms, every Open the app link carries them to the app's Add Grant form in the URL fragment, which browsers never send to a server; the app fills in the form and saves nothing until the visitor adds the grant. Sample terms, and terms the app would refuse, keep the plain link. The Participant's caption says when the terms come along.
 
 ## Direction contract
 

@@ -1,7 +1,8 @@
 import { ArrowRight } from "lucide-react"
+import { APP_URL } from "@/lib/handoff"
+import { useAgreement } from "@/lib/terms"
 import { cn } from "@/lib/utils"
 
-export const APP_URL = "https://app.vestwise.app"
 export const REPO_URL = "https://github.com/lucarge/vestwise"
 
 export function Wordmark({ className }: { className?: string }) {
@@ -20,10 +21,12 @@ interface OpenAppProps {
   tone?: "mark" | "ink"
 }
 
+// Every way into the app carries the visitor's edited terms, when the app can take them
 export function OpenApp({ className, size = "md", tone = "mark" }: OpenAppProps) {
+  const { handoffUrl } = useAgreement()
   return (
     <a
-      href={APP_URL}
+      href={handoffUrl ?? APP_URL}
       className={cn("btn", tone === "mark" ? "btn-mark" : "btn-ink", size === "lg" && "btn-lg", className)}
     >
       Open the app

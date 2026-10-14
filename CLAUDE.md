@@ -41,11 +41,11 @@ bun run format           # Format all .ts/.tsx with Prettier
 - **Calculation layer**: Pure functions that compute vesting schedules, milestones, and metrics from grant inputs
 - **Visualization layer**: Charts and summary metrics displaying vested/unvested shares over time
 
-All state is local — no API calls, no database. Grant data lives in component state or URL params.
+All state is local — no API calls, no database. Grants, valuations and settings persist in `localStorage` (keys like `vsop-grants`; see `src/hooks/use-grants.ts` and `src/lib/backup-data.ts`). The only URL input is the landing's grant link, `/grants/new#grant=<encoded>` (`src/lib/grant-handoff.ts`): it is read and removed from the address bar before the first render, and only prefills the Add Grant form; nothing is saved until the user adds the grant.
 
 ### Landing (`packages/landing`)
 
-One document-style page: a sample VSOP agreement whose blanks are live inputs, with VestWise's figures in the margin. A React context (`src/lib/terms.tsx`) carries the visitor's terms through every section. The vesting and payout math in `src/lib/vesting.ts` is ported from the app (`packages/app/src/lib/vesting.ts` and `potential.ts`) — keep them in sync. No routing, no persistence.
+One document-style page: a sample VSOP agreement whose blanks are live inputs, with VestWise's figures in the margin. A React context (`src/lib/terms.tsx`) carries the visitor's terms through every section. The vesting and payout math in `src/lib/vesting.ts` is ported from the app (`packages/app/src/lib/vesting.ts` and `potential.ts`) — keep them in sync. Once the visitor edits the terms, and as long as the app would accept them, every "Open the app" link carries them in the URL fragment; the encoder in `src/lib/handoff.ts` is ported from `packages/app/src/lib/grant-handoff.ts`, whose tests pin the format — keep them in sync too. No routing, no persistence.
 
 Design context lives in `packages/landing/PRODUCT.md`, `packages/landing/DESIGN.md`, and the surface brief in `packages/landing/.impeccable/surfaces/`.
 

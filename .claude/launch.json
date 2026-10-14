@@ -9,6 +9,15 @@
         "dev:landing"
       ],
       "port": 5174
+    },
+    {
+      "name": "app",
+      "runtimeExecutable": "bun",
+      "runtimeArgs": [
+        "run",
+        "dev:app"
+      ],
+      "port": 5173
     }
   ]
 }

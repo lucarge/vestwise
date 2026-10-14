@@ -1,7 +1,8 @@
-import { APP_URL, OpenApp, REPO_URL, Wordmark } from "@/components/brand"
+import { OpenApp, REPO_URL, Wordmark } from "@/components/brand"
 import { Mark } from "@/components/mark"
 import { RollingNumber } from "@/components/rolling-number"
 import { euro, shares } from "@/lib/format"
+import { APP_URL } from "@/lib/handoff"
 import { useAgreement } from "@/lib/terms"
 
 // Every agreement ends with its signatures. The company signed when you
@@ -55,6 +56,8 @@ export function Signatures() {
 }
 
 export function SiteFooter() {
+  const { handoffUrl } = useAgreement()
+
   return (
     <footer className="mx-auto max-w-[1320px] px-5 sm:px-8 lg:px-12">
       <div className="flex flex-col gap-6 border-t border-ink py-8 md:flex-row md:items-start md:justify-between">
@@ -67,7 +70,7 @@ export function SiteFooter() {
         </div>
         <ul className="flex flex-wrap gap-x-6 gap-y-2 text-[0.875rem]">
           <li>
-            <a href={APP_URL} className="text-link">
+            <a href={handoffUrl ?? APP_URL} className="text-link">
               Open the app
             </a>
           </li>

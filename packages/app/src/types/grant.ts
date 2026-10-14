@@ -20,3 +20,12 @@ export interface GrantFormData {
   vsopsValue: string
   vsopsStrikePrice: string
 }
+
+/** Whether the form's value field holds the total value or the value per share */
+export type GrantValueMode = "total" | "per-share"
+
+/** Starting values for a new grant, e.g. terms brought over from the landing page */
+export interface GrantPrefill {
+  form: GrantFormData
+  valueMode: GrantValueMode
+}
