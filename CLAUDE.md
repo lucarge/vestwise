@@ -7,14 +7,14 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 VestWise (vestwise.app) — stock option vesting tracker. This is a **Bun workspaces monorepo** with two packages:
 
 - **`packages/app`** — The main app (app.vestwise.app). Client-only React + TypeScript that lets users fill in grant details via a form and displays metrics and graphs for the vesting schedule.
-- **`packages/landing`** — Marketing landing page (vestwise.app). Simple static page with hero, features, and CTA.
+- **`packages/landing`** — Marketing landing page (vestwise.app). A single page styled as a sample VSOP agreement whose blanks are live inputs, annotated in euros by VestWise.
 
 ## Tech Stack
 
 - React 19 + TypeScript (strict mode, `noUnusedLocals`/`noUnusedParameters` enabled)
 - Vite 7 (build tool)
 - Bun (package manager & runtime, workspaces)
-- shadcn/ui v4 (base-nova style, built on Base UI + Tailwind CSS v4)
+- shadcn/ui v4 (base-nova style, built on Base UI + Tailwind CSS v4) — app only; the landing uses its own components on Tailwind CSS v4
 - No backend — all logic runs client-side
 
 ## Common Commands
@@ -45,7 +45,9 @@ All state is local — no API calls, no database. Grant data lives in component 
 
 ### Landing (`packages/landing`)
 
-Simple marketing page — hero section, feature highlights, CTA linking to the app. No routing, no state management.
+One document-style page: a sample VSOP agreement whose blanks are live inputs, with VestWise's figures in the margin. A React context (`src/lib/terms.tsx`) carries the visitor's terms through every section. The vesting and payout math in `src/lib/vesting.ts` is ported from the app (`packages/app/src/lib/vesting.ts` and `potential.ts`) — keep them in sync. No routing, no persistence.
+
+Design context lives in `packages/landing/PRODUCT.md`, `packages/landing/DESIGN.md`, and the surface brief in `packages/landing/.impeccable/surfaces/`.
 
 ## Conventions
 
