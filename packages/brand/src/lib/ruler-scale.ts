@@ -1,6 +1,5 @@
 // The ruler's scale for a valuation multiple: a log track, so 1x to 3x gets
-// as much travel as 5x to 20x. Ported from packages/landing/src/components/
-// exit-clause.tsx: keep in sync.
+// as much travel as 5x to 20x.
 
 export const MULTIPLE_RANGE = { min: 0.5, max: 20 } as const
 export const MULTIPLE_TICKS = [0.5, 1, 2, 3, 5, 10, 20]

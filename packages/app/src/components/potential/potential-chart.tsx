@@ -8,6 +8,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts"
+import { euro, euroCompact, multiple } from "@vestwise/brand"
 
 import { Part } from "@/components/brand/part"
 import { ExhibitFlag, ExhibitLabel } from "@/components/charts/exhibit"
@@ -21,7 +22,6 @@ import {
   ChartTooltipContent,
   type ChartConfig,
 } from "@/components/ui/chart"
-import { euro, euroCompact, multiple } from "@/lib/format"
 import type { PotentialScenario } from "@/lib/potential"
 
 const chartConfig = {

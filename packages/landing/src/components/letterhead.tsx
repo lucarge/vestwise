@@ -1,8 +1,7 @@
 import { useEffect, useState, type CSSProperties, type RefObject } from "react"
 import { ArrowUpRight } from "lucide-react"
-import { OpenApp, REPO_URL, Wordmark } from "@/components/brand"
-import { RollingNumber } from "@/components/rolling-number"
-import { euro, shares } from "@/lib/format"
+import { RollingNumber, Wordmark, euro, shares } from "@vestwise/brand"
+import { OpenApp, REPO_URL } from "@/components/brand"
 import { useAgreement } from "@/lib/terms"
 
 const LINKS = [

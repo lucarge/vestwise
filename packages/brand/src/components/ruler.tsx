@@ -1,12 +1,10 @@
-// Ported from the Ruler in packages/landing/src/components/exit-clause.tsx:
-// keep in sync. The scale maths live in ruler-scale.ts.
-import type { CSSProperties } from "react"
+import type { CSSProperties, ReactNode } from "react"
 
 interface RulerProps {
   id: string
   label: string
   /** The readout beside the label; a figure, or an editable blank */
-  display: React.ReactNode
+  display: ReactNode
   valueText: string
   value: number
   max: number
@@ -17,7 +15,8 @@ interface RulerProps {
 }
 
 // A range input drawn as a ruler. Ticks sit where the thumb's centre travels,
-// which is inset by half the thumb's width at either end.
+// which is inset by half the thumb's width at either end. The scale maths for
+// a valuation multiple live in ../lib/ruler-scale.ts.
 export function Ruler({
   id,
   label,

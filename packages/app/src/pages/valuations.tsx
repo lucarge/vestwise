@@ -1,6 +1,13 @@
 import { useId, useState } from "react"
 import { Pencil, Trash2 } from "lucide-react"
 import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts"
+import {
+  euro,
+  euroCompact,
+  formatDate,
+  percentPrecise,
+  shortMonth,
+} from "@vestwise/brand"
 
 import { PageHeader } from "@/components/brand/page-header"
 import { Part } from "@/components/brand/part"
@@ -33,13 +40,6 @@ import {
 } from "@/components/ui/chart"
 import { ValuationForm } from "@/components/valuation-form"
 import { useValuations } from "@/hooks/use-valuations"
-import {
-  euro,
-  euroCompact,
-  formatDate,
-  percentPrecise,
-  shortMonth,
-} from "@/lib/format"
 import { computeCumulativeDilution } from "@/lib/valuation"
 import type { ValuationEntry } from "@/types/valuation"
 

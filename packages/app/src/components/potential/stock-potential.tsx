@@ -1,32 +1,31 @@
 import { useState } from "react"
 import { ArrowRight, ChevronDown } from "lucide-react"
 import { Link } from "react-router-dom"
-
-import { BlankNumber } from "@/components/brand/blank"
-import { RollingNumber } from "@/components/brand/rolling-number"
-import { Ruler } from "@/components/brand/ruler"
 import {
+  BlankNumber,
   DILUTION_TICKS,
   MULTIPLE_STEPS,
   MULTIPLE_TICKS,
+  RollingNumber,
+  Ruler,
+  decimal,
+  euro,
+  fitFigure,
+  multiple,
   multipleFromPosition,
+  percent,
+  percentPrecise,
   positionFromMultiple,
+  shares,
   stepMultiple,
-} from "@/components/brand/ruler-scale"
+} from "@vestwise/brand"
+
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { usePotential } from "@/hooks/use-potential"
-import {
-  decimal,
-  euro,
-  multiple,
-  percent,
-  percentPrecise,
-  shares,
-} from "@/lib/format"
-import { cn, fitFigure } from "@/lib/utils"
+import { cn } from "@/lib/utils"
 import type { Grant } from "@/types/grant"
 import type { ValuationEntry } from "@/types/valuation"
 import { PotentialChart } from "./potential-chart"

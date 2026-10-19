@@ -1,7 +1,12 @@
 import type { ReactNode } from "react"
+import {
+  euroPrecise,
+  formatDate,
+  percentPrecise,
+  shares,
+} from "@vestwise/brand"
 
 import type { GrantTotals } from "@/hooks/use-grants"
-import { euroPrecise, formatDate, percentPrecise, shares } from "@/lib/format"
 import type { GrantWithValuation } from "@/lib/valuation"
 
 const SCHEDULE_LABELS: Record<GrantWithValuation["vestingSchedule"], string> = {

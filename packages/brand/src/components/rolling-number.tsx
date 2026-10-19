@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, type CSSProperties } from "react"
-import { prefersReducedMotion } from "@/hooks/use-reduced-motion"
-import { cn } from "@/lib/utils"
+import { prefersReducedMotion } from "../hooks/use-reduced-motion"
+import { cn } from "../lib/cn"
 
 interface RollingNumberProps {
   /** The fully formatted figure, e.g. "€16,875" or "16.875 €" */
@@ -25,7 +25,9 @@ export function RollingNumber({
   introDelay,
   introDuration = 1200,
 }: RollingNumberProps) {
-  const [hasIntro] = useState(() => introDelay !== undefined && !prefersReducedMotion())
+  const [hasIntro] = useState(
+    () => introDelay !== undefined && !prefersReducedMotion()
+  )
   const [shown, setShown] = useState(() => (hasIntro ? zeroed(value) : value))
   const [intro, setIntro] = useState(hasIntro)
   const started = useRef(!hasIntro)
@@ -42,7 +44,10 @@ export function RollingNumber({
       started.current = true
       setShown(latest.current)
     }, introDelay)
-    const end = window.setTimeout(() => setIntro(false), (introDelay ?? 0) + introDuration + 500)
+    const end = window.setTimeout(
+      () => setIntro(false),
+      (introDelay ?? 0) + introDuration + 500
+    )
     return () => {
       window.clearTimeout(start)
       window.clearTimeout(end)
@@ -71,7 +76,9 @@ export function RollingNumber({
           "--digit": Number(char),
           "--roll-duration": intro ? `${introDuration}ms` : "460ms",
           // Intro rolls left to right; edits cascade from the units up
-          "--roll-delay": intro ? `${position * 70}ms` : `${(digitCount - 1 - position) * 18}ms`,
+          "--roll-delay": intro
+            ? `${position * 70}ms`
+            : `${(digitCount - 1 - position) * 18}ms`,
         } as CSSProperties
         return (
           <span key={`d${key}`} className="roll-slot" aria-hidden="true">
