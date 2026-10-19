@@ -1,6 +1,5 @@
 import { NavLink, useLocation } from "react-router-dom"
 import {
-  ChartNoAxesCombinedIcon,
   FileTextIcon,
   LandmarkIcon,
   LayoutDashboardIcon,
@@ -8,6 +7,7 @@ import {
   TrendingUpIcon,
 } from "lucide-react"
 
+import { Wordmark, WordmarkBar } from "@/components/brand/wordmark"
 import {
   Sidebar,
   SidebarContent,
@@ -17,31 +17,41 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarRail,
+  useSidebar,
 } from "@/components/ui/sidebar"
 
 const navItems = [
-  { to: "/", label: "Dashboard", icon: LayoutDashboardIcon },
+  { to: "/", label: "Dashboard", icon: LayoutDashboardIcon, end: true },
   { to: "/grants", label: "Grants", icon: FileTextIcon },
   { to: "/valuations", label: "Valuations", icon: LandmarkIcon },
   { to: "/potential", label: "Stock Potential", icon: TrendingUpIcon },
 ]
 
+function isCurrent(pathname: string, to: string, end?: boolean) {
+  return end
+    ? pathname === to
+    : pathname === to || pathname.startsWith(`${to}/`)
+}
+
+// Paper with a 1px ink edge; the current page carries the yellow bar
 export function AppSidebar() {
-  const location = useLocation()
+  const { pathname } = useLocation()
+  const { setOpenMobile } = useSidebar()
+  const close = () => setOpenMobile(false)
 
   return (
     <Sidebar collapsible="icon">
-      <SidebarHeader>
-        <SidebarMenu>
-          <SidebarMenuItem>
-            <SidebarMenuButton size="lg">
-              <div className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-primary text-primary-foreground [&_svg]:size-4">
-                <ChartNoAxesCombinedIcon />
-              </div>
-              <span className="font-semibold">VestWise</span>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-        </SidebarMenu>
+      <SidebarHeader className="h-14 justify-center border-b border-ink px-4 group-data-[collapsible=icon]:items-center group-data-[collapsible=icon]:px-0">
+        <NavLink
+          to="/"
+          onClick={close}
+          aria-label="VestWise, dashboard"
+          className="inline-flex w-fit items-center"
+        >
+          <Wordmark className="text-[1.25rem] group-data-[collapsible=icon]:hidden" />
+          <WordmarkBar className="hidden h-5 w-2 group-data-[collapsible=icon]:inline-block" />
+        </NavLink>
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
@@ -49,10 +59,11 @@ export function AppSidebar() {
             {navItems.map((item) => (
               <SidebarMenuItem key={item.to}>
                 <SidebarMenuButton
-                  isActive={location.pathname === item.to}
-                  render={<NavLink to={item.to} />}
+                  isActive={isCurrent(pathname, item.to, item.end)}
+                  tooltip={item.label}
+                  render={<NavLink to={item.to} onClick={close} />}
                 >
-                  <item.icon />
+                  <item.icon strokeWidth={2} />
                   <span>{item.label}</span>
                 </SidebarMenuButton>
               </SidebarMenuItem>
@@ -64,15 +75,17 @@ export function AppSidebar() {
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton
-              isActive={location.pathname === "/settings"}
-              render={<NavLink to="/settings" />}
+              isActive={isCurrent(pathname, "/settings")}
+              tooltip="Settings"
+              render={<NavLink to="/settings" onClick={close} />}
             >
-              <SettingsIcon />
+              <SettingsIcon strokeWidth={2} />
               <span>Settings</span>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarFooter>
+      <SidebarRail />
     </Sidebar>
   )
 }

@@ -1,3 +1,4 @@
+import { PageHeader } from "@/components/brand/page-header"
 import { VestingDashboard } from "@/components/dashboard/vesting-dashboard"
 import { useGrants } from "@/hooks/use-grants"
 import { useValuations } from "@/hooks/use-valuations"
@@ -7,13 +8,11 @@ export function DashboardPage() {
   const { valuations } = useValuations()
 
   return (
-    <div className="flex flex-col gap-6">
-      <div>
-        <h1 className="text-xl font-semibold">Dashboard</h1>
-        <p className="text-sm text-muted-foreground">
-          Vesting progress and portfolio overview.
-        </p>
-      </div>
+    <div className="flex flex-col gap-line">
+      <PageHeader
+        title="Dashboard"
+        lede="What has vested, when the rest vests, and what it is worth today."
+      />
       <VestingDashboard grants={grants} valuations={valuations} />
     </div>
   )

@@ -1,21 +1,15 @@
-import { useState } from "react"
+import { useId, useState } from "react"
 import { Pencil, Trash2 } from "lucide-react"
-import {
-  Area,
-  AreaChart,
-  CartesianGrid,
-  XAxis,
-  YAxis,
-} from "recharts"
+import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts"
 
-import { Button } from "@/components/ui/button"
+import { PageHeader } from "@/components/brand/page-header"
+import { Part } from "@/components/brand/part"
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
+  EXHIBIT_ANIMATION,
+  EXHIBIT_MARGIN,
+  yearTicks,
+} from "@/components/charts/exhibit-scale"
+import { Button } from "@/components/ui/button"
 import {
   Dialog,
   DialogContent,
@@ -39,34 +33,50 @@ import {
 } from "@/components/ui/chart"
 import { ValuationForm } from "@/components/valuation-form"
 import { useValuations } from "@/hooks/use-valuations"
-import { formatCurrency, formatCurrencyCompact, formatDate } from "@/lib/format"
+import {
+  euro,
+  euroCompact,
+  formatDate,
+  percentPrecise,
+  shortMonth,
+} from "@/lib/format"
 import { computeCumulativeDilution } from "@/lib/valuation"
 import type { ValuationEntry } from "@/types/valuation"
 
 const chartConfig = {
-  valuation: {
-    label: "Valuation",
-    color: "var(--color-chart-1)",
-  },
+  valuation: { label: "Valuation" },
 } satisfies ChartConfig
 
 export function ValuationsPage() {
-  const { valuations, addValuation, updateValuation, removeValuation } = useValuations()
+  const { valuations, addValuation, updateValuation, removeValuation } =
+    useValuations()
   const [editingEntry, setEditingEntry] = useState<ValuationEntry | null>(null)
+  const [now] = useState(Date.now)
+  const id = useId().replace(/:/g, "")
 
   const sorted = [...valuations].sort(
-    (a, b) => b.date.getTime() - a.date.getTime(),
+    (a, b) => b.date.getTime() - a.date.getTime()
   )
 
   const cumulativeDilution = computeCumulativeDilution(valuations)
-  const hasAnyRaise = valuations.some((v) => v.amountRaised && v.amountRaised > 0)
+  const hasAnyRaise = valuations.some(
+    (v) => v.amountRaised && v.amountRaised > 0
+  )
 
-  const chartData = [...valuations]
-    .sort((a, b) => a.date.getTime() - b.date.getTime())
-    .map((v) => ({
-      date: v.date.toISOString().slice(0, 10),
-      valuation: v.valuation,
-    }))
+  // Each valuation holds until the next one, so the latest holds until today
+  const sortedAsc = [...valuations].sort(
+    (a, b) => a.date.getTime() - b.date.getTime()
+  )
+  const latest = sortedAsc[sortedAsc.length - 1]
+  const chartData = sortedAsc.map((v) => ({
+    date: v.date.getTime(),
+    valuation: v.valuation,
+  }))
+  if (latest && latest.date.getTime() < now) {
+    chartData.push({ date: now, valuation: latest.valuation })
+  }
+  const chartMin = chartData[0]?.date ?? 0
+  const chartMax = chartData[chartData.length - 1]?.date ?? 0
 
   function handleUpdate(entry: ValuationEntry) {
     updateValuation(entry)
@@ -74,151 +84,156 @@ export function ValuationsPage() {
   }
 
   return (
-    <div className="flex flex-col gap-6">
-      <div>
-        <h1 className="text-xl font-semibold">Company Valuations</h1>
-        <p className="text-sm text-muted-foreground">
-          Track how your company's valuation changes over time. Grants are
-          automatically matched to the most recent valuation on or before their
-          grant date.
-        </p>
-      </div>
+    <div className="flex flex-col gap-line">
+      <PageHeader
+        title="Valuations"
+        lede="Your company's valuation over time. Each grant is matched to the latest valuation on or before its grant date, and funding rounds add up to your dilution."
+      />
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Add Valuation</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <ValuationForm onAdd={addValuation} />
-        </CardContent>
-      </Card>
+      <Part title="Add a valuation">
+        <ValuationForm onAdd={addValuation} />
+      </Part>
 
       {sorted.length > 0 && (
-        <Card>
-          <CardHeader>
-            <CardTitle>History</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Date</TableHead>
-                  <TableHead className="text-right">Valuation</TableHead>
+        <Part title="History">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Date</TableHead>
+                <TableHead className="text-right">Valuation</TableHead>
+                {hasAnyRaise && (
+                  <TableHead className="text-right">Raised</TableHead>
+                )}
+                <TableHead className="w-16" />
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {sorted.map((entry) => (
+                <TableRow key={entry.id}>
+                  <TableCell className="figures">
+                    {formatDate(entry.date)}
+                  </TableCell>
+                  <TableCell className="figures text-right">
+                    {euro(entry.valuation)}
+                  </TableCell>
                   {hasAnyRaise && (
-                    <TableHead className="text-right">Raised</TableHead>
+                    <TableCell className="figures text-right">
+                      {entry.amountRaised ? (
+                        euro(entry.amountRaised)
+                      ) : (
+                        <span className="text-ink-muted">none</span>
+                      )}
+                    </TableCell>
                   )}
-                  <TableHead className="w-10" />
+                  <TableCell>
+                    <div className="flex items-center justify-end gap-0.5">
+                      <Button
+                        variant="ghost"
+                        size="icon-xs"
+                        onClick={() => setEditingEntry(entry)}
+                        aria-label="Edit valuation"
+                      >
+                        <Pencil />
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="icon-xs"
+                        onClick={() => removeValuation(entry.id)}
+                        aria-label="Remove valuation"
+                      >
+                        <Trash2 />
+                      </Button>
+                    </div>
+                  </TableCell>
                 </TableRow>
-              </TableHeader>
-              <TableBody>
-                {sorted.map((entry) => (
-                  <TableRow key={entry.id}>
-                    <TableCell>{formatDate(entry.date)}</TableCell>
-                    <TableCell className="text-right">
-                      {formatCurrency(entry.valuation)}
-                    </TableCell>
-                    {hasAnyRaise && (
-                      <TableCell className="text-right">
-                        {entry.amountRaised
-                          ? formatCurrency(entry.amountRaised)
-                          : "—"}
-                      </TableCell>
-                    )}
-                    <TableCell>
-                      <div className="flex items-center gap-0.5">
-                        <Button
-                          variant="ghost"
-                          size="icon-xs"
-                          onClick={() => setEditingEntry(entry)}
-                          aria-label="Edit valuation"
-                        >
-                          <Pencil />
-                        </Button>
-                        <Button
-                          variant="ghost"
-                          size="icon-xs"
-                          onClick={() => removeValuation(entry.id)}
-                          aria-label="Remove valuation"
-                        >
-                          <Trash2 />
-                        </Button>
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-            {cumulativeDilution > 0 && (
-              <p className="mt-3 text-sm text-muted-foreground">
-                Cumulative dilution from funding rounds:{" "}
-                <span className="font-mono font-medium text-amber-600 dark:text-amber-400">
-                  {cumulativeDilution.toFixed(2)}%
-                </span>
-              </p>
-            )}
-          </CardContent>
-        </Card>
+              ))}
+            </TableBody>
+          </Table>
+          {cumulativeDilution > 0 && (
+            <p className="figures mt-4 text-[0.9375rem] text-ink-soft">
+              Cumulative dilution from your funding rounds:{" "}
+              <span className="font-semibold text-ink">
+                {percentPrecise(cumulativeDilution, 2)}
+              </span>
+            </p>
+          )}
+        </Part>
       )}
 
       {chartData.length >= 2 && (
-        <Card>
-          <CardHeader>
-            <CardTitle>Valuation Over Time</CardTitle>
-            <CardDescription>
-              How your company's valuation has changed
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <ChartContainer config={chartConfig} className="aspect-[2/1] w-full">
-              <AreaChart data={chartData}>
-                <defs>
-                  <linearGradient id="valuationGrad" x1="0" y1="0" x2="0" y2="1">
-                    <stop
-                      offset="0%"
-                      stopColor="var(--color-valuation)"
-                      stopOpacity={0.4}
-                    />
-                    <stop
-                      offset="100%"
-                      stopColor="var(--color-valuation)"
-                      stopOpacity={0.05}
-                    />
-                  </linearGradient>
-                </defs>
-                <CartesianGrid vertical={false} />
-                <XAxis
-                  dataKey="date"
-                  tickLine={false}
-                  axisLine={false}
-                />
-                <YAxis
-                  tickLine={false}
-                  axisLine={false}
-                  width={80}
-                  tickFormatter={(v: number) => formatCurrencyCompact(v)}
-                />
-                <ChartTooltip
-                  content={
-                    <ChartTooltipContent
-                      formatter={(value) => (
-                        <span className="font-mono font-medium">
-                          {formatCurrency(value as number)}
+        <Part
+          title="Valuation over time"
+          description="Each valuation holds until the next one."
+        >
+          <ChartContainer
+            config={chartConfig}
+            className="aspect-[2/1] w-full select-none"
+          >
+            <AreaChart data={chartData} margin={EXHIBIT_MARGIN}>
+              <defs>
+                <linearGradient id={`${id}-fill`} x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor="var(--ink)" stopOpacity={0.07} />
+                  <stop
+                    offset="100%"
+                    stopColor="var(--ink)"
+                    stopOpacity={0.07}
+                  />
+                </linearGradient>
+              </defs>
+              <CartesianGrid vertical={false} />
+              <XAxis
+                dataKey="date"
+                type="number"
+                domain={["dataMin", "dataMax"]}
+                ticks={yearTicks(chartMin, chartMax)}
+                tickFormatter={(ts: number) =>
+                  String(new Date(ts).getFullYear())
+                }
+                tickSize={7}
+                tickLine={{ stroke: "var(--ink)" }}
+                axisLine={{ stroke: "var(--ink)" }}
+                tickMargin={6}
+              />
+              <YAxis
+                tickLine={false}
+                axisLine={false}
+                width={64}
+                tickFormatter={(v: number) => euroCompact(v)}
+              />
+              <ChartTooltip
+                cursor={{ stroke: "var(--ink)", strokeDasharray: "3 4" }}
+                content={
+                  <ChartTooltipContent
+                    hideIndicator
+                    labelFormatter={(_, payload) => {
+                      const ts = payload?.[0]?.payload?.date as
+                        | number
+                        | undefined
+                      return ts ? shortMonth(new Date(ts)) : ""
+                    }}
+                    formatter={(value) => (
+                      <div className="flex w-full items-center justify-between gap-4">
+                        <span className="text-ink-soft">Valuation</span>
+                        <span className="font-semibold">
+                          {euro(value as number)}
                         </span>
-                      )}
-                    />
-                  }
-                />
-                <Area
-                  dataKey="valuation"
-                  type="monotone"
-                  fill="url(#valuationGrad)"
-                  stroke="var(--color-valuation)"
-                  strokeWidth={2}
-                />
-              </AreaChart>
-            </ChartContainer>
-          </CardContent>
-        </Card>
+                      </div>
+                    )}
+                  />
+                }
+              />
+              <Area
+                dataKey="valuation"
+                type="stepAfter"
+                fill={`url(#${id}-fill)`}
+                fillOpacity={1}
+                stroke="var(--ink)"
+                strokeWidth={1.5}
+                {...EXHIBIT_ANIMATION}
+              />
+            </AreaChart>
+          </ChartContainer>
+        </Part>
       )}
 
       <Dialog
@@ -229,9 +244,9 @@ export function ValuationsPage() {
       >
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Edit Valuation</DialogTitle>
+            <DialogTitle>Edit valuation</DialogTitle>
             <DialogDescription>
-              Update the details of this valuation entry.
+              Change the date, the valuation or the amount raised.
             </DialogDescription>
           </DialogHeader>
           {editingEntry && (

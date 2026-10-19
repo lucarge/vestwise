@@ -4,14 +4,15 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#F7F7F4" />
     <title>VestWise</title>
-    <meta name="description" content="Your stock options, finally clear." />
+    <meta name="description" content="See what your VSOP is worth, in euros. Your grants stay in your browser." />
 
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://app.vestwise.app/" />
     <meta property="og:title" content="VestWise" />
-    <meta property="og:description" content="Your stock options, finally clear." />
+    <meta property="og:description" content="See what your VSOP is worth, in euros. Your grants stay in your browser." />
     <meta property="og:image" content="https://vestwise.app/og-image.png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
@@ -19,8 +20,25 @@
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="VestWise" />
-    <meta name="twitter:description" content="Your stock options, finally clear." />
+    <meta name="twitter:description" content="See what your VSOP is worth, in euros. Your grants stay in your browser." />
     <meta name="twitter:image" content="https://vestwise.app/og-image.png" />
+
+    <script>
+      // The theme class before the first paint, so night mode never flashes
+      // paper. src/components/theme-provider.tsx takes over once rendered.
+      ;(function () {
+        try {
+          var stored = localStorage.getItem("theme")
+          var dark =
+            stored === "dark" ||
+            (stored !== "light" && matchMedia("(prefers-color-scheme: dark)").matches)
+          document.documentElement.classList.add(dark ? "dark" : "light")
+          document
+            .querySelector('meta[name="theme-color"]')
+            .setAttribute("content", dark ? "#101114" : "#F7F7F4")
+        } catch (e) {}
+      })()
+    </script>
   </head>
   <body>
     <div id="root"></div>

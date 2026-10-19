@@ -28,11 +28,11 @@ export function EditGrantDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-3xl">
+      <DialogContent className="sm:max-w-2xl">
         <DialogHeader>
-          <DialogTitle>Edit Grant</DialogTitle>
+          <DialogTitle>Edit grant</DialogTitle>
           <DialogDescription>
-            Update the details of this grant.
+            Change the terms of this grant in its clause.
           </DialogDescription>
         </DialogHeader>
         {grant && (
@@ -40,7 +40,7 @@ export function EditGrantDialog({
             key={grant.id}
             initialGrant={grant}
             onUpdateGrant={handleUpdate}
-            className="lg:grid-cols-3"
+            variant="dialog"
           />
         )}
       </DialogContent>

@@ -1,3 +1,4 @@
+import { PageHeader } from "@/components/brand/page-header"
 import { StockPotential } from "@/components/potential/stock-potential"
 import { useGrants } from "@/hooks/use-grants"
 import { useValuations } from "@/hooks/use-valuations"
@@ -10,14 +11,11 @@ export function PotentialPage() {
   const calculatedDilution = computeCumulativeDilution(valuations)
 
   return (
-    <div className="flex flex-col gap-6">
-      <div>
-        <h1 className="text-xl font-semibold">Stock Potential</h1>
-        <p className="text-sm text-muted-foreground">
-          Simulate how your stock options could grow with different company
-          valuations.
-        </p>
-      </div>
+    <div className="flex flex-col gap-line">
+      <PageHeader
+        title="Stock Potential"
+        lede="Try an exit: a future valuation, the dilution still to come, and what your grants would pay."
+      />
       <StockPotential
         grants={grants}
         currentValuation={latestValuation?.valuation}

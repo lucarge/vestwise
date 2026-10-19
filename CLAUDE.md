@@ -15,6 +15,7 @@ VestWise (vestwise.app) — stock option vesting tracker. This is a **Bun worksp
 - Vite 7 (build tool)
 - Bun (package manager & runtime, workspaces)
 - shadcn/ui v4 (base-nova style, built on Base UI + Tailwind CSS v4) — app only; the landing uses its own components on Tailwind CSS v4
+- One brand for both packages, written down in `DESIGN.md` at the repo root: paper, ink and one highlighter yellow as OKLCH tokens; Archivo for VestWise's voice and Source Serif 4 for the agreement's (self-hosted via `@fontsource-variable`); 1px ink rules instead of cards, square corners, tabular figures
 - No backend — all logic runs client-side
 
 ## Common Commands
@@ -41,13 +42,16 @@ bun run format           # Format all .ts/.tsx with Prettier
 - **Calculation layer**: Pure functions that compute vesting schedules, milestones, and metrics from grant inputs
 - **Visualization layer**: Charts and summary metrics displaying vested/unvested shares over time
 
+- **Visual layer**: the app is an Operate surface of the brand (`DESIGN.md`, section "App surfaces"): a restyled shadcn sidebar, pages built from `PageHeader` and `Part` (`src/components/brand/`), the grant form as a § 1 clause with inline blanks, Stock Potential as the one highlighter field, and Recharts restyled as the landing's exhibit (`src/components/charts/`). `src/index.css` binds every shadcn variable to the brand tokens.
+- **Ported from the landing, keep in sync**: `src/components/brand/{wordmark,mark,rolling-number,blank,ruler,ruler-scale}`, `src/hooks/use-reduced-motion.ts`, `src/lib/format.ts` and `fitFigure` in `src/lib/utils.ts` mirror their counterparts in `packages/landing/src`.
+
 All state is local — no API calls, no database. Grants, valuations and settings persist in `localStorage` (keys like `vsop-grants`; see `src/hooks/use-grants.ts` and `src/lib/backup-data.ts`). The only URL input is the landing's grant link, `/grants/new#grant=<encoded>` (`src/lib/grant-handoff.ts`): it is read and removed from the address bar before the first render, and only prefills the Add Grant form; nothing is saved until the user adds the grant.
 
 ### Landing (`packages/landing`)
 
 One document-style page: a sample VSOP agreement whose blanks are live inputs, with VestWise's figures in the margin. A React context (`src/lib/terms.tsx`) carries the visitor's terms through every section. The vesting and payout math in `src/lib/vesting.ts` is ported from the app (`packages/app/src/lib/vesting.ts` and `potential.ts`) — keep them in sync. Once the visitor edits the terms, and as long as the app would accept them, every "Open the app" link carries them in the URL fragment; the encoder in `src/lib/handoff.ts` is ported from `packages/app/src/lib/grant-handoff.ts`, whose tests pin the format — keep them in sync too. No routing, no persistence.
 
-Design context lives in `packages/landing/PRODUCT.md`, `packages/landing/DESIGN.md`, and the surface brief in `packages/landing/.impeccable/surfaces/`.
+Design context lives at the repo root in `PRODUCT.md` (the product record) and `DESIGN.md` (the design system), shared by both packages; each package keeps its own surface brief under `.impeccable/surfaces/`. The impeccable skill resolves them upward from either package.
 
 ## Conventions
 

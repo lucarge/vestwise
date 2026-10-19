@@ -1,10 +1,11 @@
+import { ArrowRight } from "lucide-react"
+import { Link } from "react-router-dom"
+
+import { Part } from "@/components/brand/part"
 import { Button } from "@/components/ui/button"
-import { Card } from "@/components/ui/card"
 import { useVesting } from "@/hooks/use-vesting"
 import type { Grant } from "@/types/grant"
 import type { ValuationEntry } from "@/types/valuation"
-import { ChartNoAxesCombined, Plus } from "lucide-react"
-import { Link } from "react-router"
 import { CumulativeChart } from "./cumulative-chart"
 import { GrantVestingChart } from "./grant-vesting-chart"
 import { VestingSummary } from "./vesting-summary"
@@ -15,42 +16,49 @@ interface VestingDashboardProps {
   valuations: ValuationEntry[]
 }
 
-export function VestingDashboard({ grants, valuations }: VestingDashboardProps) {
-  const { grantTimelines, cumulativeTimeline, yearlySummary } =
-    useVesting(grants, valuations)
+export function VestingDashboard({
+  grants,
+  valuations,
+}: VestingDashboardProps) {
+  const { grantTimelines, cumulativeTimeline, yearlySummary } = useVesting(
+    grants,
+    valuations
+  )
 
   if (grants.length === 0) {
     return (
-      <Card className="flex flex-col items-center justify-center gap-4 py-24 text-center">
-        <ChartNoAxesCombined className="size-12 text-muted-foreground/50" />
-        <div className="flex flex-col gap-1.5">
-          <h2 className="text-lg font-semibold">
-            Track your stock options
+      <div className="border-y border-ink">
+        <div className="mx-auto flex min-h-[14rem] max-w-[36ch] flex-col items-center justify-center gap-5 py-line text-center">
+          <h2 className="voice-display text-[1.5rem] lg:text-[1.75rem]">
+            Add your first grant to draw your schedule.
           </h2>
-          <p className="max-w-sm text-sm text-muted-foreground">
-            Add your stock option grants to visualize vesting progress, see
-            projected value, and track milestones over time.
-          </p>
-          <p className="text-xs text-muted-foreground/70">
-            All data stays in your browser — nothing is sent to a server.
+          <Button size="lg" render={<Link to="/grants/new" />}>
+            Add a grant
+            <ArrowRight data-icon="inline-end" strokeWidth={2.25} />
+          </Button>
+          <p className="text-[0.8125rem] leading-snug text-ink-soft">
+            Your grants stay in this browser. VestWise has no server.
           </p>
         </div>
-        <Button className="mt-2" render={<Link to="/grants/new" />}>
-          <Plus />
-          Add your first grant
-        </Button>
-      </Card>
+      </div>
     )
   }
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-line">
       <VestingSummary grants={grants} valuations={valuations} />
       <CumulativeChart data={cumulativeTimeline} />
       <YearlySummary data={yearlySummary} />
-      <div>
-        <h3 className="mb-3 text-sm font-medium">All Grants</h3>
-        <div className="grid gap-6 md:grid-cols-2">
+      <Part
+        title={grants.length === 1 ? "Your grant" : "Your grants"}
+        description="Each grant as its own clause, with its schedule drawn beneath."
+        action={
+          <Button variant="outline" size="sm" render={<Link to="/grants" />}>
+            Manage grants
+          </Button>
+        }
+      >
+        <div className="grid gap-x-12 gap-y-line md:grid-cols-2">
           {grants.map((grant, i) => (
             <GrantVestingChart
               key={grant.id}
@@ -59,7 +67,7 @@ export function VestingDashboard({ grants, valuations }: VestingDashboardProps) 
             />
           ))}
         </div>
-      </div>
+      </Part>
     </div>
   )
 }
