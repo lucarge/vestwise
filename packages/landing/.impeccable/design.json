@@ -1,0 +1,694 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-14T11:24:00Z",
+  "title": "Design System: VestWise",
+  "extensions": {
+    "colorMeta": {
+      "paper": {
+        "role": "neutral",
+        "displayName": "Copy Paper",
+        "canonical": "oklch(0.975 0.004 106)",
+        "srgb": "#F7F7F4",
+        "cssVar": "--paper",
+        "theme": "light",
+        "tonalRamp": [
+          "oklch(0.15 0.004 106)",
+          "oklch(0.264 0.004 106)",
+          "oklch(0.379 0.004 106)",
+          "oklch(0.493 0.004 106)",
+          "oklch(0.607 0.004 106)",
+          "oklch(0.721 0.004 106)",
+          "oklch(0.836 0.004 106)",
+          "oklch(0.95 0.004 106)"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Toner Black",
+        "canonical": "oklch(0.205 0.008 270)",
+        "srgb": "#16171B",
+        "cssVar": "--ink",
+        "theme": "light",
+        "tonalRamp": [
+          "oklch(0.15 0.008 270)",
+          "oklch(0.264 0.008 270)",
+          "oklch(0.379 0.008 270)",
+          "oklch(0.493 0.008 270)",
+          "oklch(0.607 0.008 270)",
+          "oklch(0.721 0.008 270)",
+          "oklch(0.836 0.008 270)",
+          "oklch(0.95 0.008 270)"
+        ]
+      },
+      "ink-soft": {
+        "role": "neutral",
+        "displayName": "Soft Toner",
+        "canonical": "oklch(0.4 0.008 270)",
+        "srgb": "#46484C",
+        "cssVar": "--ink-soft",
+        "theme": "light",
+        "tonalRamp": [
+          "oklch(0.15 0.008 270)",
+          "oklch(0.264 0.008 270)",
+          "oklch(0.379 0.008 270)",
+          "oklch(0.493 0.008 270)",
+          "oklch(0.607 0.008 270)",
+          "oklch(0.721 0.008 270)",
+          "oklch(0.836 0.008 270)",
+          "oklch(0.95 0.008 270)"
+        ]
+      },
+      "ink-muted": {
+        "role": "neutral",
+        "displayName": "Receded Grey",
+        "canonical": "oklch(0.52 0.008 270)",
+        "srgb": "#67696E",
+        "cssVar": "--ink-muted",
+        "theme": "light",
+        "tonalRamp": [
+          "oklch(0.15 0.008 270)",
+          "oklch(0.264 0.008 270)",
+          "oklch(0.379 0.008 270)",
+          "oklch(0.493 0.008 270)",
+          "oklch(0.607 0.008 270)",
+          "oklch(0.721 0.008 270)",
+          "oklch(0.836 0.008 270)",
+          "oklch(0.95 0.008 270)"
+        ]
+      },
+      "hairline": {
+        "role": "neutral",
+        "displayName": "Gridline Grey",
+        "canonical": "oklch(0.87 0.004 270)",
+        "srgb": "#D3D4D7",
+        "cssVar": "--hairline",
+        "theme": "light",
+        "tonalRamp": [
+          "oklch(0.15 0.004 270)",
+          "oklch(0.264 0.004 270)",
+          "oklch(0.379 0.004 270)",
+          "oklch(0.493 0.004 270)",
+          "oklch(0.607 0.004 270)",
+          "oklch(0.721 0.004 270)",
+          "oklch(0.836 0.004 270)",
+          "oklch(0.95 0.004 270)"
+        ]
+      },
+      "mark": {
+        "role": "primary",
+        "displayName": "Highlighter Yellow",
+        "canonical": "oklch(0.925 0.19 104)",
+        "srgb": "#FCEB21",
+        "cssVar": "--mark",
+        "theme": "light",
+        "tonalRamp": [
+          "oklch(0.15 0.19 104)",
+          "oklch(0.264 0.19 104)",
+          "oklch(0.379 0.19 104)",
+          "oklch(0.493 0.19 104)",
+          "oklch(0.607 0.19 104)",
+          "oklch(0.721 0.19 104)",
+          "oklch(0.836 0.19 104)",
+          "oklch(0.95 0.19 104)"
+        ]
+      },
+      "mark-ink": {
+        "role": "neutral",
+        "displayName": "Mark Ink",
+        "canonical": "oklch(0.205 0.008 270)",
+        "srgb": "#16171B",
+        "cssVar": "--mark-ink",
+        "theme": "light",
+        "tonalRamp": [
+          "oklch(0.15 0.008 270)",
+          "oklch(0.264 0.008 270)",
+          "oklch(0.379 0.008 270)",
+          "oklch(0.493 0.008 270)",
+          "oklch(0.607 0.008 270)",
+          "oklch(0.721 0.008 270)",
+          "oklch(0.836 0.008 270)",
+          "oklch(0.95 0.008 270)"
+        ]
+      },
+      "paper-dark": {
+        "role": "neutral",
+        "displayName": "Night Sheet",
+        "canonical": "oklch(0.18 0.006 270)",
+        "srgb": "#101114",
+        "cssVar": "--paper",
+        "theme": "dark",
+        "tonalRamp": [
+          "oklch(0.15 0.006 270)",
+          "oklch(0.264 0.006 270)",
+          "oklch(0.379 0.006 270)",
+          "oklch(0.493 0.006 270)",
+          "oklch(0.607 0.006 270)",
+          "oklch(0.721 0.006 270)",
+          "oklch(0.836 0.006 270)",
+          "oklch(0.95 0.006 270)"
+        ]
+      },
+      "ink-dark": {
+        "role": "neutral",
+        "displayName": "Night Ink",
+        "canonical": "oklch(0.955 0.004 106)",
+        "srgb": "#F0F0ED",
+        "cssVar": "--ink",
+        "theme": "dark",
+        "tonalRamp": [
+          "oklch(0.15 0.004 106)",
+          "oklch(0.264 0.004 106)",
+          "oklch(0.379 0.004 106)",
+          "oklch(0.493 0.004 106)",
+          "oklch(0.607 0.004 106)",
+          "oklch(0.721 0.004 106)",
+          "oklch(0.836 0.004 106)",
+          "oklch(0.95 0.004 106)"
+        ]
+      },
+      "ink-soft-dark": {
+        "role": "neutral",
+        "displayName": "Soft Toner (night)",
+        "canonical": "oklch(0.8 0.006 270)",
+        "srgb": "#BCBEC2",
+        "cssVar": "--ink-soft",
+        "theme": "dark",
+        "tonalRamp": [
+          "oklch(0.15 0.006 270)",
+          "oklch(0.264 0.006 270)",
+          "oklch(0.379 0.006 270)",
+          "oklch(0.493 0.006 270)",
+          "oklch(0.607 0.006 270)",
+          "oklch(0.721 0.006 270)",
+          "oklch(0.836 0.006 270)",
+          "oklch(0.95 0.006 270)"
+        ]
+      },
+      "ink-muted-dark": {
+        "role": "neutral",
+        "displayName": "Receded Grey (night)",
+        "canonical": "oklch(0.67 0.006 270)",
+        "srgb": "#949599",
+        "cssVar": "--ink-muted",
+        "theme": "dark",
+        "tonalRamp": [
+          "oklch(0.15 0.006 270)",
+          "oklch(0.264 0.006 270)",
+          "oklch(0.379 0.006 270)",
+          "oklch(0.493 0.006 270)",
+          "oklch(0.607 0.006 270)",
+          "oklch(0.721 0.006 270)",
+          "oklch(0.836 0.006 270)",
+          "oklch(0.95 0.006 270)"
+        ]
+      },
+      "hairline-dark": {
+        "role": "neutral",
+        "displayName": "Gridline Grey (night)",
+        "canonical": "oklch(0.34 0.006 270)",
+        "srgb": "#37383B",
+        "cssVar": "--hairline",
+        "theme": "dark",
+        "tonalRamp": [
+          "oklch(0.15 0.006 270)",
+          "oklch(0.264 0.006 270)",
+          "oklch(0.379 0.006 270)",
+          "oklch(0.493 0.006 270)",
+          "oklch(0.607 0.006 270)",
+          "oklch(0.721 0.006 270)",
+          "oklch(0.836 0.006 270)",
+          "oklch(0.95 0.006 270)"
+        ]
+      },
+      "mark-dark": {
+        "role": "primary",
+        "displayName": "Highlighter Yellow (night)",
+        "canonical": "oklch(0.9 0.18 104)",
+        "srgb": "#F2E32F",
+        "cssVar": "--mark",
+        "theme": "dark",
+        "tonalRamp": [
+          "oklch(0.15 0.18 104)",
+          "oklch(0.264 0.18 104)",
+          "oklch(0.379 0.18 104)",
+          "oklch(0.493 0.18 104)",
+          "oklch(0.607 0.18 104)",
+          "oklch(0.721 0.18 104)",
+          "oklch(0.836 0.18 104)",
+          "oklch(0.95 0.18 104)"
+        ]
+      },
+      "mark-ink-dark": {
+        "role": "neutral",
+        "displayName": "Mark Ink (night)",
+        "canonical": "oklch(0.18 0.006 270)",
+        "srgb": "#101114",
+        "cssVar": "--mark-ink",
+        "theme": "dark",
+        "tonalRamp": [
+          "oklch(0.15 0.006 270)",
+          "oklch(0.264 0.006 270)",
+          "oklch(0.379 0.006 270)",
+          "oklch(0.493 0.006 270)",
+          "oklch(0.607 0.006 270)",
+          "oklch(0.721 0.006 270)",
+          "oklch(0.836 0.006 270)",
+          "oklch(0.95 0.006 270)"
+        ]
+      }
+    },
+    "themes": {
+      "mechanism": "Each color is a custom property on :root; under @media (prefers-color-scheme: dark) the same properties take the -dark values. Components reference the light token names and switch with them. There is no theme toggle.",
+      "tonalRampNote": "The tonalRamp arrays are synthesized for the panel (eight OKLCH lightness steps at each token's own chroma and hue). The system itself has no tonal scale and uses only its seven tokens per theme."
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "The surface's one headline (.voice-display), max 16ch. From 1024px its lines are composed as blocks; below, it wraps freely."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Section headlines, whole sentences of 14 to 16ch. Set beside a clause: clamp(2.25rem, 4.4vw, 3.75rem)."
+      },
+      "headline-lead": {
+        "displayName": "Headline Lead",
+        "purpose": "The headline on a highlighter field. The closing statement uses clamp(2.5rem, 5vw, 4.5rem)."
+      },
+      "figure-lead": {
+        "displayName": "Figure Lead",
+        "purpose": "The reader's key euro figure (.voice-figure). The payout on the field runs to clamp(3rem, 6vw, 5.25rem). Shrinks in proportion beyond its designed length (--fit)."
+      },
+      "figure": {
+        "displayName": "Figure",
+        "purpose": "Secondary figures, yearly totals and ruler readouts; 2rem for the margin's second figure from 1024px, 1.375rem for readouts below 640px."
+      },
+      "clause-lead": {
+        "displayName": "Clause Lead",
+        "purpose": "The clause that holds the blanks (.voice-clause, optical sizing auto); 1.1875rem on a 2rem line below 1024px."
+      },
+      "clause": {
+        "displayName": "Clause",
+        "purpose": "Every other clause, 52 to 62ch, on 0.85 of the clause line; 1.125rem below 1024px. Its § head runs in at 600."
+      },
+      "subclause": {
+        "displayName": "Sub-clause",
+        "purpose": "Numbered sub-clauses (4.1), number at 600; 1.0625rem below 1024px."
+      },
+      "lede": {
+        "displayName": "Lede",
+        "purpose": "The plain sentence under a headline, in ink-soft, 40 to 48ch; 1.0625rem below 1024px."
+      },
+      "gloss": {
+        "displayName": "Gloss",
+        "purpose": "The head of VestWise's margin note; the sentence after it is 400 in ink-soft."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Figure, annex, year and signature labels; 1rem for ruler and payout labels; 500 for letterhead links and the margin figure's label."
+      },
+      "button": {
+        "displayName": "Button",
+        "purpose": "Label of the 2.75rem button."
+      },
+      "button-lg": {
+        "displayName": "Button Large",
+        "purpose": "Label of the 3.5rem button on signature lines."
+      },
+      "blank": {
+        "displayName": "Blank",
+        "purpose": "The agreement's fill-in fields, sized from their clause (0.9em)."
+      },
+      "caption": {
+        "displayName": "Caption",
+        "purpose": "Signature captions, yearly details and footer links."
+      },
+      "fine": {
+        "displayName": "Fine",
+        "purpose": "Disclaimers and footnotes."
+      },
+      "micro": {
+        "displayName": "Micro",
+        "purpose": "Exhibit labels and ruler ticks; the Today tag and the exhibit's marker titles at 700."
+      },
+      "wordmark": {
+        "displayName": "Wordmark",
+        "purpose": "VestWise after a 0.42em by 0.95em mark bar, 0.45em apart; 1.3125rem in the letterhead, 1.0625rem in the running head, 1.125rem in the footer."
+      }
+    },
+    "shadows": [
+      {
+        "name": "blank-rule",
+        "value": "inset 0 -2px 0 var(--ink)",
+        "purpose": "Not elevation: a blank's underline, drawn inside its box so it can thicken without moving the text. The only box-shadow in the system."
+      },
+      {
+        "name": "blank-rule-hover",
+        "value": "inset 0 -4px 0 var(--ink)",
+        "purpose": "A blank's underline on fine-pointer hover."
+      },
+      {
+        "name": "blank-rule-focus",
+        "value": "inset 0 -3px 0 var(--mark-ink)",
+        "purpose": "A focused blank's underline, over its mark field."
+      },
+      {
+        "name": "blank-rule-invalid",
+        "value": "inset 0 -2px 0 var(--ink-muted)",
+        "purpose": "An invalid blank's underline, with a 2px line-through on the text."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-out",
+        "value": "cubic-bezier(0.23, 1, 0.32, 1)",
+        "purpose": "--ease-out: every state change, entrance and figure roll."
+      },
+      {
+        "name": "ease-in-out",
+        "value": "cubic-bezier(0.77, 0, 0.175, 1)",
+        "purpose": "--ease-in-out: drawing, for the letterhead rule and the exhibit's vested wipe."
+      },
+      {
+        "name": "ease-marker",
+        "value": "cubic-bezier(0.65, 0, 0.35, 1)",
+        "purpose": "--ease-marker: the highlighter's load sweep only."
+      },
+      {
+        "name": "duration-press",
+        "value": "120ms",
+        "purpose": "Button press to scale(0.97); a text link's underline thickening to 2px."
+      },
+      {
+        "name": "duration-state",
+        "value": "140ms",
+        "purpose": "Blank background, underline and color; tickbox fill; ruler thumb widening to scaleX(1.6)."
+      },
+      {
+        "name": "duration-button",
+        "value": "160ms",
+        "purpose": "Button colors and the arrow's 3px nudge."
+      },
+      {
+        "name": "mark-sweep-load",
+        "value": "560ms var(--ease-marker), delay set per mark",
+        "purpose": "Highlighter copy clip-path from inset(0 100% 0 0) to inset(0 0 0 0) on load (headline word at 850ms, key figure at 1000ms)."
+      },
+      {
+        "name": "mark-sweep-scroll",
+        "value": "linear; animation-timeline: view(); animation-range: entry 70% cover 42%",
+        "purpose": "The same sweep, linked to reading the marked words."
+      },
+      {
+        "name": "read-focus",
+        "value": "linear; animation-timeline: view(); animation-range: cover 5% cover 95%",
+        "purpose": "A clause's color from ink-muted to ink (35% to 65%) and back as it crosses the viewport."
+      },
+      {
+        "name": "redline-strike",
+        "value": "linear; animation-timeline: view(); animation-range: entry 60% cover 40%",
+        "purpose": "The redline bar from scaleX(0) to scaleX(1), from the left."
+      },
+      {
+        "name": "roll-edit",
+        "value": "460ms var(--ease-out), 18ms cascade from the units up",
+        "purpose": "Every computed figure when its value changes; interruptible while typing."
+      },
+      {
+        "name": "roll-intro",
+        "value": "1200ms var(--ease-out), 70ms stagger left to right, from 900ms",
+        "purpose": "The key figure rolling up from zeros on load."
+      },
+      {
+        "name": "rule-draw",
+        "value": "1000ms var(--ease-in-out)",
+        "purpose": "The letterhead rule drawing from the left (scaleX) on load."
+      },
+      {
+        "name": "line-up",
+        "value": "900ms var(--ease-out), at 120ms and 220ms",
+        "purpose": "From 1024px, each display line rises from translateY(104%) inside its own clip."
+      },
+      {
+        "name": "fade-up",
+        "value": "800ms var(--ease-out)",
+        "purpose": "From opacity 0.6 and 0.75rem below: lede, clause, margin and signature line at 350ms to 560ms; below 1024px the whole display at 150ms."
+      },
+      {
+        "name": "appear",
+        "value": "600ms var(--ease-out), at 100ms and 250ms",
+        "purpose": "Letterhead wordmark and links, opacity from 0, on load."
+      },
+      {
+        "name": "running-head",
+        "value": "260ms in, 180ms out, var(--ease-out)",
+        "purpose": "translateY(-100%) to 0 once the opening part has scrolled away; no transition under reduced motion."
+      },
+      {
+        "name": "exhibit-draw",
+        "value": "past 1100ms var(--ease-in-out); future 700ms after 900ms; flag 400ms fade and 500ms move after 1000ms",
+        "purpose": "Once, when 40% of the exhibit is in view; drawn from the start under reduced motion."
+      },
+      {
+        "name": "gate-reduced-motion",
+        "value": "@media (prefers-reduced-motion: no-preference)",
+        "purpose": "Wraps every entrance, sweep, roll, draw and smooth scroll; the resting CSS is the finished state."
+      },
+      {
+        "name": "gate-scroll-timeline",
+        "value": "@supports (animation-timeline: view())",
+        "purpose": "Wraps the scroll-linked sweep, strike and reading focus."
+      },
+      {
+        "name": "gate-hover",
+        "value": "@media (hover: hover) and (pointer: fine)",
+        "purpose": "Wraps hover effects."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "sm",
+        "value": "640px",
+        "purpose": "Gutters to 2rem, three yearly columns, larger ruler readouts, the running head's sentence."
+      },
+      {
+        "name": "md",
+        "value": "768px",
+        "purpose": "Letterhead links, two signature columns, the footer row."
+      },
+      {
+        "name": "lg",
+        "value": "1024px",
+        "purpose": "12-column grid, --line to 2.5rem, gutters to 3rem, composed display lines."
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-mark",
+      "description": "Open the app: a square mark field with a heavy label and an arrow. Hover inverts to ink with a paper label and nudges the arrow; a press scales to 0.97. Large (3.5rem) on signature lines.",
+      "html": "<div class=\"ds-row\"><a class=\"ds-btn ds-btn-mark\" href=\"#\">Open the app <svg class=\"ds-btn-arrow\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.25\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 12h14\"/><path d=\"m12 5 7 7-7 7\"/></svg></a><a class=\"ds-btn ds-btn-mark ds-btn-lg\" href=\"#\">Open the app <svg class=\"ds-btn-arrow\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.25\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 12h14\"/><path d=\"m12 5 7 7-7 7\"/></svg></a></div>",
+      "css": ".ds-row{display:flex;flex-wrap:wrap;align-items:center;gap:1.5rem;} .ds-btn{display:inline-flex;align-items:center;justify-content:center;gap:0.6em;height:2.75rem;padding:0 1.25rem;font-family:var(--font-sans, 'Archivo Variable', ui-sans-serif, system-ui, sans-serif);font-weight:700;font-stretch:108%;font-size:0.9375rem;white-space:nowrap;text-decoration:none;border:0;border-radius:0;cursor:pointer;transition:background-color 160ms var(--ease-out, cubic-bezier(0.23, 1, 0.32, 1)),color 160ms var(--ease-out, cubic-bezier(0.23, 1, 0.32, 1)),transform 120ms var(--ease-out, cubic-bezier(0.23, 1, 0.32, 1));} .ds-btn:active{transform:scale(0.97);} .ds-btn:focus-visible{outline:2px solid var(--ink, oklch(0.205 0.008 270));outline-offset:3px;} .ds-btn-mark{background:var(--mark, oklch(0.925 0.19 104));color:var(--mark-ink, oklch(0.205 0.008 270));} .ds-btn-lg{height:3.5rem;padding:0 1.75rem;font-size:1.0625rem;} .ds-btn-arrow{width:1.1em;height:1.1em;flex:none;transition:transform 160ms var(--ease-out, cubic-bezier(0.23, 1, 0.32, 1));} @media (hover:hover) and (pointer:fine){.ds-btn-mark:hover{background:var(--ink, oklch(0.205 0.008 270));color:var(--paper, oklch(0.975 0.004 106));}.ds-btn:hover .ds-btn-arrow{transform:translateX(3px);}}"
+    },
+    {
+      "name": "Ink Button",
+      "kind": "button",
+      "refersTo": "button-ink",
+      "description": "The button variant for an action placed on a highlighter field: mark-ink field, mark label, inverting to paper and ink on hover. Defined in the code (tone=\"ink\"); the current page places none. Focus on the field takes the field's mark-ink ring.",
+      "html": "<div class=\"ds-field-demo\"><a class=\"ds-btn ds-btn-ink\" href=\"#\">Open the app <svg class=\"ds-btn-arrow\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.25\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 12h14\"/><path d=\"m12 5 7 7-7 7\"/></svg></a></div>",
+      "css": ".ds-btn{display:inline-flex;align-items:center;justify-content:center;gap:0.6em;height:2.75rem;padding:0 1.25rem;font-family:var(--font-sans, 'Archivo Variable', ui-sans-serif, system-ui, sans-serif);font-weight:700;font-stretch:108%;font-size:0.9375rem;white-space:nowrap;text-decoration:none;border:0;border-radius:0;cursor:pointer;transition:background-color 160ms var(--ease-out, cubic-bezier(0.23, 1, 0.32, 1)),color 160ms var(--ease-out, cubic-bezier(0.23, 1, 0.32, 1)),transform 120ms var(--ease-out, cubic-bezier(0.23, 1, 0.32, 1));} .ds-btn:active{transform:scale(0.97);} .ds-btn:focus-visible{outline:2px solid var(--ink, oklch(0.205 0.008 270));outline-offset:3px;} .ds-btn-mark{background:var(--mark, oklch(0.925 0.19 104));color:var(--mark-ink, oklch(0.205 0.008 270));} .ds-btn-lg{height:3.5rem;padding:0 1.75rem;font-size:1.0625rem;} .ds-btn-arrow{width:1.1em;height:1.1em;flex:none;transition:transform 160ms var(--ease-out, cubic-bezier(0.23, 1, 0.32, 1));} @media (hover:hover) and (pointer:fine){.ds-btn-mark:hover{background:var(--ink, oklch(0.205 0.008 270));color:var(--paper, oklch(0.975 0.004 106));}.ds-btn:hover .ds-btn-arrow{transform:translateX(3px);}} .ds-field-demo{background:var(--mark, oklch(0.925 0.19 104));color:var(--mark-ink, oklch(0.205 0.008 270));padding:2rem 1.25rem;} .ds-btn-ink{background:var(--mark-ink, oklch(0.205 0.008 270));color:var(--mark, oklch(0.925 0.19 104));} .ds-field-demo .ds-btn:focus-visible{outline-color:var(--mark-ink, oklch(0.205 0.008 270));outline-offset:4px;} @media (hover:hover) and (pointer:fine){.ds-btn-ink:hover{background:var(--paper, oklch(0.975 0.004 106));color:var(--ink, oklch(0.205 0.008 270));}}"
+    },
+    {
+      "name": "Blank",
+      "kind": "input",
+      "refersTo": "blank",
+      "description": "The agreement's fill-in fields, set into a serif clause: Archivo 650 at 106% width over a 2px inset underline. Hover thickens the underline to 4px; focus turns the blank into a highlighter field; an invalid entry strikes through with an ink-muted underline. The third blank shows the invalid state.",
+      "html": "<p class=\"ds-clause\"><span class=\"ds-clause-head\">§ 1 Grant</span> <span class=\"ds-aside\">(sample terms).</span> The Company grants the Participant <input class=\"ds-blank\" type=\"text\" inputmode=\"numeric\" aria-label=\"Number of virtual shares\" value=\"10,000\" style=\"width:calc(6ch + 0.5em)\"> Virtual Shares. The Virtual Shares vest <span class=\"ds-select-wrap\"><select class=\"ds-blank ds-blank-select\" aria-label=\"Vesting schedule\" style=\"width:calc(7ch + 1.5em)\"><option>monthly</option><option>quarterly</option><option>yearly</option></select><svg class=\"ds-chevron\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.25\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"m6 9 6 6 6-6\"/></svg></span> over <input class=\"ds-blank\" type=\"text\" inputmode=\"numeric\" aria-label=\"Vesting period in months\" value=\"48\" style=\"width:calc(2ch + 0.5em)\"> months, after a Cliff of <input class=\"ds-blank\" type=\"text\" inputmode=\"numeric\" aria-label=\"Cliff in months\" aria-invalid=\"true\" value=\"12.5\" style=\"width:calc(4ch + 0.5em)\"> months.</p>",
+      "css": ".ds-clause{font-family:var(--font-serif, 'Source Serif 4 Variable', ui-serif, Georgia, serif);font-optical-sizing:auto;font-weight:400;font-size:1.625rem;line-height:2.5rem;color:var(--ink, oklch(0.205 0.008 270));max-width:62ch;margin:0;text-wrap:pretty;} .ds-clause-head{font-weight:600;} .ds-aside{color:var(--ink-muted, oklch(0.52 0.008 270));} .ds-blank{box-sizing:border-box;display:inline-block;font-family:var(--font-sans, 'Archivo Variable', ui-sans-serif, system-ui, sans-serif);font-weight:650;font-stretch:106%;font-size:0.9em;font-variant-numeric:tabular-nums lining-nums;line-height:1.25;color:var(--ink, oklch(0.205 0.008 270));background:transparent;border:0;border-radius:0;padding:0 0.2em;margin:0 0.06em;text-align:center;box-shadow:inset 0 -2px 0 var(--ink, oklch(0.205 0.008 270));transition:background-color 140ms var(--ease-out, cubic-bezier(0.23, 1, 0.32, 1)),box-shadow 140ms var(--ease-out, cubic-bezier(0.23, 1, 0.32, 1)),color 140ms var(--ease-out, cubic-bezier(0.23, 1, 0.32, 1));} .ds-blank:focus{outline:none;background:var(--mark, oklch(0.925 0.19 104));color:var(--mark-ink, oklch(0.205 0.008 270));box-shadow:inset 0 -3px 0 var(--mark-ink, oklch(0.205 0.008 270));} .ds-blank:focus-visible{outline:2px solid var(--ink, oklch(0.205 0.008 270));outline-offset:2px;} .ds-blank[aria-invalid=\"true\"]{box-shadow:inset 0 -2px 0 var(--ink-muted, oklch(0.52 0.008 270));text-decoration:line-through;text-decoration-thickness:2px;} @media (hover:hover) and (pointer:fine){.ds-blank:hover:not(:focus){box-shadow:inset 0 -4px 0 var(--ink, oklch(0.205 0.008 270));}} .ds-select-wrap{position:relative;display:inline-block;} .ds-blank-select{appearance:none;-webkit-appearance:none;cursor:pointer;padding-right:1.05em;text-align:left;} .ds-blank-select option{font-family:var(--font-sans, 'Archivo Variable', ui-sans-serif, system-ui, sans-serif);background:var(--paper, oklch(0.975 0.004 106));color:var(--ink, oklch(0.205 0.008 270));} .ds-chevron{position:absolute;top:50%;right:0.3em;width:0.6em;height:0.6em;transform:translateY(-40%);pointer-events:none;color:var(--ink, oklch(0.205 0.008 270));} .ds-blank:focus + .ds-chevron{color:var(--mark-ink, oklch(0.205 0.008 270));}"
+    },
+    {
+      "name": "Tickbox",
+      "kind": "input",
+      "refersTo": "tickbox",
+      "description": "A 1.25rem square with a 1.5px ink border; checked, it fills with the mark and shows a mark-ink check (stroke 3).",
+      "html": "<label class=\"ds-tick-label\"><span class=\"ds-tick-wrap\"><input type=\"checkbox\" class=\"ds-tickbox\" checked><svg class=\"ds-tick-check\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"3\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M20 6 9 17l-5-5\"/></svg></span><span>Add a sample refresh grant <span class=\"ds-soft\">(5,000 shares from January 2026)</span></span></label>",
+      "css": ".ds-tick-label{display:flex;align-items:center;gap:0.75rem;cursor:pointer;font-family:var(--font-sans, 'Archivo Variable', ui-sans-serif, system-ui, sans-serif);font-size:0.9375rem;color:var(--ink, oklch(0.205 0.008 270));} .ds-tick-wrap{position:relative;display:grid;place-items:center;} .ds-tickbox{box-sizing:border-box;appearance:none;-webkit-appearance:none;display:grid;place-content:center;width:1.25rem;height:1.25rem;margin:0;border:1.5px solid var(--ink, oklch(0.205 0.008 270));border-radius:0;background:transparent;cursor:pointer;flex:none;transition:background-color 140ms var(--ease-out, cubic-bezier(0.23, 1, 0.32, 1));} .ds-tickbox:checked{background:var(--mark, oklch(0.925 0.19 104));border-color:var(--mark-ink, oklch(0.205 0.008 270));} .ds-tickbox:focus-visible{outline:2px solid var(--ink, oklch(0.205 0.008 270));outline-offset:3px;} .ds-tick-check{position:absolute;width:0.875rem;height:0.875rem;color:var(--mark-ink, oklch(0.205 0.008 270));pointer-events:none;} .ds-tickbox:not(:checked) + .ds-tick-check{display:none;} .ds-soft{color:var(--ink-soft, oklch(0.4 0.008 270));}"
+    },
+    {
+      "name": "Letterhead",
+      "kind": "nav",
+      "refersTo": "letterhead",
+      "description": "The page's letterhead: wordmark left; links (from 768px) and the primary button right; a full-width 1px ink rule below that draws in on load. Links show their underline only on hover.",
+      "html": "<header class=\"ds-letterhead\"><div class=\"ds-lh-row\"><a class=\"ds-wordmark ds-lh-wordmark\" href=\"#\" aria-label=\"VestWise, home\"><span class=\"ds-wordmark-bar\" aria-hidden=\"true\"></span>VestWise</a><nav class=\"ds-lh-nav\" aria-label=\"Primary\"><ul class=\"ds-lh-links\"><li><a class=\"ds-lh-link\" href=\"#\">Vesting</a></li><li><a class=\"ds-lh-link\" href=\"#\">Exit</a></li><li><a class=\"ds-lh-link\" href=\"#\">Privacy</a></li><li><a class=\"ds-lh-link\" href=\"#\">GitHub <svg class=\"ds-lh-ext\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M7 7h10v10\"/><path d=\"M7 17 17 7\"/></svg></a></li></ul><a class=\"ds-btn ds-btn-mark\" href=\"#\">Open the app <svg class=\"ds-btn-arrow\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.25\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 12h14\"/><path d=\"m12 5 7 7-7 7\"/></svg></a></nav></div><div class=\"ds-lh-rule\" aria-hidden=\"true\"></div></header>",
+      "css": ".ds-btn{display:inline-flex;align-items:center;justify-content:center;gap:0.6em;height:2.75rem;padding:0 1.25rem;font-family:var(--font-sans, 'Archivo Variable', ui-sans-serif, system-ui, sans-serif);font-weight:700;font-stretch:108%;font-size:0.9375rem;white-space:nowrap;text-decoration:none;border:0;border-radius:0;cursor:pointer;transition:background-color 160ms var(--ease-out, cubic-bezier(0.23, 1, 0.32, 1)),color 160ms var(--ease-out, cubic-bezier(0.23, 1, 0.32, 1)),transform 120ms var(--ease-out, cubic-bezier(0.23, 1, 0.32, 1));} .ds-btn:active{transform:scale(0.97);} .ds-btn:focus-visible{outline:2px solid var(--ink, oklch(0.205 0.008 270));outline-offset:3px;} .ds-btn-mark{background:var(--mark, oklch(0.925 0.19 104));color:var(--mark-ink, oklch(0.205 0.008 270));} .ds-btn-lg{height:3.5rem;padding:0 1.75rem;font-size:1.0625rem;} .ds-btn-arrow{width:1.1em;height:1.1em;flex:none;transition:transform 160ms var(--ease-out, cubic-bezier(0.23, 1, 0.32, 1));} @media (hover:hover) and (pointer:fine){.ds-btn-mark:hover{background:var(--ink, oklch(0.205 0.008 270));color:var(--paper, oklch(0.975 0.004 106));}.ds-btn:hover .ds-btn-arrow{transform:translateX(3px);}} .ds-wordmark{display:inline-flex;align-items:center;gap:0.45em;font-family:var(--font-sans, 'Archivo Variable', ui-sans-serif, system-ui, sans-serif);font-weight:800;font-stretch:112%;letter-spacing:-0.02em;color:var(--ink, oklch(0.205 0.008 270));text-decoration:none;} .ds-wordmark-bar{display:inline-block;width:0.42em;height:0.95em;background:var(--mark, oklch(0.925 0.19 104));} .ds-letterhead{font-family:var(--font-sans, 'Archivo Variable', ui-sans-serif, system-ui, sans-serif);color:var(--ink, oklch(0.205 0.008 270));} .ds-lh-row{display:flex;height:4rem;align-items:center;justify-content:space-between;gap:1.5rem;} @media (min-width:1024px){.ds-lh-row{height:4.5rem;}} .ds-lh-wordmark{font-size:1.3125rem;} .ds-lh-nav{display:flex;align-items:center;gap:1.75rem;} .ds-lh-links{display:flex;align-items:center;gap:1.75rem;margin:0;padding:0;list-style:none;font-size:0.9375rem;font-weight:500;} @media (max-width:767px){.ds-lh-links{display:none;}} .ds-lh-link{display:inline-flex;align-items:center;gap:0.25rem;color:inherit;text-decoration-line:underline;text-decoration-color:transparent;text-decoration-thickness:1px;text-underline-offset:0.22em;transition:text-decoration-thickness 120ms var(--ease-out, cubic-bezier(0.23, 1, 0.32, 1));} .ds-lh-link:focus-visible{outline:2px solid var(--ink, oklch(0.205 0.008 270));outline-offset:3px;} @media (hover:hover) and (pointer:fine){.ds-lh-link:hover{text-decoration-color:currentColor;text-decoration-thickness:2px;}} .ds-lh-ext{width:1rem;height:1rem;} .ds-lh-rule{height:1px;background:var(--ink, oklch(0.205 0.008 270));transform-origin:left center;} @media (prefers-reduced-motion:no-preference){.ds-lh-rule{animation:ds-rule-draw 1000ms var(--ease-in-out, cubic-bezier(0.77, 0, 0.175, 1)) both;}} @keyframes ds-rule-draw{from{transform:scaleX(0);}to{transform:scaleX(1);}}"
+    },
+    {
+      "name": "Running Head",
+      "kind": "nav",
+      "refersTo": "running-head",
+      "description": "The document's running head, carrying the reader's own figure. In the page it is fixed to the top and slides in (260ms) once the opening part has scrolled away; shown here at rest.",
+      "html": "<div class=\"ds-running-head\"><div class=\"ds-rh-row\"><a class=\"ds-wordmark ds-rh-wordmark\" href=\"#\" aria-label=\"VestWise, home\"><span class=\"ds-wordmark-bar\" aria-hidden=\"true\"></span>VestWise</a><p class=\"ds-rh-text\">Your 10,000 shares: <span class=\"ds-rh-figure\">€16,875</span> vested today</p><a class=\"ds-btn ds-btn-mark ds-btn-rh\" href=\"#\">Open the app <svg class=\"ds-btn-arrow\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.25\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 12h14\"/><path d=\"m12 5 7 7-7 7\"/></svg></a></div></div>",
+      "css": ".ds-btn{display:inline-flex;align-items:center;justify-content:center;gap:0.6em;height:2.75rem;padding:0 1.25rem;font-family:var(--font-sans, 'Archivo Variable', ui-sans-serif, system-ui, sans-serif);font-weight:700;font-stretch:108%;font-size:0.9375rem;white-space:nowrap;text-decoration:none;border:0;border-radius:0;cursor:pointer;transition:background-color 160ms var(--ease-out, cubic-bezier(0.23, 1, 0.32, 1)),color 160ms var(--ease-out, cubic-bezier(0.23, 1, 0.32, 1)),transform 120ms var(--ease-out, cubic-bezier(0.23, 1, 0.32, 1));} .ds-btn:active{transform:scale(0.97);} .ds-btn:focus-visible{outline:2px solid var(--ink, oklch(0.205 0.008 270));outline-offset:3px;} .ds-btn-mark{background:var(--mark, oklch(0.925 0.19 104));color:var(--mark-ink, oklch(0.205 0.008 270));} .ds-btn-lg{height:3.5rem;padding:0 1.75rem;font-size:1.0625rem;} .ds-btn-arrow{width:1.1em;height:1.1em;flex:none;transition:transform 160ms var(--ease-out, cubic-bezier(0.23, 1, 0.32, 1));} @media (hover:hover) and (pointer:fine){.ds-btn-mark:hover{background:var(--ink, oklch(0.205 0.008 270));color:var(--paper, oklch(0.975 0.004 106));}.ds-btn:hover .ds-btn-arrow{transform:translateX(3px);}} .ds-wordmark{display:inline-flex;align-items:center;gap:0.45em;font-family:var(--font-sans, 'Archivo Variable', ui-sans-serif, system-ui, sans-serif);font-weight:800;font-stretch:112%;letter-spacing:-0.02em;color:var(--ink, oklch(0.205 0.008 270));text-decoration:none;} .ds-wordmark-bar{display:inline-block;width:0.42em;height:0.95em;background:var(--mark, oklch(0.925 0.19 104));} .ds-running-head{background:var(--paper, oklch(0.975 0.004 106));border-bottom:1px solid var(--ink, oklch(0.205 0.008 270));font-family:var(--font-sans, 'Archivo Variable', ui-sans-serif, system-ui, sans-serif);} .ds-rh-row{display:flex;height:3.5rem;align-items:center;justify-content:space-between;gap:1rem;padding:0 1.25rem;} .ds-rh-wordmark{font-size:1.0625rem;} .ds-rh-text{display:none;margin:0;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:0.9375rem;color:var(--ink-soft, oklch(0.4 0.008 270));} @media (min-width:640px){.ds-rh-text{display:block;}} .ds-rh-figure{font-weight:700;color:var(--ink, oklch(0.205 0.008 270));font-variant-numeric:tabular-nums lining-nums;} .ds-btn-rh{height:2.5rem;}"
+    },
+    {
+      "name": "Highlighter Mark",
+      "kind": "custom",
+      "refersTo": "mark",
+      "description": "One flat, full-strength field behind the words that matter: a highlighted copy laid over the base words and swept open with clip-path. Shown with a load sweep on a headline's one word and a scroll-linked sweep on a phrase in a lede.",
+      "html": "<h2 class=\"ds-display\">Your agreement counts shares. VestWise counts <span class=\"ds-mark\">euros.<span class=\"ds-mark-fill\" data-sweep=\"load\" style=\"--d:300ms\" aria-hidden=\"true\">euros.</span></span></h2><p class=\"ds-lede\">VestWise draws the schedule for every grant you hold, marks <span class=\"ds-mark\">where you are today<span class=\"ds-mark-fill\" data-sweep=\"scroll\" aria-hidden=\"true\">where you are today</span></span>, and adds up what vests in each calendar year.</p>",
+      "css": ".ds-display{font-family:var(--font-sans, 'Archivo Variable', ui-sans-serif, system-ui, sans-serif);font-weight:800;font-stretch:112%;letter-spacing:-0.03em;line-height:0.96;text-wrap:balance;font-size:clamp(2.5rem,5vw,4.5rem);color:var(--ink, oklch(0.205 0.008 270));margin:0;} .ds-lede{font-family:var(--font-sans, 'Archivo Variable', ui-sans-serif, system-ui, sans-serif);font-size:1.1875rem;line-height:1.625;color:var(--ink-soft, oklch(0.4 0.008 270));max-width:48ch;margin:1.5rem 0 0;text-wrap:pretty;} .ds-mark{position:relative;display:inline-block;white-space:nowrap;padding-inline:0.07em;margin-inline:-0.07em 0;} .ds-mark-fill{position:absolute;inset:0;padding-inline:0.07em;background:var(--mark, oklch(0.925 0.19 104));color:var(--mark-ink, oklch(0.205 0.008 270));clip-path:inset(0 0 0 0);user-select:none;pointer-events:none;} @media (prefers-reduced-motion:no-preference){.ds-mark-fill[data-sweep=\"load\"]{animation:ds-mark-sweep 560ms var(--ease-marker, cubic-bezier(0.65, 0, 0.35, 1)) both;animation-delay:var(--d,0ms);}@supports (animation-timeline:view()){.ds-mark-fill[data-sweep=\"scroll\"]{animation:ds-mark-sweep linear both;animation-timeline:view();animation-range:entry 70% cover 42%;}}} @keyframes ds-mark-sweep{from{clip-path:inset(0 100% 0 0);}to{clip-path:inset(0 0 0 0);}}"
+    },
+    {
+      "name": "Margin Figure",
+      "kind": "custom",
+      "refersTo": "mark",
+      "description": "The margin annotation beside a clause: label, the key figure under the highlighter in rolling digits, a short note, a ruled link to a second figure, and a footnote. Hover stands in for an edit: the digits roll to a new value with the edit timing (460ms, 18ms cascade from the units).",
+      "html": "<aside class=\"ds-margin\" aria-label=\"What these terms are worth\"><p class=\"ds-margin-label\">Net value vested today</p><p class=\"ds-figure-lead\"><span class=\"ds-mark\"><span class=\"ds-roll\"><span class=\"ds-sr\">€16,875</span><span class=\"ds-roll-char\" aria-hidden=\"true\">€</span><span class=\"ds-roll-slot\" aria-hidden=\"true\"><span class=\"ds-roll-strip\" style=\"--digit:1;--alt:1;--roll-delay:72ms\"><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span></span></span><span class=\"ds-roll-slot\" aria-hidden=\"true\"><span class=\"ds-roll-strip\" style=\"--digit:6;--alt:8;--roll-delay:54ms\"><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span></span></span><span class=\"ds-roll-char\" aria-hidden=\"true\">,</span><span class=\"ds-roll-slot\" aria-hidden=\"true\"><span class=\"ds-roll-strip\" style=\"--digit:8;--alt:7;--roll-delay:36ms\"><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span></span></span><span class=\"ds-roll-slot\" aria-hidden=\"true\"><span class=\"ds-roll-strip\" style=\"--digit:7;--alt:5;--roll-delay:18ms\"><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span></span></span><span class=\"ds-roll-slot\" aria-hidden=\"true\"><span class=\"ds-roll-strip\" style=\"--digit:5;--alt:0;--roll-delay:0ms\"><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span></span></span></span><span class=\"ds-mark-fill\" data-sweep=\"load\" style=\"--d:300ms\" aria-hidden=\"true\"><span class=\"ds-roll\"><span class=\"ds-sr\">€16,875</span><span class=\"ds-roll-char\" aria-hidden=\"true\">€</span><span class=\"ds-roll-slot\" aria-hidden=\"true\"><span class=\"ds-roll-strip\" style=\"--digit:1;--alt:1;--roll-delay:72ms\"><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span></span></span><span class=\"ds-roll-slot\" aria-hidden=\"true\"><span class=\"ds-roll-strip\" style=\"--digit:6;--alt:8;--roll-delay:54ms\"><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span></span></span><span class=\"ds-roll-char\" aria-hidden=\"true\">,</span><span class=\"ds-roll-slot\" aria-hidden=\"true\"><span class=\"ds-roll-strip\" style=\"--digit:8;--alt:7;--roll-delay:36ms\"><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span></span></span><span class=\"ds-roll-slot\" aria-hidden=\"true\"><span class=\"ds-roll-strip\" style=\"--digit:7;--alt:5;--roll-delay:18ms\"><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span></span></span><span class=\"ds-roll-slot\" aria-hidden=\"true\"><span class=\"ds-roll-strip\" style=\"--digit:5;--alt:0;--roll-delay:0ms\"><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span></span></span></span></span></span></p><p class=\"ds-margin-note\"><b>5,625</b> of 10,000 shares. Fully vested July 2028.</p><a class=\"ds-margin-link\" href=\"#\"><span class=\"ds-figure\">€88,000</span><span class=\"ds-margin-caption\">at a 3.0× exit, after 20% dilution <svg class=\"ds-margin-arrow\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M12 5v14\"/><path d=\"m19 12-7 7-7-7\"/></svg></span></a><p class=\"ds-margin-fine\">Net value is the value of the shares minus the strike price, before tax.</p></aside>",
+      "css": ".ds-margin{border-left:1px solid var(--ink, oklch(0.205 0.008 270));padding-left:2.5rem;max-width:24rem;font-family:var(--font-sans, 'Archivo Variable', ui-sans-serif, system-ui, sans-serif);color:var(--ink, oklch(0.205 0.008 270));} .ds-margin-label{margin:0;font-size:0.9375rem;font-weight:500;} .ds-figure-lead{margin:0.75rem 0 0;font-family:var(--font-sans, 'Archivo Variable', ui-sans-serif, system-ui, sans-serif);font-weight:800;font-stretch:112%;letter-spacing:-0.03em;line-height:1;font-variant-numeric:tabular-nums lining-nums;font-size:clamp(3rem,5.2vw,4.75rem);} .ds-margin:hover .ds-roll-strip{transform:translateY(calc(var(--alt,0) * -1em));} .ds-margin-note{margin:1rem 0 0;max-width:34ch;font-size:0.9375rem;line-height:1.375;color:var(--ink-soft, oklch(0.4 0.008 270));} .ds-margin-note b{font-weight:600;color:var(--ink, oklch(0.205 0.008 270));font-variant-numeric:tabular-nums lining-nums;} .ds-margin-link{display:block;margin-top:var(--line, 2rem);border-top:1px solid var(--ink, oklch(0.205 0.008 270));padding-top:1rem;color:inherit;text-decoration:none;} .ds-margin-link:focus-visible{outline:2px solid var(--ink, oklch(0.205 0.008 270));outline-offset:3px;} .ds-figure{display:block;font-family:var(--font-sans, 'Archivo Variable', ui-sans-serif, system-ui, sans-serif);font-weight:800;font-stretch:112%;letter-spacing:-0.03em;line-height:1;font-variant-numeric:tabular-nums lining-nums;font-size:2rem;} .ds-margin-caption{display:flex;align-items:center;gap:0.375rem;margin-top:0.375rem;font-size:0.9375rem;line-height:1.375;color:var(--ink-soft, oklch(0.4 0.008 270));} .ds-margin-arrow{width:1rem;height:1rem;color:var(--ink, oklch(0.205 0.008 270));transition:transform 150ms var(--ease-out, cubic-bezier(0.23, 1, 0.32, 1));} @media (hover:hover){.ds-margin-link:hover .ds-margin-arrow{transform:translateY(0.125rem);}} .ds-margin-fine{margin:var(--line, 2rem) 0 0;font-size:0.8125rem;line-height:1.375;color:var(--ink-muted, oklch(0.52 0.008 270));} .ds-mark{position:relative;display:inline-block;white-space:nowrap;padding-inline:0.07em;margin-inline:-0.07em 0;} .ds-mark-fill{position:absolute;inset:0;padding-inline:0.07em;background:var(--mark, oklch(0.925 0.19 104));color:var(--mark-ink, oklch(0.205 0.008 270));clip-path:inset(0 0 0 0);user-select:none;pointer-events:none;} @media (prefers-reduced-motion:no-preference){.ds-mark-fill[data-sweep=\"load\"]{animation:ds-mark-sweep 560ms var(--ease-marker, cubic-bezier(0.65, 0, 0.35, 1)) both;animation-delay:var(--d,0ms);}@supports (animation-timeline:view()){.ds-mark-fill[data-sweep=\"scroll\"]{animation:ds-mark-sweep linear both;animation-timeline:view();animation-range:entry 70% cover 42%;}}} @keyframes ds-mark-sweep{from{clip-path:inset(0 100% 0 0);}to{clip-path:inset(0 0 0 0);}} .ds-roll{display:inline-flex;white-space:nowrap;} .ds-roll-slot{display:inline-block;height:1em;overflow:hidden;} .ds-roll-strip{display:flex;flex-direction:column;transform:translateY(calc(var(--digit,0) * -1em));} .ds-roll-strip>span{display:block;height:1em;line-height:1;} .ds-roll-char{display:inline-block;height:1em;line-height:1;} @media (prefers-reduced-motion:no-preference){.ds-roll-strip{transition:transform 460ms var(--ease-out, cubic-bezier(0.23, 1, 0.32, 1));transition-delay:var(--roll-delay,0ms);}} .ds-sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0;}"
+    },
+    {
+      "name": "Highlighter Field",
+      "kind": "custom",
+      "refersTo": "highlighter-field",
+      "description": "A whole part set on the mark, everything in mark-ink: the clause, a ruler (range input drawn as a ruler on a log scale), a ledger with a 2px rule above the total, and the payout as an inverse block. Selection inverts on the field. At night the page holds the field to the 1320px sheet.",
+      "html": "<section class=\"ds-field\"><p class=\"ds-field-clause\"><span class=\"ds-clause-head\">§ 3 Exit.</span> On an Exit, the Company pays the Participant, for each vested Virtual Share, the price per share at the Exit minus the Strike Price.</p><div class=\"ds-field-grid\"><div class=\"ds-ruler-group\"><div class=\"ds-ruler-head\"><label for=\"ds-ruler-multiple\" class=\"ds-ruler-label\">Company valuation at the exit</label><output for=\"ds-ruler-multiple\" class=\"ds-ruler-out\">3.0× today</output></div><input id=\"ds-ruler-multiple\" type=\"range\" class=\"ds-ruler\" min=\"0\" max=\"1000\" step=\"1\" value=\"486\" aria-valuetext=\"3.0× today's valuation\"><div class=\"ds-ticks\" aria-hidden=\"true\"><span class=\"ds-tick\" style=\"left:calc(0.3125rem + 0 * (100% - 0.625rem))\"><span class=\"ds-tick-mark\"></span><span class=\"ds-tick-label\">0.5×</span></span><span class=\"ds-tick\" style=\"left:calc(0.3125rem + 0.1879 * (100% - 0.625rem))\"><span class=\"ds-tick-mark\"></span><span class=\"ds-tick-label\">1×</span></span><span class=\"ds-tick\" style=\"left:calc(0.3125rem + 0.3758 * (100% - 0.625rem))\"><span class=\"ds-tick-mark\"></span><span class=\"ds-tick-label\">2×</span></span><span class=\"ds-tick\" style=\"left:calc(0.3125rem + 0.4857 * (100% - 0.625rem))\"><span class=\"ds-tick-mark\"></span><span class=\"ds-tick-label\">3×</span></span><span class=\"ds-tick\" style=\"left:calc(0.3125rem + 0.6242 * (100% - 0.625rem))\"><span class=\"ds-tick-mark\"></span><span class=\"ds-tick-label\">5×</span></span><span class=\"ds-tick\" style=\"left:calc(0.3125rem + 0.8121 * (100% - 0.625rem))\"><span class=\"ds-tick-mark\"></span><span class=\"ds-tick-label\">10×</span></span><span class=\"ds-tick\" style=\"left:calc(0.3125rem + 1 * (100% - 0.625rem))\"><span class=\"ds-tick-mark\"></span><span class=\"ds-tick-label\">20×</span></span></div></div><dl class=\"ds-ledger\"><div class=\"ds-ledger-row\"><dt>Your 10,000 shares at 3.0× today's value</dt><dd>€120,000</dd></div><div class=\"ds-ledger-row\"><dt>Minus the strike price</dt><dd>−€10,000</dd></div><div class=\"ds-ledger-row\"><dt>Minus dilution of 20%</dt><dd>−€22,000</dd></div><div class=\"ds-ledger-total\"><dt>Net payout</dt><dd><span class=\"ds-payout\">€88,000</span><p class=\"ds-payout-note\">€58,000 more than the €30,000 the grant is worth today.</p></dd></div></dl></div></section>",
+      "css": ".ds-field{background:var(--mark, oklch(0.925 0.19 104));color:var(--mark-ink, oklch(0.205 0.008 270));padding:calc(var(--line, 2rem) * 2.5) 1.25rem;font-family:var(--font-sans, 'Archivo Variable', ui-sans-serif, system-ui, sans-serif);} @media (min-width:1024px){.ds-field{padding:calc(var(--line, 2rem) * 3) 3rem;}} .ds-field ::selection{background:var(--mark-ink, oklch(0.205 0.008 270));color:var(--mark, oklch(0.925 0.19 104));} .ds-field-clause{font-family:var(--font-serif, 'Source Serif 4 Variable', ui-serif, Georgia, serif);font-optical-sizing:auto;font-weight:400;font-size:1.3125rem;line-height:calc(var(--line, 2rem) * 0.85);max-width:62ch;margin:0;} .ds-clause-head{font-weight:600;} .ds-field-grid{display:grid;gap:calc(var(--line, 2rem) * 1.25);margin-top:calc(var(--line, 2rem) * 1.25);} @media (min-width:1024px){.ds-field-grid{grid-template-columns:1fr 1fr;column-gap:3rem;}.ds-ledger{border-left:1px solid var(--mark-ink, oklch(0.205 0.008 270));padding-left:2.5rem;}} .ds-ruler-head{display:flex;align-items:baseline;justify-content:space-between;gap:1rem;} .ds-ruler-label{font-size:1rem;font-weight:600;} .ds-ruler-out{font-family:var(--font-sans, 'Archivo Variable', ui-sans-serif, system-ui, sans-serif);font-weight:800;font-stretch:112%;letter-spacing:-0.03em;line-height:1;font-variant-numeric:tabular-nums lining-nums;font-size:1.375rem;white-space:nowrap;flex-shrink:0;} @media (min-width:640px){.ds-ruler-out{font-size:1.75rem;}} .ds-ruler{appearance:none;-webkit-appearance:none;display:block;width:100%;height:2.75rem;margin:0.5rem 0 0;background:transparent;cursor:ew-resize;} .ds-ruler:focus-visible{outline:2px solid var(--mark-ink, oklch(0.205 0.008 270));outline-offset:4px;} .ds-ruler::-webkit-slider-runnable-track{height:2px;background:var(--mark-ink, oklch(0.205 0.008 270));} .ds-ruler::-moz-range-track{height:2px;background:var(--mark-ink, oklch(0.205 0.008 270));} .ds-ruler::-webkit-slider-thumb{-webkit-appearance:none;width:0.625rem;height:2.25rem;margin-top:calc(-1.125rem + 1px);background:var(--mark-ink, oklch(0.205 0.008 270));border:0;border-radius:0;transition:transform 140ms var(--ease-out, cubic-bezier(0.23, 1, 0.32, 1));} .ds-ruler::-moz-range-thumb{width:0.625rem;height:2.25rem;background:var(--mark-ink, oklch(0.205 0.008 270));border:0;border-radius:0;transition:transform 140ms var(--ease-out, cubic-bezier(0.23, 1, 0.32, 1));} .ds-ruler:active::-webkit-slider-thumb{transform:scaleX(1.6);} .ds-ruler:active::-moz-range-thumb{transform:scaleX(1.6);} .ds-ticks{position:relative;height:2.25rem;} .ds-tick{position:absolute;top:0;display:flex;flex-direction:column;align-items:center;transform:translateX(-50%);} .ds-tick-mark{width:1px;height:0.5rem;background:var(--mark-ink, oklch(0.205 0.008 270));} .ds-tick-label{margin-top:0.25rem;font-size:0.75rem;font-variant-numeric:tabular-nums lining-nums;} .ds-ledger{margin:0;font-size:1.0625rem;font-variant-numeric:tabular-nums lining-nums;} .ds-ledger dt,.ds-ledger dd{margin:0;} .ds-ledger-row{display:flex;align-items:baseline;justify-content:space-between;gap:1.5rem;border-top:1px solid var(--mark-ink, oklch(0.205 0.008 270));padding:0.75rem 0;} .ds-ledger-row dd{flex-shrink:0;font-weight:600;} .ds-ledger-total{margin-top:1rem;border-top:2px solid var(--mark-ink, oklch(0.205 0.008 270));padding-top:1.25rem;} .ds-ledger-total dt{font-size:1rem;font-weight:600;} .ds-ledger-total dd{margin-top:0.75rem;} .ds-payout{display:inline-block;background:var(--mark-ink, oklch(0.205 0.008 270));color:var(--mark, oklch(0.925 0.19 104));padding:0.08em 0.12em;font-family:var(--font-sans, 'Archivo Variable', ui-sans-serif, system-ui, sans-serif);font-weight:800;font-stretch:112%;letter-spacing:-0.03em;line-height:1;font-variant-numeric:tabular-nums lining-nums;font-size:clamp(3rem,6vw,5.25rem);} .ds-payout-note{margin:1rem 0 0;font-size:0.9375rem;}"
+    },
+    {
+      "name": "Signature Line",
+      "kind": "custom",
+      "refersTo": "signature-line",
+      "description": "Every agreement ends with its signatures: a 4.25rem row resting on a 1px ink line, a label above and a caption below. The other party's line holds a muted serif placeholder; the reader's line holds the large primary button.",
+      "html": "<div class=\"ds-sigs\"><div><p class=\"ds-sig-label\">For the Company</p><div class=\"ds-sig-line ds-sig-line-company\"><span class=\"ds-sig-placeholder\">Signed when you joined</span></div><p class=\"ds-sig-caption\">Your employer</p></div><div><p class=\"ds-sig-label\">The Participant</p><div class=\"ds-sig-line\"><a class=\"ds-btn ds-btn-mark ds-btn-lg\" href=\"#\">Open the app <svg class=\"ds-btn-arrow\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.25\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 12h14\"/><path d=\"m12 5 7 7-7 7\"/></svg></a></div><p class=\"ds-sig-caption\">You. Free, and no sign-up.</p></div></div>",
+      "css": ".ds-btn{display:inline-flex;align-items:center;justify-content:center;gap:0.6em;height:2.75rem;padding:0 1.25rem;font-family:var(--font-sans, 'Archivo Variable', ui-sans-serif, system-ui, sans-serif);font-weight:700;font-stretch:108%;font-size:0.9375rem;white-space:nowrap;text-decoration:none;border:0;border-radius:0;cursor:pointer;transition:background-color 160ms var(--ease-out, cubic-bezier(0.23, 1, 0.32, 1)),color 160ms var(--ease-out, cubic-bezier(0.23, 1, 0.32, 1)),transform 120ms var(--ease-out, cubic-bezier(0.23, 1, 0.32, 1));} .ds-btn:active{transform:scale(0.97);} .ds-btn:focus-visible{outline:2px solid var(--ink, oklch(0.205 0.008 270));outline-offset:3px;} .ds-btn-mark{background:var(--mark, oklch(0.925 0.19 104));color:var(--mark-ink, oklch(0.205 0.008 270));} .ds-btn-lg{height:3.5rem;padding:0 1.75rem;font-size:1.0625rem;} .ds-btn-arrow{width:1.1em;height:1.1em;flex:none;transition:transform 160ms var(--ease-out, cubic-bezier(0.23, 1, 0.32, 1));} @media (hover:hover) and (pointer:fine){.ds-btn-mark:hover{background:var(--ink, oklch(0.205 0.008 270));color:var(--paper, oklch(0.975 0.004 106));}.ds-btn:hover .ds-btn-arrow{transform:translateX(3px);}} .ds-sigs{display:grid;gap:calc(var(--line, 2rem) * 1.25) 4rem;font-family:var(--font-sans, 'Archivo Variable', ui-sans-serif, system-ui, sans-serif);color:var(--ink, oklch(0.205 0.008 270));} @media (min-width:768px){.ds-sigs{grid-template-columns:1fr 1fr;}} .ds-sig-label{margin:0;font-size:0.9375rem;font-weight:600;} .ds-sig-line{box-sizing:border-box;display:flex;align-items:flex-end;height:4.25rem;margin-top:1rem;padding-bottom:0.5rem;border-bottom:1px solid var(--ink, oklch(0.205 0.008 270));} .ds-sig-line-company{padding-bottom:0.75rem;} .ds-sig-placeholder{font-family:var(--font-serif, 'Source Serif 4 Variable', ui-serif, Georgia, serif);font-optical-sizing:auto;font-weight:400;font-size:1.25rem;color:var(--ink-muted, oklch(0.52 0.008 270));} .ds-sig-caption{margin:0.5rem 0 0;font-size:0.875rem;color:var(--ink-soft, oklch(0.4 0.008 270));}"
+    },
+    {
+      "name": "Exhibit",
+      "kind": "custom",
+      "refersTo": "today-flag",
+      "description": "Annex A: the vesting schedule drawn as an exhibit (sample grant: 10,000 shares, monthly over 48 months, 12-month cliff). Vested shares in solid ink to today, the rest as a 7% ink wash under a 1.5px step line, dashed cliff and fully vested markers, and a 4px mark flag for Today; a yearly ledger below. In the page it draws once when 40% is in view; here it draws on load.",
+      "html": "<figure class=\"ds-ex-figure\"><figcaption class=\"ds-ex-caption\">Annex A. Vesting schedule</figcaption><div class=\"ds-exhibit\" aria-hidden=\"true\"><svg class=\"ds-ex-layer\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 220\" preserveAspectRatio=\"none\"><line x1=\"0\" x2=\"640\" y1=\"40.0\" y2=\"40.0\" class=\"ds-ex-grid\"/><line x1=\"0\" x2=\"640\" y1=\"113.0\" y2=\"113.0\" class=\"ds-ex-grid\"/><line x1=\"168.9\" x2=\"168.9\" y1=\"22\" y2=\"186\" class=\"ds-ex-dash\"/><line x1=\"603.5\" x2=\"603.5\" y1=\"22\" y2=\"186\" class=\"ds-ex-dash\"/><line x1=\"97.2\" x2=\"97.2\" y1=\"186\" y2=\"193\" class=\"ds-ex-tick\"/><line x1=\"241.9\" x2=\"241.9\" y1=\"186\" y2=\"193\" class=\"ds-ex-tick\"/><line x1=\"386.6\" x2=\"386.6\" y1=\"186\" y2=\"193\" class=\"ds-ex-tick\"/><line x1=\"531.4\" x2=\"531.4\" y1=\"186\" y2=\"193\" class=\"ds-ex-tick\"/></svg><div class=\"ds-ex-future\" style=\"clip-path:inset(0 0 0 55.51%)\"><svg class=\"ds-ex-layer\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 220\" preserveAspectRatio=\"none\"><path d=\"M0.0,186.0L168.9,186.0L168.9,149.5L181.2,149.5L181.2,146.5L193.5,146.5L193.5,143.4L205.4,143.4L205.4,140.4L217.7,140.4L217.7,137.3L229.6,137.3L229.6,134.3L241.9,134.3L241.9,131.3L254.2,131.3L254.2,128.2L265.3,128.2L265.3,125.2L277.6,125.2L277.6,122.1L289.5,122.1L289.5,119.1L301.8,119.1L301.8,116.0L313.7,116.0L313.7,113.0L325.9,113.0L325.9,110.0L338.2,110.0L338.2,106.9L350.1,106.9L350.1,103.9L362.4,103.9L362.4,100.8L374.3,100.8L374.3,97.8L386.6,97.8L386.6,94.8L398.9,94.8L398.9,91.7L410.0,91.7L410.0,88.7L422.3,88.7L422.3,85.6L434.2,85.6L434.2,82.6L446.5,82.6L446.5,79.5L458.4,79.5L458.4,76.5L470.7,76.5L470.7,73.5L483.0,73.5L483.0,70.4L494.9,70.4L494.9,67.4L507.2,67.4L507.2,64.3L519.1,64.3L519.1,61.3L531.4,61.3L531.4,58.3L543.7,58.3L543.7,55.2L555.2,55.2L555.2,52.2L567.4,52.2L567.4,49.1L579.3,49.1L579.3,46.1L591.6,46.1L591.6,43.0L603.5,43.0L603.5,40.0L640.0,40.0L640.0,186.0L0.0,186.0Z\" class=\"ds-ex-wash\"/><path d=\"M0.0,186.0L168.9,186.0L168.9,149.5L181.2,149.5L181.2,146.5L193.5,146.5L193.5,143.4L205.4,143.4L205.4,140.4L217.7,140.4L217.7,137.3L229.6,137.3L229.6,134.3L241.9,134.3L241.9,131.3L254.2,131.3L254.2,128.2L265.3,128.2L265.3,125.2L277.6,125.2L277.6,122.1L289.5,122.1L289.5,119.1L301.8,119.1L301.8,116.0L313.7,116.0L313.7,113.0L325.9,113.0L325.9,110.0L338.2,110.0L338.2,106.9L350.1,106.9L350.1,103.9L362.4,103.9L362.4,100.8L374.3,100.8L374.3,97.8L386.6,97.8L386.6,94.8L398.9,94.8L398.9,91.7L410.0,91.7L410.0,88.7L422.3,88.7L422.3,85.6L434.2,85.6L434.2,82.6L446.5,82.6L446.5,79.5L458.4,79.5L458.4,76.5L470.7,76.5L470.7,73.5L483.0,73.5L483.0,70.4L494.9,70.4L494.9,67.4L507.2,67.4L507.2,64.3L519.1,64.3L519.1,61.3L531.4,61.3L531.4,58.3L543.7,58.3L543.7,55.2L555.2,55.2L555.2,52.2L567.4,52.2L567.4,49.1L579.3,49.1L579.3,46.1L591.6,46.1L591.6,43.0L603.5,43.0L603.5,40.0L640.0,40.0\" class=\"ds-ex-step\"/></svg></div><div class=\"ds-ex-past\" style=\"clip-path:inset(0 44.49% 0 0)\"><svg class=\"ds-ex-layer\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 220\" preserveAspectRatio=\"none\"><path d=\"M0.0,186.0L168.9,186.0L168.9,149.5L181.2,149.5L181.2,146.5L193.5,146.5L193.5,143.4L205.4,143.4L205.4,140.4L217.7,140.4L217.7,137.3L229.6,137.3L229.6,134.3L241.9,134.3L241.9,131.3L254.2,131.3L254.2,128.2L265.3,128.2L265.3,125.2L277.6,125.2L277.6,122.1L289.5,122.1L289.5,119.1L301.8,119.1L301.8,116.0L313.7,116.0L313.7,113.0L325.9,113.0L325.9,110.0L338.2,110.0L338.2,106.9L350.1,106.9L350.1,103.9L362.4,103.9L362.4,100.8L374.3,100.8L374.3,97.8L386.6,97.8L386.6,94.8L398.9,94.8L398.9,91.7L410.0,91.7L410.0,88.7L422.3,88.7L422.3,85.6L434.2,85.6L434.2,82.6L446.5,82.6L446.5,79.5L458.4,79.5L458.4,76.5L470.7,76.5L470.7,73.5L483.0,73.5L483.0,70.4L494.9,70.4L494.9,67.4L507.2,67.4L507.2,64.3L519.1,64.3L519.1,61.3L531.4,61.3L531.4,58.3L543.7,58.3L543.7,55.2L555.2,55.2L555.2,52.2L567.4,52.2L567.4,49.1L579.3,49.1L579.3,46.1L591.6,46.1L591.6,43.0L603.5,43.0L603.5,40.0L640.0,40.0L640.0,186.0L0.0,186.0Z\" class=\"ds-ex-vested\"/></svg></div><svg class=\"ds-ex-layer\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 220\" preserveAspectRatio=\"none\"><line x1=\"0\" x2=\"640\" y1=\"186\" y2=\"186\" class=\"ds-ex-base\"/></svg><span class=\"ds-ex-total\" style=\"top:18.18%\">10,000</span><span class=\"ds-ex-label\" style=\"left:26.39%;top:18.18%\"><b>Cliff</b> <span>Jul 2025</span></span><span class=\"ds-ex-label ds-ex-label-end\" style=\"left:94.30%;top:18.18%\"><b>Fully vested</b> <span>Jul 2028</span></span><span class=\"ds-ex-year\" style=\"left:15.18%;top:89.09%\">2025</span><span class=\"ds-ex-year\" style=\"left:37.80%;top:89.09%\">2026</span><span class=\"ds-ex-year\" style=\"left:60.41%;top:89.09%\">2027</span><span class=\"ds-ex-year\" style=\"left:83.03%;top:89.09%\">2028</span><div class=\"ds-ex-flag\" style=\"left:55.51%;bottom:15.45%\"><span class=\"ds-ex-tag\">Today</span></div></div><ul class=\"ds-ex-years\" aria-label=\"Shares vesting per calendar year\"><li><p class=\"ds-ex-year-label\">2025</p><p class=\"ds-ex-year-figure\">3,542</p><p class=\"ds-ex-year-detail\">shares, €10,625 net</p></li><li><p class=\"ds-ex-year-label\"><span class=\"ds-mark\">2026, this year<span class=\"ds-mark-fill\" data-sweep=\"none\" aria-hidden=\"true\">2026, this year</span></span></p><p class=\"ds-ex-year-figure\">2,500</p><p class=\"ds-ex-year-detail\">shares, €7,500 net</p></li><li><p class=\"ds-ex-year-label\">2027</p><p class=\"ds-ex-year-figure\">2,500</p><p class=\"ds-ex-year-detail\">shares, €7,500 net</p></li><li><p class=\"ds-ex-year-label\">2028</p><p class=\"ds-ex-year-figure\">1,458</p><p class=\"ds-ex-year-detail\">shares, €4,375 net</p></li></ul></figure>",
+      "css": ".ds-ex-figure{margin:0;font-family:var(--font-sans, 'Archivo Variable', ui-sans-serif, system-ui, sans-serif);color:var(--ink, oklch(0.205 0.008 270));} .ds-ex-caption{font-size:0.9375rem;font-weight:600;} .ds-exhibit{position:relative;width:100%;aspect-ratio:640 / 220;margin-top:1.5rem;user-select:none;} .ds-ex-layer{position:absolute;inset:0;width:100%;height:100%;overflow:visible;} .ds-ex-future,.ds-ex-past{position:absolute;inset:0;} .ds-ex-grid{stroke:var(--hairline, oklch(0.87 0.004 270));stroke-width:1;vector-effect:non-scaling-stroke;} .ds-ex-dash{stroke:var(--ink, oklch(0.205 0.008 270));stroke-width:1;stroke-dasharray:3 4;vector-effect:non-scaling-stroke;} .ds-ex-tick,.ds-ex-base{stroke:var(--ink, oklch(0.205 0.008 270));stroke-width:1;vector-effect:non-scaling-stroke;} .ds-ex-wash{fill:var(--ink, oklch(0.205 0.008 270));fill-opacity:0.07;} .ds-ex-step{fill:none;stroke:var(--ink, oklch(0.205 0.008 270));stroke-width:1.5;vector-effect:non-scaling-stroke;} .ds-ex-vested{fill:var(--ink, oklch(0.205 0.008 270));} .ds-ex-total{position:absolute;left:0;transform:translateY(-100%);padding-bottom:0.25rem;font-size:0.75rem;color:var(--ink-muted, oklch(0.52 0.008 270));font-variant-numeric:tabular-nums lining-nums;} .ds-ex-label{position:absolute;transform:translateY(-100%);padding:0 0 0.375rem 0.5rem;font-size:0.75rem;line-height:1.25;white-space:nowrap;} .ds-ex-label b{font-weight:700;} .ds-ex-label span{color:var(--ink-soft, oklch(0.4 0.008 270));} .ds-ex-label-end{transform:translate(-100%,-100%);padding:0 0.5rem 0.375rem 0;text-align:right;} .ds-ex-year{position:absolute;transform:translateX(-50%);font-size:0.75rem;color:var(--ink-soft, oklch(0.4 0.008 270));font-variant-numeric:tabular-nums lining-nums;} .ds-ex-flag{position:absolute;top:0;width:0.25rem;transform:translateX(-50%);background:var(--mark, oklch(0.925 0.19 104));} .ds-ex-tag{position:absolute;top:0;left:0;background:var(--mark, oklch(0.925 0.19 104));color:var(--mark-ink, oklch(0.205 0.008 270));padding:0.25rem 0.5rem;font-size:0.75rem;line-height:1;font-weight:700;white-space:nowrap;} @media (prefers-reduced-motion:no-preference){.ds-ex-past{animation:ds-ex-wipe 1100ms var(--ease-in-out, cubic-bezier(0.77, 0, 0.175, 1)) both;}.ds-ex-future{animation:ds-ex-fade 700ms var(--ease-out, cubic-bezier(0.23, 1, 0.32, 1)) 900ms both;}.ds-ex-flag{animation:ds-ex-fade 400ms var(--ease-out, cubic-bezier(0.23, 1, 0.32, 1)) 1000ms both,ds-ex-drop 500ms var(--ease-out, cubic-bezier(0.23, 1, 0.32, 1)) 1000ms both;}} @keyframes ds-ex-wipe{from{clip-path:inset(0 100% 0 0);}} @keyframes ds-ex-fade{from{opacity:0;}} @keyframes ds-ex-drop{from{transform:translate(-50%,-0.5rem);}} .ds-ex-years{list-style:none;margin:var(--line, 2rem) 0 0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1.5rem;} @media (min-width:640px){.ds-ex-years{grid-template-columns:repeat(3,minmax(0,1fr));}} @media (min-width:1024px){.ds-ex-years{grid-template-columns:repeat(auto-fit,minmax(8.5rem,1fr));}} .ds-ex-years li{border-top:1px solid var(--ink, oklch(0.205 0.008 270));padding-top:0.75rem;} .ds-ex-year-label{margin:0;font-size:0.9375rem;font-weight:600;} .ds-ex-year-figure{margin:0.5rem 0 0;font-family:var(--font-sans, 'Archivo Variable', ui-sans-serif, system-ui, sans-serif);font-weight:800;font-stretch:112%;letter-spacing:-0.03em;line-height:1;font-variant-numeric:tabular-nums lining-nums;font-size:1.75rem;} .ds-ex-year-detail{margin:0.25rem 0 0;font-size:0.875rem;color:var(--ink-soft, oklch(0.4 0.008 270));font-variant-numeric:tabular-nums lining-nums;} .ds-mark{position:relative;display:inline-block;white-space:nowrap;padding-inline:0.07em;margin-inline:-0.07em 0;} .ds-mark-fill{position:absolute;inset:0;padding-inline:0.07em;background:var(--mark, oklch(0.925 0.19 104));color:var(--mark-ink, oklch(0.205 0.008 270));clip-path:inset(0 0 0 0);user-select:none;pointer-events:none;} @media (prefers-reduced-motion:no-preference){.ds-mark-fill[data-sweep=\"load\"]{animation:ds-mark-sweep 560ms var(--ease-marker, cubic-bezier(0.65, 0, 0.35, 1)) both;animation-delay:var(--d,0ms);}@supports (animation-timeline:view()){.ds-mark-fill[data-sweep=\"scroll\"]{animation:ds-mark-sweep linear both;animation-timeline:view();animation-range:entry 70% cover 42%;}}} @keyframes ds-mark-sweep{from{clip-path:inset(0 100% 0 0);}to{clip-path:inset(0 0 0 0);}}"
+    },
+    {
+      "name": "Redline",
+      "kind": "custom",
+      "refersTo": "redline",
+      "description": "What the agreement says, struck through, beside what it means: the serif share count in ink-muted, crossed by an ink bar that draws left to right as it scrolls into view, then the euro figure and a caption.",
+      "html": "<p class=\"ds-redline-row\"><s class=\"ds-redline\">10,000 Virtual Shares</s><span class=\"ds-sr\">, in euros: </span><span class=\"ds-redline-figure\">€16,875</span><span class=\"ds-redline-caption\">net, vested today</span></p>",
+      "css": ".ds-redline-row{display:flex;flex-wrap:wrap;align-items:baseline;gap:0.5rem 1.25rem;margin:0;font-family:var(--font-sans, 'Archivo Variable', ui-sans-serif, system-ui, sans-serif);color:var(--ink, oklch(0.205 0.008 270));} .ds-redline{position:relative;display:inline-block;text-decoration:none;font-family:var(--font-serif, 'Source Serif 4 Variable', ui-serif, Georgia, serif);font-optical-sizing:auto;font-weight:400;font-size:clamp(1.375rem,2.6vw,2.25rem);color:var(--ink-muted, oklch(0.52 0.008 270));} .ds-redline::after{content:\"\";position:absolute;left:-0.04em;right:-0.04em;top:56%;height:max(2px,0.07em);background:var(--ink, oklch(0.205 0.008 270));transform-origin:left center;} @media (prefers-reduced-motion:no-preference){@supports (animation-timeline:view()){.ds-redline::after{animation:ds-strike linear both;animation-timeline:view();animation-range:entry 60% cover 40%;}}} @keyframes ds-strike{from{transform:scaleX(0);}to{transform:scaleX(1);}} .ds-redline-figure{font-family:var(--font-sans, 'Archivo Variable', ui-sans-serif, system-ui, sans-serif);font-weight:800;font-stretch:112%;letter-spacing:-0.03em;line-height:1;font-variant-numeric:tabular-nums lining-nums;font-size:clamp(1.625rem,3vw,2.75rem);} .ds-redline-caption{font-size:0.9375rem;color:var(--ink-soft, oklch(0.4 0.008 270));} .ds-sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0;}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Marked-Up Agreement",
+    "overview": "The page is one document: a sample VSOP grant agreement, set clause by clause in a book serif, that VestWise marks up in its own voice. The reader fills in its blanks; VestWise answers in the margin, in euros; a highlighter picks out the words that matter, a redline strikes a share count into its euro value, and the reader's signature line carries the action. Two typefaces play the two parties. Source Serif 4 is the agreement. Archivo, heavy and widened, is VestWise. Whatever the reader can change is a blank inside a sentence, and whatever VestWise computes from it is a figure in VestWise's voice; the key figures roll to their new values as the terms change.\n\nThe materials are paper, ink and one highlighter. The sheet is a near-neutral copy-paper white by day and a graphite sheet at night; the ink is a cool near-black with two receding greys; the highlighter is a fluorescent yellow that only ever appears as a flat, full-strength field. There are seven tokens per theme and nothing between them. Structure comes from 1px ink rules and whitespace measured on one vertical unit, the clause line. There are no cards, no shadows, no gradients and no rounded corners: a rule opens each part, a vertical rule divides the terms from VestWise's answer, and the highlighter, not elevation, says where to look.\n\nMotion follows reading. A surface may open with one authored sequence (the letterhead rule draws, the headline unmasks, the highlighter sweeps, the key figure rolls up from zero); after that, motion is tied to reading: the clause in view deepens to full ink, phrases are highlighted as they are read, the annex draws itself once, and the closing redline strikes through. Every animated element rests in its finished state, so reduced motion, or a browser without scroll timelines, gets the finished page.",
+    "keyCharacteristics": [
+      "One document: clauses, blanks, margin glosses, an annex, a redline and signatures.",
+      "Two voices: Source Serif 4 for the agreement, Archivo at 800 weight and 112% width for VestWise.",
+      "Paper, ink and one highlighter: seven OKLCH tokens per theme, swapped wholesale by prefers-color-scheme.",
+      "1px ink rules on a single vertical unit, the clause line (2rem, 2.5rem from 1024px); every corner square.",
+      "Computed figures only: tabular, formatted in the reader's locale, the key ones rolling digit by digit.",
+      "Flat: no cards, shadows, blur or gradients.",
+      "Motion rests in its final state and runs only under prefers-reduced-motion: no-preference."
+    ],
+    "rules": [
+      {
+        "name": "The One Highlighter Rule",
+        "body": "mark is the only chroma in the system, and at rest it is always a flat, full-strength field with mark-ink on it: never tinted, translucent, outlined, rounded or graded, never a glow or an underline stroke. When a mark moves, a clip-path wipe moves its edge; its strength never animates.",
+        "section": "colors"
+      },
+      {
+        "name": "The Mark-Ink Rule",
+        "body": "Whatever sits on yellow is mark-ink: words, figures, rules, ticks, icons, focus rings and fine print. A highlighter field has no greys. Inverting it (a mark-ink block with mark figures) is the only way to emphasise something already on the field.",
+        "section": "colors"
+      },
+      {
+        "name": "The Never Alone Rule",
+        "body": "On the day sheet the yellow is a change of hue, not of value (about 1.15:1 against paper), so it never carries meaning by itself: every mark has mark-ink words, a label or an icon on or beside it.",
+        "section": "colors"
+      },
+      {
+        "name": "The Night Sheet Rule",
+        "body": "At night the yellow is about 14:1 against the sheet, so a highlighter field is held to the sheet's measure (the 1320px frame, inside the gutters) instead of bleeding to the viewport edge.",
+        "section": "colors"
+      },
+      {
+        "name": "The Seven Tokens Rule",
+        "body": "There is no tonal scale. New work uses the seven tokens of the theme; the only derived color in the system is the exhibit's 7% ink wash for shares still to vest.",
+        "section": "colors"
+      },
+      {
+        "name": "The Two Voices Rule",
+        "body": "The agreement speaks only in Source Serif 4: clauses, § heads, sub-clauses, the struck share count, the other party's signature placeholder. It capitalises its defined terms (Virtual Shares, Strike Price, Cliff) and writes amounts as \"EUR 4.00\". VestWise speaks only in Archivo: headlines, figures, glosses, labels and controls, in plain lowercase terms and with the € sign. A blank is VestWise's voice set into the agreement's sentence.",
+        "section": "typography"
+      },
+      {
+        "name": "The Width Ladder Rule",
+        "body": "Archivo carries hierarchy on its width axis as well as its weight: 100% for running text, 106% for blanks, 108% for buttons and gloss heads, 112% for display, figures and the wordmark. Nothing is set narrower than 100% or wider than 112%, and nothing tracks tighter than -0.03em.",
+        "section": "typography"
+      },
+      {
+        "name": "The Tabular Rule",
+        "body": "Every number a reader compares or watches change is set in tabular lining figures: figures, blanks, ledger values, the exhibit's axis labels, ruler ticks and the running head's figure.",
+        "section": "typography"
+      },
+      {
+        "name": "The One Word Rule",
+        "body": "A headline highlights at most one word: the word the sentence turns on, at its end, with the full stop inside the mark (\"VSOP.\", \"euros.\"). Most headlines carry none. In running text a mark may cover a short phrase (\"where you are today\").",
+        "section": "typography"
+      },
+      {
+        "name": "The Run-in Rule",
+        "body": "§ numbers are the agreement's own structure. They run in at the start of their clause in serif 600 (\"§ 2 Vesting.\"), sub-clauses as \"4.1\"; a § number is never a label on its own line above a headline.",
+        "section": "typography"
+      },
+      {
+        "name": "The Clause Line Rule",
+        "body": "Distances between blocks and parts are multiples of --line (0.85, 1, 1.25, 1.5, 2, 2.5 or 3); the 0.25rem step is only for distances inside a block.",
+        "section": "layout"
+      },
+      {
+        "name": "The Terms Left Rule",
+        "body": "In any split the terms or the inputs sit left and VestWise's answer sits right of a 1px rule.",
+        "section": "layout"
+      },
+      {
+        "name": "The Rule, Not Shadow Rule",
+        "body": "Whatever must separate or float gets a 1px ink rule (2px above a total) and the sheet behind it; never a shadow, a blur or a second surface color.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do take every color from the seven theme tokens and let prefers-color-scheme swap the set; anything on yellow is mark-ink.",
+      "Do keep the highlighter a flat, full-strength field tight to its words (0.07em each side, overhanging left only), and move it only with a clip-path wipe.",
+      "Do highlight at most one word per headline: the word the sentence turns on, with its full stop.",
+      "Do set the agreement in Source Serif 4 and everything VestWise says, computes or offers in Archivo, and put inputs into sentences as blanks.",
+      "Do separate with 1px ink rules (2px above a total) and measure the space between blocks in clause lines (2rem; 2.5rem from 1024px).",
+      "Do keep every corner square (0px).",
+      "Do set numbers in tabular lining figures and the reader's locale, and roll the key figures digit by digit when they change (460ms, 18ms cascade).",
+      "Do write the finished state as the resting CSS, and add motion only inside prefers-reduced-motion: no-preference, scroll-linked motion only inside @supports (animation-timeline: view()), and hover only for (hover: hover) and (pointer: fine).",
+      "Do hold a highlighter field to the sheet's 1320px measure at night.",
+      "Do theme the browser's own surfaces: selection in mark (inverted on a highlighter field), the caret and the 2px focus ring in ink (mark-ink on a highlighter field), the scrollbar in ink-muted on paper, and link underlines at a 0.22em offset."
+    ],
+    "donts": [
+      "Don't use cards, shadows, blur, glass or gradients; the running head floats on paper above a rule, and nothing else floats.",
+      "Don't tint, fade, outline or round the highlighter, draw it as a partial-height marker stroke, or set grey text on it.",
+      "Don't add a second accent or a tint of ink or mark; the exhibit's 7% ink wash is the only derived color.",
+      "Don't use an em dash or an en dash in visible copy; use a colon, a comma, a full stop or parentheses, and a true minus sign (−) for a subtraction.",
+      "Don't set a § number, or any short label, on its own line above a headline; § heads run in at the start of their clause.",
+      "Don't set Archivo narrower than 100% or wider than 112%, or track it tighter than -0.03em.",
+      "Don't set anything in the figure voice that the page did not compute from its own terms: no stat rows, counts or decorative numbers.",
+      "Don't give each part its own entrance; after the one load sequence, motion belongs to reading.",
+      "Don't stand Unicode glyphs or emoji in for icons; icons are Lucide line icons at stroke 2 to 3, sized to the text (§, × and − are typography, not icons)."
+    ],
+    "extending": [
+      "Decide which part of the agreement it is. New content enters as a part the document already has: a clause with its margin annotation, sub-clauses with glosses, an annex with an exhibit and a yearly ledger, a highlighter field for a calculation, a signature block for the action. Use that part's components as written above; new clauses continue the § numbering.",
+      "Use the same sheet. The 1320px frame and gutters, the letterhead and its rule, the clause line, and from 1024px the 12-column grid with the terms left of the rule and VestWise's answer right of it.",
+      "Spend the yellow sparingly. At most one headline word, the reader's key figure, the current moment (\"Today\", \"this year\"), focus and selection, and a highlighter field only for a page's interactive answer; the landing has one.",
+      "Keep motion inside the grammar. A load sequence only where a surface opens, reading devices after it, and nothing outside the gates.",
+      "Rasters are pages of the document. The 1200 by 630 share image is set like a first viewport: the day sheet, the letterhead row and rule (wordmark left, domain right), the headline with its one highlighted word, a sample clause with blanks, and the margin figure on the highlighter, labelled as sample.",
+      "New components inherit the materials. Square corners, 1px rules, mark-ink on mark, tabular figures, 140ms to 160ms --ease-out state changes and the global focus ring."
+    ]
+  }
+}

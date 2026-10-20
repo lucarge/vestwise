@@ -9,5 +9,8 @@ export default defineConfig({
     alias: {
       "@": path.resolve(__dirname, "./src"),
     },
+    // @vestwise/brand is linked from the workspace: its hooks must see the
+    // same React as the package
+    dedupe: ["react", "react-dom"],
   },
 })

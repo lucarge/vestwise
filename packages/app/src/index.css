@@ -1,130 +1,267 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
-@import "@fontsource-variable/geist";
+@import "@vestwise/brand/brand.css";
+@source "../../brand/src";
 
-@custom-variant dark (&:is(.dark *));
+/* The theme provider sets .dark on <html>; the brand's dark values and every
+   dark: utility apply under it */
+@custom-variant dark (&:is(.dark, .dark *));
 
-@theme inline {
-    --font-heading: var(--font-sans);
-    --font-sans: 'Geist Variable', sans-serif;
-    --color-sidebar-ring: var(--sidebar-ring);
-    --color-sidebar-border: var(--sidebar-border);
-    --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-    --color-sidebar-accent: var(--sidebar-accent);
-    --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-    --color-sidebar-primary: var(--sidebar-primary);
-    --color-sidebar-foreground: var(--sidebar-foreground);
-    --color-sidebar: var(--sidebar);
-    --color-chart-5: var(--chart-5);
-    --color-chart-4: var(--chart-4);
-    --color-chart-3: var(--chart-3);
-    --color-chart-2: var(--chart-2);
-    --color-chart-1: var(--chart-1);
-    --color-ring: var(--ring);
-    --color-input: var(--input);
-    --color-border: var(--border);
-    --color-destructive: var(--destructive);
-    --color-accent-foreground: var(--accent-foreground);
-    --color-accent: var(--accent);
-    --color-muted-foreground: var(--muted-foreground);
-    --color-muted: var(--muted);
-    --color-secondary-foreground: var(--secondary-foreground);
-    --color-secondary: var(--secondary);
-    --color-primary-foreground: var(--primary-foreground);
-    --color-primary: var(--primary);
-    --color-popover-foreground: var(--popover-foreground);
-    --color-popover: var(--popover);
-    --color-card-foreground: var(--card-foreground);
-    --color-card: var(--card);
-    --color-foreground: var(--foreground);
-    --color-background: var(--background);
-    --radius-sm: calc(var(--radius) * 0.6);
-    --radius-md: calc(var(--radius) * 0.8);
-    --radius-lg: var(--radius);
-    --radius-xl: calc(var(--radius) * 1.4);
-    --radius-2xl: calc(var(--radius) * 1.8);
-    --radius-3xl: calc(var(--radius) * 2.2);
-    --radius-4xl: calc(var(--radius) * 2.6);
-}
-
+/*
+ * The app wears the landing's materials (DESIGN.md at the repo root), from
+ * @vestwise/brand: paper, ink and one highlighter, in Archivo for whatever
+ * VestWise says and Source Serif 4 for whatever the agreement says. Seven
+ * tokens per theme, swapped by the .dark class, plus two an app needs: a 7%
+ * ink wash for hover and selection, and one state colour for errors and
+ * irreversible actions. shadcn's names are bound to these tokens so every
+ * primitive follows them.
+ */
 :root {
-    --background: oklch(1 0 0);
-    --foreground: oklch(0.145 0 0);
-    --card: oklch(1 0 0);
-    --card-foreground: oklch(0.145 0 0);
-    --popover: oklch(1 0 0);
-    --popover-foreground: oklch(0.145 0 0);
-    --primary: oklch(0.205 0 0);
-    --primary-foreground: oklch(0.985 0 0);
-    --secondary: oklch(0.97 0 0);
-    --secondary-foreground: oklch(0.205 0 0);
-    --muted: oklch(0.97 0 0);
-    --muted-foreground: oklch(0.556 0 0);
-    --accent: oklch(0.97 0 0);
-    --accent-foreground: oklch(0.205 0 0);
-    --destructive: oklch(0.577 0.245 27.325);
-    --border: oklch(0.922 0 0);
-    --input: oklch(0.922 0 0);
-    --ring: oklch(0.708 0 0);
-    --chart-1: oklch(0.87 0 0);
-    --chart-2: oklch(0.556 0 0);
-    --chart-3: oklch(0.439 0 0);
-    --chart-4: oklch(0.371 0 0);
-    --chart-5: oklch(0.269 0 0);
-    --radius: 0.625rem;
-    --sidebar: oklch(0.985 0 0);
-    --sidebar-foreground: oklch(0.145 0 0);
-    --sidebar-primary: oklch(0.205 0 0);
-    --sidebar-primary-foreground: oklch(0.985 0 0);
-    --sidebar-accent: oklch(0.97 0 0);
-    --sidebar-accent-foreground: oklch(0.205 0 0);
-    --sidebar-border: oklch(0.922 0 0);
-    --sidebar-ring: oklch(0.708 0 0);
+  color-scheme: light;
+
+  --wash: color-mix(in oklch, var(--ink) 7%, var(--paper));
+  --state: oklch(0.55 0.2 27);
+
+  --background: var(--paper);
+  --foreground: var(--ink);
+  --card: var(--paper);
+  --card-foreground: var(--ink);
+  --popover: var(--paper);
+  --popover-foreground: var(--ink);
+  --primary: var(--mark);
+  --primary-foreground: var(--mark-ink);
+  --secondary: var(--mark-ink);
+  --secondary-foreground: var(--mark);
+  --muted: var(--wash);
+  --muted-foreground: var(--ink-muted);
+  --accent: var(--wash);
+  --accent-foreground: var(--ink);
+  --destructive: var(--state);
+  --border: var(--ink);
+  --input: var(--ink);
+  --ring: var(--ink);
+  --chart-1: var(--ink);
+  --chart-2: var(--ink-soft);
+  --chart-3: var(--ink-muted);
+  --chart-4: var(--hairline);
+  --chart-5: var(--mark);
+  --radius: 0rem;
+  --sidebar: var(--paper);
+  --sidebar-foreground: var(--ink);
+  --sidebar-primary: var(--mark);
+  --sidebar-primary-foreground: var(--mark-ink);
+  --sidebar-accent: var(--wash);
+  --sidebar-accent-foreground: var(--ink);
+  --sidebar-border: var(--ink);
+  --sidebar-ring: var(--ink);
 }
 
 .dark {
-    --background: oklch(0.145 0 0);
-    --foreground: oklch(0.985 0 0);
-    --card: oklch(0.205 0 0);
-    --card-foreground: oklch(0.985 0 0);
-    --popover: oklch(0.205 0 0);
-    --popover-foreground: oklch(0.985 0 0);
-    --primary: oklch(0.922 0 0);
-    --primary-foreground: oklch(0.205 0 0);
-    --secondary: oklch(0.269 0 0);
-    --secondary-foreground: oklch(0.985 0 0);
-    --muted: oklch(0.269 0 0);
-    --muted-foreground: oklch(0.708 0 0);
-    --accent: oklch(0.269 0 0);
-    --accent-foreground: oklch(0.985 0 0);
-    --destructive: oklch(0.704 0.191 22.216);
-    --border: oklch(1 0 0 / 10%);
-    --input: oklch(1 0 0 / 15%);
-    --ring: oklch(0.556 0 0);
-    --chart-1: oklch(0.87 0 0);
-    --chart-2: oklch(0.556 0 0);
-    --chart-3: oklch(0.439 0 0);
-    --chart-4: oklch(0.371 0 0);
-    --chart-5: oklch(0.269 0 0);
-    --sidebar: oklch(0.205 0 0);
-    --sidebar-foreground: oklch(0.985 0 0);
-    --sidebar-primary: oklch(0.488 0.243 264.376);
-    --sidebar-primary-foreground: oklch(0.985 0 0);
-    --sidebar-accent: oklch(0.269 0 0);
-    --sidebar-accent-foreground: oklch(0.985 0 0);
-    --sidebar-border: oklch(1 0 0 / 10%);
-    --sidebar-ring: oklch(0.556 0 0);
+  color-scheme: dark;
+
+  --state: oklch(0.7 0.19 22);
+}
+
+@theme inline {
+  --font-heading: var(--font-sans);
+
+  --color-wash: var(--wash);
+  --color-state: var(--state);
+
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-foreground: var(--foreground);
+  --color-background: var(--background);
+
+  /* Every corner is square: the whole scale derives from --radius: 0 */
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
 }
 
 @layer base {
   * {
-    @apply border-border outline-ring/50;
-    }
-  body {
-    @apply bg-background text-foreground;
-    }
+    @apply border-border;
+  }
+
   html {
-    @apply font-sans;
+    background: var(--paper);
+    scrollbar-color: var(--ink-muted) var(--paper);
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-background font-sans text-foreground;
+    font-stretch: 100%;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    caret-color: var(--ink);
+  }
+
+  ::selection {
+    background: var(--mark);
+    color: var(--mark-ink);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--ink);
+    outline-offset: 3px;
+  }
+
+  a {
+    text-underline-offset: 0.22em;
+    text-decoration-thickness: 1px;
+  }
+
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  kbd {
+    display: inline-block;
+    padding: 0 0.35em;
+    font-family: var(--font-sans);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    line-height: 1.4;
+    border: 1px solid currentColor;
+  }
+}
+
+@layer components {
+  /* --- Fields: a labeled blank, at the size of the interface -------------- */
+
+  /* A labeled field is a blank too, at the size of the interface */
+  .field-blank {
+    display: block;
+    width: 100%;
+    height: 2.25rem;
+    font-family: var(--font-sans);
+    font-weight: 650;
+    font-stretch: 106%;
+    font-size: 1rem;
+    font-variant-numeric: tabular-nums lining-nums;
+    color: var(--ink);
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+    padding: 0 0.25rem;
+    box-shadow: inset 0 -2px 0 var(--ink);
+    transition:
+      background-color 140ms var(--ease-out),
+      box-shadow 140ms var(--ease-out),
+      color 140ms var(--ease-out);
+  }
+
+  .field-blank::placeholder {
+    color: var(--ink-muted);
+    font-weight: 500;
+  }
+
+  .field-blank:focus {
+    outline: none;
+    background: var(--mark);
+    color: var(--mark-ink);
+    box-shadow: inset 0 -3px 0 var(--mark-ink);
+  }
+
+  .field-blank:focus::placeholder {
+    color: var(--mark-ink);
+    opacity: 0.6;
+  }
+
+  .field-blank:focus-visible {
+    outline: 2px solid var(--ink);
+    outline-offset: 2px;
+  }
+
+  .field-blank[aria-invalid="true"] {
+    box-shadow: inset 0 -2px 0 var(--ink-muted);
+    text-decoration: line-through;
+    text-decoration-thickness: 2px;
+  }
+
+  .field-blank:disabled {
+    color: var(--ink-muted);
+    box-shadow: inset 0 -2px 0 var(--ink-muted);
+    cursor: not-allowed;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .field-blank:hover:not(:focus):not(:disabled) {
+      box-shadow: inset 0 -4px 0 var(--ink);
     }
+  }
+
+  /* --- The highlighter field (Stock Potential) ---------------------------- */
+
+  /* On the highlighter field, selection inverts instead of vanishing, focus
+     rings use the field's own ink, and blanks keep their contrast */
+  .field ::selection {
+    background: var(--mark-ink);
+    color: var(--mark);
+  }
+
+  .field :focus-visible {
+    outline-color: var(--mark-ink);
+  }
+
+  .field .blank,
+  .field .field-blank {
+    color: var(--mark-ink);
+    box-shadow: inset 0 -2px 0 var(--mark-ink);
+  }
+
+  .field .blank:focus,
+  .field .field-blank:focus {
+    background: var(--mark-ink);
+    color: var(--mark);
+    box-shadow: inset 0 -3px 0 var(--mark);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .field .blank:hover:not(:focus),
+    .field .field-blank:hover:not(:focus) {
+      box-shadow: inset 0 -4px 0 var(--mark-ink);
+    }
+  }
 }

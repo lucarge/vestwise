@@ -1,54 +1,57 @@
-import { useState } from "react"
-import { Area, AreaChart, CartesianGrid, Line, ReferenceLine, XAxis, YAxis } from "recharts"
+import { useId, useState } from "react"
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
+  Area,
+  AreaChart,
+  CartesianGrid,
+  Line,
+  ReferenceLine,
+  XAxis,
+  YAxis,
+} from "recharts"
+import { euro, euroCompact, month, shares, shortMonth } from "@vestwise/brand"
+
+import { Part } from "@/components/brand/part"
+import {
+  ExhibitFlag,
+  ExhibitLabel,
+  PastFutureFill,
+  PastFutureStroke,
+} from "@/components/charts/exhibit"
+import {
+  EXHIBIT_ANIMATION,
+  EXHIBIT_MARGIN,
+  todayFraction,
+  yearTicks,
+} from "@/components/charts/exhibit-scale"
 import {
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-  ChartLegend,
-  ChartLegendContent,
   type ChartConfig,
 } from "@/components/ui/chart"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { formatCurrency, formatNumber } from "@/lib/format"
 import type { CumulativePoint } from "@/types/vesting"
 
 type ChartMode = "shares" | "value"
 const CHART_MODE_KEY = "vsop-cumulative-chart-mode"
 
-const baseChartConfig = {
-  totalVested: {
-    label: "Vested",
-    color: "var(--color-chart-5)",
-  },
-  totalUnvested: {
-    label: "Unvested",
-    color: "var(--color-chart-1)",
-  },
+const chartConfig = {
+  vested: { label: "Vested" },
+  appreciated: { label: "At today's valuation" },
 } satisfies ChartConfig
-
-function formatMonthYear(date: Date): string {
-  return new Intl.DateTimeFormat("en-US", {
-    month: "short",
-    year: "2-digit",
-  }).format(date)
-}
 
 interface CumulativeChartProps {
   data: CumulativePoint[]
 }
 
+// Annex A: every grant's schedule added up, drawn as the exhibit
 export function CumulativeChart({ data }: CumulativeChartProps) {
+  const id = useId().replace(/:/g, "")
   const [mode, setMode] = useState<ChartMode>(() => {
     const stored = localStorage.getItem(CHART_MODE_KEY)
     return stored === "value" ? "value" : "shares"
   })
+  const [now] = useState(Date.now)
 
   function handleModeChange(newMode: string | number) {
     const m = newMode as ChartMode
@@ -58,7 +61,8 @@ export function CumulativeChart({ data }: CumulativeChartProps) {
 
   const isValue = mode === "value"
 
-  // Check if appreciation/depreciation exceeds 10% threshold
+  // The vested value at today's valuation is worth its own line once it
+  // differs from the grant value by more than a tenth
   const lastPoint = data[data.length - 1]
   const appreciationPct =
     lastPoint?.totalAppreciatedVestedValue !== undefined &&
@@ -67,175 +71,144 @@ export function CumulativeChart({ data }: CumulativeChartProps) {
           lastPoint.totalVestedValue) *
         100
       : 0
-  const showAppreciation =
-    isValue && Math.abs(appreciationPct) > 10
-  const isPositive = appreciationPct >= 0
-  const appreciationColor = isPositive
-    ? "oklch(0.6 0.18 145)"
-    : "oklch(0.6 0.18 25)"
-
-  const chartConfig: ChartConfig = {
-    ...baseChartConfig,
-    ...(showAppreciation
-      ? {
-          appreciatedValue: {
-            label: "Current Value",
-            color: appreciationColor,
-          },
-        }
-      : {}),
-  }
+  const showAppreciation = isValue && Math.abs(appreciationPct) > 10
 
   const chartData = data.map((p) => ({
     date: p.date.getTime(),
-    totalVested: isValue ? p.totalVestedValue : p.totalVested,
-    totalUnvested: isValue ? p.totalUnvestedValue : p.totalUnvested,
-    ...(showAppreciation
-      ? { appreciatedValue: p.totalAppreciatedVestedValue }
-      : {}),
+    vested: isValue ? p.totalVestedValue : p.totalVested,
+    total: isValue
+      ? p.totalVestedValue + p.totalUnvestedValue
+      : p.totalVested + p.totalUnvested,
+    ...(showAppreciation ? { appreciated: p.totalAppreciatedVestedValue } : {}),
   }))
 
-  const [now] = useState(Date.now)
   const chartMin = chartData[0].date
   const chartMax = chartData[chartData.length - 1].date
   const showToday = now >= chartMin && now <= chartMax
-  const todayPct =
-    showToday ? `${((now - chartMin) / (chartMax - chartMin)) * 100}%` : null
+  const past = todayFraction(now, chartMin, chartMax)
+  const total = Math.max(1, ...chartData.map((p) => p.total))
+  const fullyVested = data[data.length - 1].date
+  const format = isValue ? euro : (v: number) => shares(Math.round(v))
 
   return (
-    <Card>
-      <CardHeader>
-        <div className="flex items-center justify-between">
-          <div>
-            <CardTitle>Cumulative Vesting</CardTitle>
-            <CardDescription>
-              Total vested and unvested {isValue ? "value" : "shares"} across all grants
-            </CardDescription>
-          </div>
-          <Tabs value={mode} onValueChange={handleModeChange}>
-            <TabsList>
-              <TabsTrigger value="shares">Shares</TabsTrigger>
-              <TabsTrigger value="value">Value</TabsTrigger>
-            </TabsList>
-          </Tabs>
-        </div>
-      </CardHeader>
-      <CardContent>
-        <ChartContainer config={chartConfig} className="aspect-[2/1] w-full">
-          <AreaChart data={chartData} stackOffset="none">
-            {todayPct && (
-              <defs>
-                <linearGradient id="vestedFade" x1="0" y1="0" x2="1" y2="0">
-                  <stop offset={todayPct} stopColor="var(--color-totalVested)" stopOpacity={0.6} />
-                  <stop offset={todayPct} stopColor="var(--color-totalVested)" stopOpacity={0.15} />
-                </linearGradient>
-                <linearGradient id="unvestedFade" x1="0" y1="0" x2="1" y2="0">
-                  <stop offset={todayPct} stopColor="var(--color-totalUnvested)" stopOpacity={0.3} />
-                  <stop offset={todayPct} stopColor="var(--color-totalUnvested)" stopOpacity={0.08} />
-                </linearGradient>
-                <linearGradient id="vestedStrokeFade" x1="0" y1="0" x2="1" y2="0">
-                  <stop offset={todayPct} stopColor="var(--color-totalVested)" stopOpacity={1} />
-                  <stop offset={todayPct} stopColor="var(--color-totalVested)" stopOpacity={0.3} />
-                </linearGradient>
-                <linearGradient id="unvestedStrokeFade" x1="0" y1="0" x2="1" y2="0">
-                  <stop offset={todayPct} stopColor="var(--color-totalUnvested)" stopOpacity={1} />
-                  <stop offset={todayPct} stopColor="var(--color-totalUnvested)" stopOpacity={0.3} />
-                </linearGradient>
-                {showAppreciation && (
-                  <linearGradient id="appreciatedStrokeFade" x1="0" y1="0" x2="1" y2="0">
-                    <stop offset={todayPct} stopColor={appreciationColor} stopOpacity={1} />
-                    <stop offset={todayPct} stopColor={appreciationColor} stopOpacity={0.3} />
-                  </linearGradient>
-                )}
-              </defs>
-            )}
-            <CartesianGrid vertical={false} />
-            <XAxis
-              dataKey="date"
-              type="number"
-              domain={["dataMin", "dataMax"]}
-              tickFormatter={(ts: number) => formatMonthYear(new Date(ts))}
-              tickLine={false}
-              axisLine={false}
-            />
-            <YAxis
-              tickLine={false}
-              axisLine={false}
-              width={isValue ? 80 : 60}
-              tickFormatter={(v: number) => isValue ? formatCurrency(v) : formatNumber(v)}
-            />
-            <ChartTooltip
-              content={
-                <ChartTooltipContent
-                  labelFormatter={(_, payload) => {
-                    const ts = payload?.[0]?.payload?.date as number | undefined
-                    return ts ? formatMonthYear(new Date(ts)) : ""
-                  }}
-                  formatter={(value, name) => {
-                    const v = value as number
-                    const formatted = isValue
-                      ? new Intl.NumberFormat("de-DE", {
-                          style: "currency",
-                          currency: "EUR",
-                          maximumFractionDigits: 0,
-                        }).format(v)
-                      : formatNumber(Math.round(v))
-                    const config = chartConfig[name as keyof typeof chartConfig]
-                    const isAppreciated = name === "appreciatedValue"
-                    return (
-                      <div className="flex w-full items-center justify-between gap-4">
-                        <span className="text-muted-foreground">
-                          {config?.label}
-                        </span>
-                        <span
-                          className="font-mono font-medium"
-                          style={isAppreciated ? { color: appreciationColor } : undefined}
-                        >
-                          {formatted}
-                        </span>
-                      </div>
-                    )
-                  }}
-                />
-              }
-            />
-            <ChartLegend content={<ChartLegendContent />} />
-            <Area
-              dataKey="totalVested"
-              type="stepAfter"
-              stackId="a"
-              fill={todayPct ? "url(#vestedFade)" : "var(--color-totalVested)"}
-              stroke={todayPct ? "url(#vestedStrokeFade)" : "var(--color-totalVested)"}
-              fillOpacity={todayPct ? 1 : 0.6}
-            />
-            <Area
-              dataKey="totalUnvested"
-              type="stepAfter"
-              stackId="a"
-              fill={todayPct ? "url(#unvestedFade)" : "var(--color-totalUnvested)"}
-              stroke={todayPct ? "url(#unvestedStrokeFade)" : "var(--color-totalUnvested)"}
-              fillOpacity={todayPct ? 1 : 0.3}
-            />
-            {showAppreciation && (
-              <Line
-                dataKey="appreciatedValue"
-                type="stepAfter"
-                dot={false}
-                stroke={todayPct ? "url(#appreciatedStrokeFade)" : appreciationColor}
-                strokeWidth={2}
+    <Part
+      title="Annex A. Vesting schedule"
+      description={
+        isValue
+          ? "Vested value across every grant, at the value per share of each grant."
+          : "Vested shares across every grant, instalment by instalment."
+      }
+      action={
+        <Tabs value={mode} onValueChange={handleModeChange}>
+          <TabsList aria-label="Draw the schedule in">
+            <TabsTrigger value="shares">Shares</TabsTrigger>
+            <TabsTrigger value="value">Value</TabsTrigger>
+          </TabsList>
+        </Tabs>
+      }
+    >
+      <ChartContainer
+        config={chartConfig}
+        className="aspect-[2/1] w-full select-none"
+      >
+        <AreaChart data={chartData} margin={EXHIBIT_MARGIN}>
+          <defs>
+            <PastFutureFill id={`${id}-fill`} at={past} />
+            <PastFutureStroke id={`${id}-stroke`} at={past} />
+          </defs>
+          <CartesianGrid vertical={false} />
+          <XAxis
+            dataKey="date"
+            type="number"
+            domain={["dataMin", "dataMax"]}
+            ticks={yearTicks(chartMin, chartMax)}
+            tickFormatter={(ts: number) => String(new Date(ts).getFullYear())}
+            tickSize={7}
+            tickLine={{ stroke: "var(--ink)" }}
+            axisLine={{ stroke: "var(--ink)" }}
+            tickMargin={6}
+          />
+          <YAxis
+            domain={[0, total]}
+            ticks={[total / 2, total]}
+            tickLine={false}
+            axisLine={false}
+            width={isValue ? 64 : 56}
+            tickFormatter={(v: number) =>
+              isValue ? euroCompact(v) : shares(Math.round(v))
+            }
+          />
+          <ChartTooltip
+            cursor={{ stroke: "var(--ink)", strokeDasharray: "3 4" }}
+            content={
+              <ChartTooltipContent
+                hideIndicator
+                labelFormatter={(_, payload) => {
+                  const ts = payload?.[0]?.payload?.date as number | undefined
+                  return ts ? shortMonth(new Date(ts)) : ""
+                }}
+                formatter={(value, name) => {
+                  const config = chartConfig[name as keyof typeof chartConfig]
+                  return (
+                    <div className="flex w-full items-center justify-between gap-4">
+                      <span className="text-ink-soft">{config?.label}</span>
+                      <span className="font-semibold">
+                        {format(value as number)}
+                      </span>
+                    </div>
+                  )
+                }}
               />
-            )}
-            {showToday && (
-              <ReferenceLine
-                x={now}
-                stroke="var(--color-foreground)"
-                strokeDasharray="4 4"
-                label={{ value: "Today", position: "insideTopRight", fontSize: 11, fill: "var(--color-foreground)" }}
+            }
+          />
+          <Area
+            dataKey="vested"
+            type="stepAfter"
+            fill={`url(#${id}-fill)`}
+            fillOpacity={1}
+            stroke={`url(#${id}-stroke)`}
+            strokeWidth={1.5}
+            {...EXHIBIT_ANIMATION}
+          />
+          {showAppreciation && (
+            <Line
+              dataKey="appreciated"
+              type="stepAfter"
+              dot={false}
+              stroke="var(--ink)"
+              strokeWidth={1.5}
+              strokeDasharray="5 4"
+              {...EXHIBIT_ANIMATION}
+            />
+          )}
+          <ReferenceLine
+            x={fullyVested.getTime()}
+            stroke="var(--ink)"
+            strokeDasharray="3 4"
+            label={
+              <ExhibitLabel
+                title="Fully vested"
+                detail={shortMonth(fullyVested)}
+                anchor="end"
               />
-            )}
-          </AreaChart>
-        </ChartContainer>
-      </CardContent>
-    </Card>
+            }
+          />
+          {showToday && (
+            <ReferenceLine
+              x={now}
+              stroke="var(--mark)"
+              strokeWidth={4}
+              label={<ExhibitFlag anchor={past > 0.82 ? "end" : "start"} />}
+            />
+          )}
+        </AreaChart>
+      </ChartContainer>
+      <p className="mt-3 text-[0.8125rem] leading-snug text-ink-muted">
+        Solid ink has vested; the outline is still to come, fully vested in{" "}
+        {month(fullyVested)}.
+        {showAppreciation &&
+          " The dashed line is the vested value at today's valuation."}
+      </p>
+    </Part>
   )
 }

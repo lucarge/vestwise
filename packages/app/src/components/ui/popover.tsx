@@ -17,12 +17,14 @@ function PopoverContent({
 }) {
   const dialogContainer = useDialogPortalContainer()
   return (
-    <PopoverPrimitive.Portal container={container ?? dialogContainer ?? undefined}>
+    <PopoverPrimitive.Portal
+      container={container ?? dialogContainer ?? undefined}
+    >
       <PopoverPrimitive.Positioner sideOffset={sideOffset}>
         <PopoverPrimitive.Popup
           className={cn(
-            "z-50 w-auto rounded-xl border bg-popover p-4 text-popover-foreground shadow-md outline-none data-[ending-style]:opacity-0 data-[starting-style]:opacity-0",
-            className,
+            "z-50 w-auto border border-ink bg-popover p-4 text-popover-foreground transition-opacity duration-150 ease-out outline-none data-[ending-style]:opacity-0 data-[starting-style]:opacity-0",
+            className
           )}
           {...props}
         />

@@ -1,7 +1,12 @@
 import type { ReactNode } from "react"
+import {
+  euroPrecise,
+  formatDate,
+  percentPrecise,
+  shares,
+} from "@vestwise/brand"
 
 import type { GrantTotals } from "@/hooks/use-grants"
-import { formatCurrency, formatDate, formatNumber } from "@/lib/format"
 import type { GrantWithValuation } from "@/lib/valuation"
 
 const SCHEDULE_LABELS: Record<GrantWithValuation["vestingSchedule"], string> = {
@@ -31,7 +36,6 @@ export interface ColumnDef {
   label: string
   align: "left" | "right"
   tooltip?: string
-  footerColor?: "green" | "red"
   sortValue?: (grant: GrantWithValuation) => number | string
   renderCell: (grant: GrantWithValuation) => ReactNode
   renderFooter?: (totals: ColumnTotals) => ReactNode
@@ -42,12 +46,19 @@ export interface ColumnConfig {
   visible: boolean
 }
 
+// A cell with nothing to show says so quietly
+const none = <span className="text-ink-muted">n/a</span>
+
+function months(count: number): string {
+  return count === 1 ? "1 month" : `${count} months`
+}
+
 export const COLUMN_DEFS: Record<ColumnId, ColumnDef> = {
   grantDate: {
     id: "grantDate",
-    label: "Grant Date",
+    label: "Grant date",
     align: "left",
-    tooltip: "The date the stock option grant was issued",
+    tooltip: "The date the grant was made",
     sortValue: (grant) => grant.grantDate.getTime(),
     renderCell: (grant) => formatDate(grant.grantDate),
   },
@@ -55,78 +66,75 @@ export const COLUMN_DEFS: Record<ColumnId, ColumnDef> = {
     id: "schedule",
     label: "Schedule",
     align: "left",
-    tooltip: "How often shares vest (monthly, quarterly, or yearly)",
+    tooltip: "How often shares vest: monthly, quarterly or yearly",
     sortValue: (grant) => grant.vestingSchedule,
     renderCell: (grant) => SCHEDULE_LABELS[grant.vestingSchedule],
   },
   vestingPeriod: {
     id: "vestingPeriod",
-    label: "Vesting Period",
+    label: "Vesting period",
     align: "right",
-    tooltip: "Total duration over which shares vest",
+    tooltip: "How long the shares take to vest in full",
     sortValue: (grant) => grant.vestingPeriodMonths,
-    renderCell: (grant) => `${grant.vestingPeriodMonths} mo`,
+    renderCell: (grant) => months(grant.vestingPeriodMonths),
   },
   cliff: {
     id: "cliff",
     label: "Cliff",
     align: "right",
-    tooltip: "Initial period before any shares vest",
+    tooltip: "The period before any shares vest",
     sortValue: (grant) => grant.cliffMonths,
-    renderCell: (grant) => `${grant.cliffMonths} mo`,
+    renderCell: (grant) => months(grant.cliffMonths),
   },
   shares: {
     id: "shares",
     label: "Shares",
     align: "right",
-    tooltip: "Total number of shares granted",
+    tooltip: "The number of virtual shares in the grant",
     sortValue: (grant) => grant.grantedAmount,
-    renderCell: (grant) => formatNumber(grant.grantedAmount),
-    renderFooter: (totals) => formatNumber(totals.totalGrantedAmount),
+    renderCell: (grant) => shares(grant.grantedAmount),
+    renderFooter: (totals) => shares(totals.totalGrantedAmount),
   },
   value: {
     id: "value",
     label: "Value",
     align: "right",
-    tooltip: "Total value of the granted shares",
-    footerColor: "green",
+    tooltip: "The value of the shares when the grant was made",
     sortValue: (grant) => grant.vsopsValue,
-    renderCell: (grant) => formatCurrency(grant.vsopsValue),
-    renderFooter: (totals) => formatCurrency(totals.totalVsopsValue),
+    renderCell: (grant) => euroPrecise(grant.vsopsValue),
+    renderFooter: (totals) => euroPrecise(totals.totalVsopsValue),
   },
   strikePrice: {
     id: "strikePrice",
-    label: "Strike Price",
+    label: "Strike price",
     align: "right",
     tooltip:
-      "Price per share you pay to exercise. Total in footer = strike price \u00D7 shares",
-    footerColor: "red",
+      "The price per share you pay to exercise. The total is the strike price times the shares",
     sortValue: (grant) => grant.vsopsStrikePrice,
-    renderCell: (grant) => formatCurrency(grant.vsopsStrikePrice),
-    renderFooter: (totals) => formatCurrency(totals.totalStrikeCost),
+    renderCell: (grant) => euroPrecise(grant.vsopsStrikePrice),
+    renderFooter: (totals) => euroPrecise(totals.totalStrikeCost),
   },
   netValue: {
     id: "netValue",
-    label: "Net Value",
+    label: "Net value",
     align: "right",
     tooltip:
-      "Value minus total strike cost (what you'd earn if exercised). Taxes may still apply depending on your jurisdiction and are not accounted for here",
-    footerColor: "green",
+      "Value minus the total strike price: what exercising would leave you, before tax",
     sortValue: (grant) =>
       grant.vsopsValue - grant.vsopsStrikePrice * grant.grantedAmount,
     renderCell: (grant) =>
-      formatCurrency(
-        grant.vsopsValue - grant.vsopsStrikePrice * grant.grantedAmount,
+      euroPrecise(
+        grant.vsopsValue - grant.vsopsStrikePrice * grant.grantedAmount
       ),
     renderFooter: (totals) =>
-      formatCurrency(totals.totalVsopsValue - totals.totalStrikeCost),
+      euroPrecise(totals.totalVsopsValue - totals.totalStrikeCost),
   },
   appreciation: {
     id: "appreciation",
     label: "Appreciation",
     align: "right",
     tooltip:
-      "How much the grant's value has grown based on company valuation changes",
+      "How much the company's valuation has changed since the grant was made",
     sortValue: (grant) => {
       if (!grant.applicableValuation || !grant.latestValuation) return 0
       return (
@@ -136,34 +144,32 @@ export const COLUMN_DEFS: Record<ColumnId, ColumnDef> = {
       )
     },
     renderCell: (grant) => {
-      if (!grant.applicableValuation || !grant.latestValuation) return "—"
+      if (!grant.applicableValuation || !grant.latestValuation) return none
       const pct =
         ((grant.latestValuation - grant.applicableValuation) /
           grant.applicableValuation) *
         100
-      const sign = pct >= 0 ? "+" : ""
-      const color =
-        pct >= 0
-          ? "text-emerald-600 dark:text-emerald-400"
-          : "text-red-600 dark:text-red-400"
-      return <span className={color}>{sign}{pct.toFixed(2)}%</span>
+      return `${pct >= 0 ? "+" : "−"}${percentPrecise(Math.abs(pct), 2)}`
     },
   },
   ownership: {
     id: "ownership",
     label: "Ownership",
     align: "right",
-    tooltip: "Percentage of the company represented by this grant",
+    tooltip: "The share of the company this grant represents",
     sortValue: (grant) =>
       grant.applicableValuation
         ? (grant.vsopsValue / grant.applicableValuation) * 100
         : 0,
     renderCell: (grant) =>
       grant.applicableValuation
-        ? `${((grant.vsopsValue / grant.applicableValuation) * 100).toFixed(4)}%`
-        : "—",
+        ? percentPrecise(
+            (grant.vsopsValue / grant.applicableValuation) * 100,
+            4
+          )
+        : none,
     renderFooter: (totals) =>
-      totals.totalOwnership ? `${totals.totalOwnership.toFixed(4)}%` : "—",
+      totals.totalOwnership ? percentPrecise(totals.totalOwnership, 4) : none,
   },
 }
 

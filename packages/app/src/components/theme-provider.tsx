@@ -115,6 +115,13 @@ export function ThemeProvider({
 
       root.classList.remove("light", "dark")
       root.classList.add(resolvedTheme)
+      // The browser's own chrome follows the sheet
+      document
+        .querySelector('meta[name="theme-color"]')
+        ?.setAttribute(
+          "content",
+          resolvedTheme === "dark" ? "#101114" : "#F7F7F4"
+        )
 
       if (restoreTransitions) {
         restoreTransitions()

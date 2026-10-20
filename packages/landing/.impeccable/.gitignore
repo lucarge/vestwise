@@ -1,0 +1,7 @@
+# Working files from impeccable design runs. The surface brief (surfaces/)
+# and design.json are durable design context and stay in git.
+mocks/
+questions/
+review/
+build/
+config.local.json

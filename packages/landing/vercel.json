@@ -1,6 +1,11 @@
 {
-  "ignoreCommand": "git fetch --deepen=2 && ! git diff --quiet HEAD~1 HEAD -- packages/landing/",
+  "installCommand": "cd ../.. && bun install --frozen-lockfile",
+  "buildCommand": "cd ../.. && bun run build:landing",
+  "ignoreCommand": "git fetch --deepen=2 && ! git diff --quiet HEAD~1 HEAD -- packages/landing/ packages/brand/",
   "rewrites": [
-    { "source": "/(.*)", "destination": "/index.html" }
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
   ]
 }

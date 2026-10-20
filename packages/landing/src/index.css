@@ -1,130 +1,386 @@
 @import "tailwindcss";
-@import "tw-animate-css";
-@import "shadcn/tailwind.css";
-@import "@fontsource-variable/geist";
+@import "@vestwise/brand/brand.css";
+@source "../../brand/src";
 
-@custom-variant dark (&:is(.dark *));
+/* The page follows the system's colour scheme: the brand's dark values apply
+   under this media query */
+@custom-variant dark (@media (prefers-color-scheme: dark));
 
-@theme inline {
-    --font-heading: var(--font-sans);
-    --font-sans: 'Geist Variable', sans-serif;
-    --color-sidebar-ring: var(--sidebar-ring);
-    --color-sidebar-border: var(--sidebar-border);
-    --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-    --color-sidebar-accent: var(--sidebar-accent);
-    --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-    --color-sidebar-primary: var(--sidebar-primary);
-    --color-sidebar-foreground: var(--sidebar-foreground);
-    --color-sidebar: var(--sidebar);
-    --color-chart-5: var(--chart-5);
-    --color-chart-4: var(--chart-4);
-    --color-chart-3: var(--chart-3);
-    --color-chart-2: var(--chart-2);
-    --color-chart-1: var(--chart-1);
-    --color-ring: var(--ring);
-    --color-input: var(--input);
-    --color-border: var(--border);
-    --color-destructive: var(--destructive);
-    --color-accent-foreground: var(--accent-foreground);
-    --color-accent: var(--accent);
-    --color-muted-foreground: var(--muted-foreground);
-    --color-muted: var(--muted);
-    --color-secondary-foreground: var(--secondary-foreground);
-    --color-secondary: var(--secondary);
-    --color-primary-foreground: var(--primary-foreground);
-    --color-primary: var(--primary);
-    --color-popover-foreground: var(--popover-foreground);
-    --color-popover: var(--popover);
-    --color-card-foreground: var(--card-foreground);
-    --color-card: var(--card);
-    --color-foreground: var(--foreground);
-    --color-background: var(--background);
-    --radius-sm: calc(var(--radius) * 0.6);
-    --radius-md: calc(var(--radius) * 0.8);
-    --radius-lg: var(--radius);
-    --radius-xl: calc(var(--radius) * 1.4);
-    --radius-2xl: calc(var(--radius) * 1.8);
-    --radius-3xl: calc(var(--radius) * 2.2);
-    --radius-4xl: calc(var(--radius) * 2.6);
-}
-
+/*
+ * The page is one document: a sample VSOP agreement (Source Serif 4) that
+ * VestWise annotates in the margin (Archivo). Paper, ink, and a single
+ * highlighter that only ever appears as a flat, full-strength field, all from
+ * @vestwise/brand.
+ */
 :root {
-    --background: oklch(1 0 0);
-    --foreground: oklch(0.145 0 0);
-    --card: oklch(1 0 0);
-    --card-foreground: oklch(0.145 0 0);
-    --popover: oklch(1 0 0);
-    --popover-foreground: oklch(0.145 0 0);
-    --primary: oklch(0.205 0 0);
-    --primary-foreground: oklch(0.985 0 0);
-    --secondary: oklch(0.97 0 0);
-    --secondary-foreground: oklch(0.205 0 0);
-    --muted: oklch(0.97 0 0);
-    --muted-foreground: oklch(0.556 0 0);
-    --accent: oklch(0.97 0 0);
-    --accent-foreground: oklch(0.205 0 0);
-    --destructive: oklch(0.577 0.245 27.325);
-    --border: oklch(0.922 0 0);
-    --input: oklch(0.922 0 0);
-    --ring: oklch(0.708 0 0);
-    --chart-1: oklch(0.87 0 0);
-    --chart-2: oklch(0.556 0 0);
-    --chart-3: oklch(0.439 0 0);
-    --chart-4: oklch(0.371 0 0);
-    --chart-5: oklch(0.269 0 0);
-    --radius: 0.625rem;
-    --sidebar: oklch(0.985 0 0);
-    --sidebar-foreground: oklch(0.145 0 0);
-    --sidebar-primary: oklch(0.205 0 0);
-    --sidebar-primary-foreground: oklch(0.985 0 0);
-    --sidebar-accent: oklch(0.97 0 0);
-    --sidebar-accent-foreground: oklch(0.205 0 0);
-    --sidebar-border: oklch(0.922 0 0);
-    --sidebar-ring: oklch(0.708 0 0);
-}
-
-.dark {
-    --background: oklch(0.145 0 0);
-    --foreground: oklch(0.985 0 0);
-    --card: oklch(0.205 0 0);
-    --card-foreground: oklch(0.985 0 0);
-    --popover: oklch(0.205 0 0);
-    --popover-foreground: oklch(0.985 0 0);
-    --primary: oklch(0.922 0 0);
-    --primary-foreground: oklch(0.205 0 0);
-    --secondary: oklch(0.269 0 0);
-    --secondary-foreground: oklch(0.985 0 0);
-    --muted: oklch(0.269 0 0);
-    --muted-foreground: oklch(0.708 0 0);
-    --accent: oklch(0.269 0 0);
-    --accent-foreground: oklch(0.985 0 0);
-    --destructive: oklch(0.704 0.191 22.216);
-    --border: oklch(1 0 0 / 10%);
-    --input: oklch(1 0 0 / 15%);
-    --ring: oklch(0.556 0 0);
-    --chart-1: oklch(0.87 0 0);
-    --chart-2: oklch(0.556 0 0);
-    --chart-3: oklch(0.439 0 0);
-    --chart-4: oklch(0.371 0 0);
-    --chart-5: oklch(0.269 0 0);
-    --sidebar: oklch(0.205 0 0);
-    --sidebar-foreground: oklch(0.985 0 0);
-    --sidebar-primary: oklch(0.488 0.243 264.376);
-    --sidebar-primary-foreground: oklch(0.985 0 0);
-    --sidebar-accent: oklch(0.269 0 0);
-    --sidebar-accent-foreground: oklch(0.985 0 0);
-    --sidebar-border: oklch(1 0 0 / 10%);
-    --sidebar-ring: oklch(0.556 0 0);
+  color-scheme: light dark;
 }
 
 @layer base {
-  * {
-    @apply border-border outline-ring/50;
-    }
-  body {
-    @apply bg-background text-foreground;
-    }
   html {
-    @apply font-sans;
+    background: var(--paper);
+    scrollbar-color: var(--ink-muted) var(--paper);
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    font-stretch: 100%;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    caret-color: var(--ink);
+  }
+
+  ::selection {
+    background: var(--mark);
+    color: var(--mark-ink);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--ink);
+    outline-offset: 3px;
+  }
+
+  a {
+    text-underline-offset: 0.22em;
+    text-decoration-thickness: 1px;
+  }
+
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@layer components {
+  /* --- The highlighter field (the exit calculator) --------------------- */
+
+  /* On the highlighter field, selection inverts instead of vanishing, and
+     focus rings use the field's own ink so they stay visible at night */
+  .exit-field ::selection {
+    background: var(--mark-ink);
+    color: var(--mark);
+  }
+
+  .exit-field :focus-visible {
+    outline-color: var(--mark-ink);
+  }
+
+  /* --- Redline: what the agreement says, struck through ------------------- */
+
+  .redline {
+    position: relative;
+    display: inline-block;
+    text-decoration: none;
+  }
+
+  .redline::after {
+    content: "";
+    position: absolute;
+    left: -0.04em;
+    right: -0.04em;
+    top: 56%;
+    height: max(2px, 0.07em);
+    background: var(--ink);
+    transform-origin: left center;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      .redline::after {
+        animation: strike linear both;
+        animation-timeline: view();
+        animation-range: entry 60% cover 40%;
+      }
     }
+  }
+
+  @keyframes strike {
+    from {
+      transform: scaleX(0);
+    }
+    to {
+      transform: scaleX(1);
+    }
+  }
+
+  /* --- Buttons ------------------------------------------------------------- */
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6em;
+    height: 2.75rem;
+    padding: 0 1.25rem;
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-stretch: 108%;
+    font-size: 0.9375rem;
+    white-space: nowrap;
+    text-decoration: none;
+    border-radius: 0;
+    transition:
+      background-color 160ms var(--ease-out),
+      color 160ms var(--ease-out),
+      transform 120ms var(--ease-out);
+  }
+
+  .btn:active {
+    transform: scale(0.97);
+  }
+
+  .btn-mark {
+    background: var(--mark);
+    color: var(--mark-ink);
+  }
+
+  .btn-ink {
+    background: var(--mark-ink);
+    color: var(--mark);
+  }
+
+  .btn-lg {
+    height: 3.5rem;
+    padding: 0 1.75rem;
+    font-size: 1.0625rem;
+  }
+
+  .btn .btn-arrow {
+    transition: transform 160ms var(--ease-out);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .btn-mark:hover {
+      background: var(--ink);
+      color: var(--paper);
+    }
+
+    .btn-ink:hover {
+      background: var(--paper);
+      color: var(--ink);
+    }
+
+    .btn:hover .btn-arrow {
+      transform: translateX(3px);
+    }
+  }
+
+  /* --- Tick box (refresh grant) -------------------------------------------- */
+
+  .tickbox {
+    appearance: none;
+    -webkit-appearance: none;
+    display: grid;
+    place-content: center;
+    width: 1.25rem;
+    height: 1.25rem;
+    margin: 0;
+    border: 1.5px solid var(--ink);
+    border-radius: 0;
+    background: transparent;
+    cursor: pointer;
+    flex: none;
+    transition: background-color 140ms var(--ease-out);
+  }
+
+  .tickbox:checked {
+    background: var(--mark);
+    border-color: var(--mark-ink);
+  }
+
+  /* --- Load sequence: the one authored moment ------------------------------ */
+
+  /* Headline lines are blocks on wide screens, where the line breaks are
+     composed; narrower screens let the headline wrap naturally */
+  .anim-line,
+  .anim-line > span {
+    display: inline;
+  }
+
+  @media (min-width: 1024px) {
+    .anim-line,
+    .anim-line > span {
+      display: block;
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) and (max-width: 1023px) {
+    .hero-title {
+      animation: fade-up 800ms var(--ease-out) both;
+      animation-delay: 150ms;
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) and (min-width: 1024px) {
+    .anim-line {
+      overflow: hidden;
+      padding-bottom: 0.08em;
+      margin-bottom: -0.08em;
+    }
+
+    .anim-line > span {
+      animation: line-up 900ms var(--ease-out) both;
+      animation-delay: var(--d, 0ms);
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .anim-rule {
+      transform-origin: left center;
+      animation: rule-draw 1000ms var(--ease-in-out) both;
+      animation-delay: var(--d, 0ms);
+    }
+
+    .anim-fade {
+      animation: fade-up 800ms var(--ease-out) both;
+      animation-delay: var(--d, 0ms);
+    }
+
+    .anim-appear {
+      animation: appear 600ms var(--ease-out) both;
+      animation-delay: var(--d, 0ms);
+    }
+  }
+
+  @keyframes rule-draw {
+    from {
+      transform: scaleX(0);
+    }
+    to {
+      transform: scaleX(1);
+    }
+  }
+
+  @keyframes line-up {
+    from {
+      transform: translateY(104%);
+    }
+    to {
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes fade-up {
+    from {
+      opacity: 0.6;
+      transform: translateY(0.75rem);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes appear {
+    from {
+      opacity: 0.6;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  /* --- Reading focus: the clause being read deepens to full ink ------------ */
+
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      .read-focus {
+        animation: read-focus linear both;
+        animation-timeline: view();
+        animation-range: cover 5% cover 95%;
+      }
+    }
+  }
+
+  @keyframes read-focus {
+    0% {
+      color: var(--ink-muted);
+    }
+    35%,
+    65% {
+      color: var(--ink);
+    }
+    100% {
+      color: var(--ink-muted);
+    }
+  }
+
+  /* --- Running head -------------------------------------------------------- */
+
+  .running-head {
+    transform: translateY(-100%);
+    visibility: hidden;
+    transition:
+      transform 180ms var(--ease-out),
+      visibility 0s linear 180ms;
+  }
+
+  .running-head[data-visible="true"] {
+    transform: translateY(0);
+    visibility: visible;
+    transition:
+      transform 260ms var(--ease-out),
+      visibility 0s;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .running-head,
+    .running-head[data-visible="true"] {
+      transition: none;
+    }
+  }
+
+  /* --- Exhibit (vesting schedule) ------------------------------------------ */
+
+  .exhibit-past {
+    clip-path: inset(0 var(--past-inset, 0px) 0 0);
+  }
+
+  .exhibit-future {
+    clip-path: inset(0 0 0 var(--future-inset, 0px));
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .exhibit[data-drawn="false"] .exhibit-past {
+      clip-path: inset(0 100% 0 0);
+    }
+
+    .exhibit[data-drawn="false"] .exhibit-future {
+      opacity: 0;
+    }
+
+    .exhibit[data-drawn="false"] .exhibit-flag {
+      opacity: 0;
+      transform: translateY(-0.5rem);
+    }
+
+    .exhibit .exhibit-past {
+      transition: clip-path 1100ms var(--ease-in-out);
+    }
+
+    .exhibit .exhibit-future {
+      transition: opacity 700ms var(--ease-out) 900ms;
+    }
+
+    .exhibit .exhibit-flag {
+      transition:
+        opacity 400ms var(--ease-out) 1000ms,
+        transform 500ms var(--ease-out) 1000ms;
+    }
+  }
 }

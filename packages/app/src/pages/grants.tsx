@@ -1,7 +1,8 @@
 import { useState } from "react"
 import { Link } from "react-router-dom"
-import { PlusIcon } from "lucide-react"
+import { ArrowRight } from "lucide-react"
 
+import { PageHeader } from "@/components/brand/page-header"
 import { Button } from "@/components/ui/button"
 import { GrantTable } from "@/components/grant-table"
 import { EditGrantDialog } from "@/components/edit-grant-dialog"
@@ -15,19 +16,17 @@ export function GrantsPage() {
   const [editingGrant, setEditingGrant] = useState<Grant | null>(null)
 
   return (
-    <div className="flex flex-col gap-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-xl font-semibold">Grants</h1>
-          <p className="text-sm text-muted-foreground">
-            Manage your virtual stock option grants.
-          </p>
-        </div>
-        <Button render={<Link to="/grants/new" />}>
-          <PlusIcon className="mr-1.5 size-4" />
-          Add Grant
-        </Button>
-      </div>
+    <div className="flex flex-col gap-line">
+      <PageHeader
+        title="Grants"
+        lede="Every grant you hold, with its terms and what it is worth."
+        action={
+          <Button render={<Link to="/grants/new" />}>
+            Add a grant
+            <ArrowRight data-icon="inline-end" strokeWidth={2.25} />
+          </Button>
+        }
+      />
       <GrantTable
         grants={grants}
         totals={totals}

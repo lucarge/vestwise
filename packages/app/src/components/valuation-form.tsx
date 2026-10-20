@@ -1,16 +1,19 @@
 import { useState } from "react"
-import { CalendarIcon } from "lucide-react"
-import { format } from "date-fns"
+import { ArrowRight, ChevronDown } from "lucide-react"
+import { formatDate } from "@vestwise/brand"
 
 import { Button } from "@/components/ui/button"
 import { Calendar } from "@/components/ui/calendar"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
 import {
   Tooltip,
   TooltipContent,
-  TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
 import { cn } from "@/lib/utils"
@@ -43,15 +46,27 @@ interface ValuationFormProps {
   className?: string
 }
 
-export function ValuationForm({ onAdd, initialEntry, onUpdate, className }: ValuationFormProps) {
+// A valuation is VestWise's own record, so its fields are labeled blanks
+// rather than a clause
+export function ValuationForm({
+  onAdd,
+  initialEntry,
+  onUpdate,
+  className,
+}: ValuationFormProps) {
   const isEditing = !!initialEntry
   const [form, setForm] = useState<ValuationFormData>(
-    initialEntry ? entryToFormData(initialEntry) : defaultFormData,
+    initialEntry ? entryToFormData(initialEntry) : defaultFormData
   )
-  const [errors, setErrors] = useState<Partial<Record<keyof ValuationFormData, string>>>({})
+  const [errors, setErrors] = useState<
+    Partial<Record<keyof ValuationFormData, string>>
+  >({})
   const [datePickerOpen, setDatePickerOpen] = useState(false)
 
-  function updateField<K extends keyof ValuationFormData>(key: K, value: ValuationFormData[K]) {
+  function updateField<K extends keyof ValuationFormData>(
+    key: K,
+    value: ValuationFormData[K]
+  ) {
     setForm((prev) => ({ ...prev, [key]: value }))
     if (errors[key]) {
       setErrors((prev) => {
@@ -64,15 +79,15 @@ export function ValuationForm({ onAdd, initialEntry, onUpdate, className }: Valu
 
   function validate(): Partial<Record<keyof ValuationFormData, string>> | null {
     const errs: Partial<Record<keyof ValuationFormData, string>> = {}
-    if (!form.date) errs.date = "Required"
+    if (!form.date) errs.date = "Choose the date of the valuation."
     const val = parseFloat(form.valuation)
     if (!form.valuation || isNaN(val) || val <= 0) {
-      errs.valuation = "Must be greater than 0"
+      errs.valuation = "Enter a valuation above zero."
     }
     if (form.amountRaised) {
       const raised = parseFloat(form.amountRaised)
       if (isNaN(raised) || raised <= 0) {
-        errs.amountRaised = "Must be greater than 0"
+        errs.amountRaised = "Enter an amount above zero, or leave it empty."
       }
     }
     return Object.keys(errs).length > 0 ? errs : null
@@ -106,75 +121,102 @@ export function ValuationForm({ onAdd, initialEntry, onUpdate, className }: Valu
     }
   }
 
-
-
   return (
-    <TooltipProvider>
-      <form onSubmit={handleSubmit} className={cn("grid gap-4", isEditing ? "grid-cols-1" : "grid-cols-[1fr_1fr_1fr_auto] items-end", className)}>
-        <Field label="Date" tooltip="The effective date of this valuation" error={errors.date}>
-          <Popover open={datePickerOpen} onOpenChange={setDatePickerOpen}>
-            <PopoverTrigger
-              render={
-                <Button
-                  type="button"
-                  variant="outline"
-                  className={cn(
-                    "w-full justify-start text-left font-normal",
-                    !form.date && "text-muted-foreground",
-                  )}
-                  aria-invalid={!!errors.date}
-                />
-              }
-            >
-              <CalendarIcon className="mr-1.5 size-4" />
-              {form.date ? format(form.date, "MMM d, yyyy") : "Pick a date"}
-            </PopoverTrigger>
-            <PopoverContent className="w-auto p-3">
-              <Calendar
-                mode="single"
-                captionLayout="dropdown"
-                startMonth={new Date(2010, 0)}
-                endMonth={new Date(2040, 11)}
-                selected={form.date}
-                onSelect={(date) => {
-                  updateField("date", date)
-                  setDatePickerOpen(false)
-                }}
-                autoFocus
+    <form
+      onSubmit={handleSubmit}
+      noValidate
+      className={cn(
+        "grid gap-x-8 gap-y-5",
+        isEditing
+          ? "grid-cols-1"
+          : "sm:grid-cols-2 lg:grid-cols-[1fr_1fr_1fr_auto] lg:items-end",
+        className
+      )}
+    >
+      <Field
+        label="Date"
+        tooltip="The date this valuation applies from"
+        error={errors.date}
+      >
+        <Popover open={datePickerOpen} onOpenChange={setDatePickerOpen}>
+          <PopoverTrigger
+            render={
+              <button
+                type="button"
+                className={cn(
+                  "field-blank flex cursor-pointer items-center justify-between gap-2 text-left",
+                  !form.date && "text-ink-muted"
+                )}
+                aria-invalid={!!errors.date}
               />
-            </PopoverContent>
-          </Popover>
-        </Field>
+            }
+          >
+            {form.date ? formatDate(form.date) : "Choose a date"}
+            <ChevronDown strokeWidth={2.25} className="size-4 shrink-0" />
+          </PopoverTrigger>
+          <PopoverContent className="w-auto p-3">
+            <Calendar
+              mode="single"
+              captionLayout="dropdown"
+              startMonth={new Date(2010, 0)}
+              endMonth={new Date(2040, 11)}
+              selected={form.date}
+              onSelect={(date) => {
+                updateField("date", date)
+                setDatePickerOpen(false)
+              }}
+              autoFocus
+            />
+          </PopoverContent>
+        </Popover>
+      </Field>
 
-        <Field label="Company valuation (EUR)" tooltip="Pre-money company valuation at this date" error={errors.valuation}>
-          <Input
-            type="number"
-            min={0}
-            step="0.01"
-            placeholder="e.g. 10000000"
-            value={form.valuation}
-            onChange={(e) => updateField("valuation", e.target.value)}
-            aria-invalid={!!errors.valuation}
-          />
-        </Field>
+      <Field
+        label="Company valuation"
+        tooltip="The pre-money valuation at this date, in euros"
+        error={errors.valuation}
+      >
+        <Input
+          type="number"
+          inputMode="decimal"
+          min={0}
+          step="0.01"
+          placeholder="10,000,000"
+          value={form.valuation}
+          onChange={(e) => updateField("valuation", e.target.value)}
+          aria-invalid={!!errors.valuation}
+        />
+      </Field>
 
-        <Field label="Amount raised (EUR)" tooltip="Optional — capital raised in this round, used to calculate dilution" error={errors.amountRaised}>
-          <Input
-            type="number"
-            min={0}
-            step="0.01"
-            placeholder="e.g. 2000000"
-            value={form.amountRaised}
-            onChange={(e) => updateField("amountRaised", e.target.value)}
-            aria-invalid={!!errors.amountRaised}
-          />
-        </Field>
+      <Field
+        label="Amount raised"
+        tooltip="The capital raised in this round, in euros. Optional: it is what dilution is calculated from"
+        error={errors.amountRaised}
+      >
+        <Input
+          type="number"
+          inputMode="decimal"
+          min={0}
+          step="0.01"
+          placeholder="2,000,000"
+          value={form.amountRaised}
+          onChange={(e) => updateField("amountRaised", e.target.value)}
+          aria-invalid={!!errors.amountRaised}
+        />
+      </Field>
 
-        <Button type="submit" className={isEditing ? "w-full" : undefined}>
-          {isEditing ? "Save" : "Add"}
+      <div
+        className={cn(
+          "flex",
+          isEditing ? "justify-end border-t border-ink pt-4" : "items-end"
+        )}
+      >
+        <Button type="submit">
+          {isEditing ? "Save changes" : "Add valuation"}
+          <ArrowRight data-icon="inline-end" strokeWidth={2.25} />
         </Button>
-      </form>
-    </TooltipProvider>
+      </div>
+    </form>
   )
 }
 
@@ -190,11 +232,14 @@ function Field({
   children: React.ReactNode
 }) {
   return (
-    <div className="flex flex-col gap-1.5">
-      <div className="flex h-5 items-center gap-1.5">
+    <div className="flex flex-col gap-2">
+      <div className="flex h-5 items-center">
         {tooltip ? (
           <Tooltip>
-            <TooltipTrigger render={<Label />} className="underline decoration-dotted decoration-muted-foreground/50 underline-offset-4">
+            <TooltipTrigger
+              render={<Label />}
+              className="cursor-help underline decoration-ink-muted decoration-dotted underline-offset-4"
+            >
               {label}
             </TooltipTrigger>
             <TooltipContent>{tooltip}</TooltipContent>
@@ -204,7 +249,14 @@ function Field({
         )}
       </div>
       {children}
-      {error && <p className="text-xs text-destructive">{error}</p>}
+      {error && (
+        <p
+          role="alert"
+          className="text-[0.8125rem] leading-snug text-destructive"
+        >
+          {error}
+        </p>
+      )}
     </div>
   )
 }
