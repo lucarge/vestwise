@@ -5,15 +5,6 @@ import { cn } from "@/lib/utils"
 
 export const REPO_URL = "https://github.com/lucarge/vestwise"
 
-export function Wordmark({ className }: { className?: string }) {
-  return (
-    <span className={cn("inline-flex items-center gap-[0.45em] font-extrabold tracking-[-0.02em] [font-stretch:112%]", className)}>
-      <span aria-hidden="true" className="inline-block h-[0.95em] w-[0.42em] bg-mark" />
-      VestWise
-    </span>
-  )
-}
-
 interface OpenAppProps {
   className?: string
   size?: "md" | "lg"

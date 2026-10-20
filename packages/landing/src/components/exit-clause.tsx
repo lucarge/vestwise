@@ -1,34 +1,19 @@
-import type { CSSProperties } from "react"
-import { RollingNumber } from "@/components/rolling-number"
-import { euro, multiple, percent, shares } from "@/lib/format"
-import { MULTIPLE_RANGE, useAgreement } from "@/lib/terms"
-import { fitFigure } from "@/lib/utils"
-
-// The multiple runs on a log scale, so 1x to 3x gets as much travel as 5x to 20x
-const SPAN = Math.log(MULTIPLE_RANGE.max / MULTIPLE_RANGE.min)
-const STEPS = 1000
-
-function multipleFromPosition(position: number): number {
-  const raw = MULTIPLE_RANGE.min * Math.exp((position / STEPS) * SPAN)
-  return Math.round(raw * 10) / 10
-}
-
-function positionFromMultiple(value: number): number {
-  return Math.round((Math.log(value / MULTIPLE_RANGE.min) / SPAN) * STEPS)
-}
-
-// One arrow press always moves to the next figure a person would say out
-// loud; single track steps are too fine to change the rounded multiple
-function stepMultiple(value: number, direction: 1 | -1): number {
-  const size = (v: number) => (v < 3 ? 0.1 : v < 10 ? 0.5 : 1)
-  const step = direction === 1 ? size(value) : size(value - 0.01)
-  const next = Math.round((value + direction * step) / step) * step
-  const clamped = Math.min(MULTIPLE_RANGE.max, Math.max(MULTIPLE_RANGE.min, next))
-  return Math.round(clamped * 10) / 10
-}
-
-const MULTIPLE_TICKS = [0.5, 1, 2, 3, 5, 10, 20]
-const DILUTION_TICKS = [0, 25, 50, 75]
+import {
+  DILUTION_TICKS,
+  MULTIPLE_STEPS,
+  MULTIPLE_TICKS,
+  RollingNumber,
+  Ruler,
+  euro,
+  fitFigure,
+  multiple,
+  multipleFromPosition,
+  percent,
+  positionFromMultiple,
+  shares,
+  stepMultiple,
+} from "@vestwise/brand"
+import { useAgreement } from "@/lib/terms"
 
 export function ExitClause() {
   const { exit, multiple: m, setMultiple, dilution, setDilution, totalShares, problem } = useAgreement()
@@ -59,11 +44,11 @@ export function ExitClause() {
               display={`${multiple(m)} today`}
               valueText={`${multiple(m)} today's valuation`}
               value={positionFromMultiple(m)}
-              max={STEPS}
+              max={MULTIPLE_STEPS}
               onChange={(p) => setMultiple(multipleFromPosition(p))}
               onStep={(direction) => setMultiple(stepMultiple(m, direction))}
               ticks={MULTIPLE_TICKS.map((t) => ({
-                at: positionFromMultiple(t) / STEPS,
+                at: positionFromMultiple(t) / MULTIPLE_STEPS,
                 label: `${t}×`,
               }))}
             />
@@ -128,68 +113,6 @@ function Row({ term, value }: { term: string; value: string }) {
     <div className="flex items-baseline justify-between gap-6 border-t border-mark-ink py-3">
       <dt>{term}</dt>
       <dd className="shrink-0 font-semibold">{value}</dd>
-    </div>
-  )
-}
-
-interface RulerProps {
-  id: string
-  label: string
-  display: string
-  valueText: string
-  value: number
-  max: number
-  onChange: (value: number) => void
-  /** Replaces the native arrow-key step, for tracks that are not linear */
-  onStep?: (direction: 1 | -1) => void
-  ticks: { at: number; label: string }[]
-}
-
-// A range input drawn as a ruler. Ticks sit where the thumb's centre travels,
-// which is inset by half the thumb's width at either end.
-function Ruler({ id, label, display, valueText, value, max, onChange, onStep, ticks }: RulerProps) {
-  return (
-    <div>
-      <div className="flex items-baseline justify-between gap-4">
-        <label htmlFor={id} className="text-[1rem] font-semibold">
-          {label}
-        </label>
-        <output htmlFor={id} className="voice-figure shrink-0 text-[1.375rem] whitespace-nowrap sm:text-[1.75rem]">
-          {display}
-        </output>
-      </div>
-      <input
-        id={id}
-        type="range"
-        className="ruler mt-2"
-        min={0}
-        max={max}
-        step={1}
-        value={value}
-        aria-valuetext={valueText}
-        onChange={(event) => onChange(Number(event.target.value))}
-        onKeyDown={(event) => {
-          if (!onStep) return
-          const up = event.key === "ArrowRight" || event.key === "ArrowUp"
-          const down = event.key === "ArrowLeft" || event.key === "ArrowDown"
-          if (up || down) {
-            event.preventDefault()
-            onStep(up ? 1 : -1)
-          }
-        }}
-      />
-      <div aria-hidden="true" className="relative h-9">
-        {ticks.map((tick) => (
-          <span
-            key={tick.label}
-            className="absolute top-0 flex -translate-x-1/2 flex-col items-center"
-            style={{ left: `calc(0.3125rem + ${tick.at} * (100% - 0.625rem))` } as CSSProperties}
-          >
-            <span className="h-2 w-px bg-mark-ink" />
-            <span className="figures mt-1 text-[0.75rem]">{tick.label}</span>
-          </span>
-        ))}
-      </div>
     </div>
   )
 }

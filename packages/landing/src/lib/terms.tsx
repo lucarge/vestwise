@@ -37,8 +37,6 @@ export const REFRESH_GRANT: GrantTerms = {
   start: addMonths(THIS_MONTH, -9),
 }
 
-export const MULTIPLE_RANGE = { min: 0.5, max: 20 } as const
-
 function sameTerms(a: GrantTerms, b: GrantTerms): boolean {
   return (
     a.shares === b.shares &&

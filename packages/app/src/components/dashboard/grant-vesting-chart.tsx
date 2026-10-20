@@ -8,6 +8,14 @@ import {
   YAxis,
 } from "recharts"
 import { addMonths } from "date-fns"
+import {
+  amount,
+  euro,
+  formatDateLong,
+  month,
+  shares,
+  shortMonth,
+} from "@vestwise/brand"
 
 import {
   ExhibitFlag,
@@ -27,14 +35,6 @@ import {
   ChartTooltipContent,
   type ChartConfig,
 } from "@/components/ui/chart"
-import {
-  amount,
-  euro,
-  formatDateLong,
-  month,
-  shares,
-  shortMonth,
-} from "@/lib/format"
 import type { Grant } from "@/types/grant"
 import type { GrantVestingTimeline } from "@/types/vesting"
 

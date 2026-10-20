@@ -1,7 +1,5 @@
-import { OpenApp, REPO_URL, Wordmark } from "@/components/brand"
-import { Mark } from "@/components/mark"
-import { RollingNumber } from "@/components/rolling-number"
-import { euro, shares } from "@/lib/format"
+import { Mark, RollingNumber, Wordmark, euro, shares } from "@vestwise/brand"
+import { OpenApp, REPO_URL } from "@/components/brand"
 import { APP_URL } from "@/lib/handoff"
 import { useAgreement } from "@/lib/terms"
 

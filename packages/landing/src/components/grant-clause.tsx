@@ -1,12 +1,8 @@
 import { useMemo, type CSSProperties, type RefObject } from "react"
 import { ArrowDown } from "lucide-react"
-import { BlankNumber, BlankSelect } from "@/components/blank"
+import { BlankNumber, BlankSelect, Mark, RollingNumber, amount, euro, fitFigure, month, multiple, percent, shares } from "@vestwise/brand"
 import { OpenApp } from "@/components/brand"
-import { Mark } from "@/components/mark"
-import { RollingNumber } from "@/components/rolling-number"
-import { amount, euro, month, multiple, percent, shares } from "@/lib/format"
 import { useAgreement } from "@/lib/terms"
-import { fitFigure } from "@/lib/utils"
 import { addMonths, startOfMonth, type Schedule } from "@/lib/vesting"
 
 const SCHEDULES: { value: Schedule; label: string }[] = [

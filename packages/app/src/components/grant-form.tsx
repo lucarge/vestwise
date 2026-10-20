@@ -1,14 +1,21 @@
 import { useMemo, useState } from "react"
 import { ArrowRight } from "lucide-react"
+import {
+  BlankNumber,
+  BlankSelect,
+  Mark,
+  RollingNumber,
+  amount,
+  euro,
+  fitFigure,
+  month,
+  shares,
+} from "@vestwise/brand"
 
-import { BlankDate, BlankNumber, BlankSelect } from "@/components/brand/blank"
-import { Mark } from "@/components/brand/mark"
+import { BlankDate } from "@/components/brand/blank"
 import { Split } from "@/components/brand/part"
-import { RollingNumber } from "@/components/brand/rolling-number"
 import { Button } from "@/components/ui/button"
-import { amount, euro, month, shares } from "@/lib/format"
 import { validateGrantForm, type GrantFormErrors } from "@/lib/grant-validation"
-import { fitFigure } from "@/lib/utils"
 import { computeGrantTimeline } from "@/lib/vesting"
 import type {
   Grant,

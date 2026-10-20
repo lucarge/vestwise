@@ -1,6 +1,6 @@
-// Ported from packages/landing/src/components/brand.tsx: keep in sync
-import { cn } from "@/lib/utils"
+import { cn } from "../lib/cn"
 
+// The name with its yellow bar: the one binding brand element
 export function Wordmark({ className }: { className?: string }) {
   return (
     <span
@@ -18,7 +18,7 @@ export function Wordmark({ className }: { className?: string }) {
   )
 }
 
-// The bar on its own, where the name has no room (the icon rail)
+// The bar on its own, where the name has no room (the app's icon rail)
 export function WordmarkBar({ className }: { className?: string }) {
   return (
     <span

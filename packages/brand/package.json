@@ -1,0 +1,31 @@
+{
+  "name": "@vestwise/brand",
+  "private": true,
+  "version": "0.0.1",
+  "type": "module",
+  "description": "VestWise's brand primitives, shared by the landing and the app as TypeScript and CSS sources: the tokens, type voices, wordmark, highlighter, blanks, rulers and rolling figures.",
+  "exports": {
+    ".": "./src/index.ts",
+    "./brand.css": "./src/brand.css"
+  },
+  "scripts": {
+    "typecheck": "tsc -b"
+  },
+  "dependencies": {
+    "@fontsource-variable/archivo": "^5.3.0",
+    "@fontsource-variable/source-serif-4": "^5.3.1",
+    "clsx": "^2.1.1",
+    "lucide-react": "^1.7.0",
+    "tailwind-merge": "^3.5.0"
+  },
+  "peerDependencies": {
+    "react": "^19.2.4",
+    "tailwindcss": "^4.2.1"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.14",
+    "react": "^19.2.4",
+    "tailwindcss": "^4.2.1",
+    "typescript": "~5.9.3"
+  }
+}

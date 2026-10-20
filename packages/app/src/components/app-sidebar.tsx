@@ -6,8 +6,8 @@ import {
   SettingsIcon,
   TrendingUpIcon,
 } from "lucide-react"
+import { Wordmark, WordmarkBar } from "@vestwise/brand"
 
-import { Wordmark, WordmarkBar } from "@/components/brand/wordmark"
 import {
   Sidebar,
   SidebarContent,

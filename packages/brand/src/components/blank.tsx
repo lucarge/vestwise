@@ -1,6 +1,6 @@
 import { useState, type KeyboardEvent } from "react"
 import { ChevronDown } from "lucide-react"
-import { parseAmount } from "@/lib/format"
+import { parseAmount } from "../lib/format"
 
 interface BlankNumberProps {
   /** Accessible name, e.g. "Number of virtual shares" */
@@ -14,10 +14,13 @@ interface BlankNumberProps {
   integer?: boolean
   minChars?: number
   describedBy?: string
+  /** A problem the surrounding form found with the committed value */
+  invalid?: boolean
+  className?: string
 }
 
 // A blank in the agreement that is really an input. Every valid keystroke
-// updates the whole document; the text is tidied into the visitor's number
+// updates the whole document; the text is tidied into the reader's number
 // format when they leave the field.
 export function BlankNumber({
   label,
@@ -30,26 +33,34 @@ export function BlankNumber({
   integer = false,
   minChars = 2,
   describedBy,
+  invalid = false,
+  className,
 }: BlankNumberProps) {
-  // What the visitor is typing exists only while the field has focus;
+  // What the reader is typing exists only while the field has focus;
   // otherwise the blank shows the committed value in their number format
   const [draft, setDraft] = useState<string | null>(null)
-  const [invalid, setInvalid] = useState(false)
+  const [draftInvalid, setDraftInvalid] = useState(false)
   const text = draft ?? format(value)
 
   function accept(raw: string) {
     setDraft(raw)
     const parsed = parseAmount(raw)
     const ok =
-      parsed !== null && parsed >= min && parsed <= max && (!integer || Number.isInteger(parsed))
-    setInvalid(!ok)
+      parsed !== null &&
+      parsed >= min &&
+      parsed <= max &&
+      (!integer || Number.isInteger(parsed))
+    setDraftInvalid(!ok)
     if (ok) onCommit(parsed)
   }
 
   function nudge(direction: 1 | -1, large: boolean) {
-    const next = Math.min(max, Math.max(min, value + direction * step * (large ? 10 : 1)))
+    const next = Math.min(
+      max,
+      Math.max(min, value + direction * step * (large ? 10 : 1))
+    )
     const rounded = integer ? Math.round(next) : Math.round(next * 100) / 100
-    setInvalid(false)
+    setDraftInvalid(false)
     setDraft(format(rounded))
     onCommit(rounded)
   }
@@ -66,9 +77,9 @@ export function BlankNumber({
   return (
     <input
       type="text"
-      className="blank"
+      className={className ? `blank ${className}` : "blank"}
       aria-label={label}
-      aria-invalid={invalid}
+      aria-invalid={draftInvalid || invalid}
       aria-describedby={describedBy}
       inputMode={integer ? "numeric" : "decimal"}
       autoComplete="off"
@@ -83,7 +94,7 @@ export function BlankNumber({
       }}
       onBlur={() => {
         setDraft(null)
-        setInvalid(false)
+        setDraftInvalid(false)
       }}
       onChange={(event) => accept(event.target.value)}
       onKeyDown={onKeyDown}
@@ -98,7 +109,12 @@ interface BlankSelectProps<T extends string> {
   onChange: (value: T) => void
 }
 
-export function BlankSelect<T extends string>({ label, value, options, onChange }: BlankSelectProps<T>) {
+export function BlankSelect<T extends string>({
+  label,
+  value,
+  options,
+  onChange,
+}: BlankSelectProps<T>) {
   const selected = options.find((o) => o.value === value)?.label ?? ""
   return (
     <span className="relative inline-block">

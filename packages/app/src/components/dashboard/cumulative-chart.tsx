@@ -8,6 +8,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts"
+import { euro, euroCompact, month, shares, shortMonth } from "@vestwise/brand"
 
 import { Part } from "@/components/brand/part"
 import {
@@ -29,7 +30,6 @@ import {
   type ChartConfig,
 } from "@/components/ui/chart"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { euro, euroCompact, month, shares, shortMonth } from "@/lib/format"
 import type { CumulativePoint } from "@/types/vesting"
 
 type ChartMode = "shares" | "value"

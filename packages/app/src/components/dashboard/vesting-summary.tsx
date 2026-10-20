@@ -1,11 +1,16 @@
 import { useState } from "react"
+import {
+  Mark,
+  RollingNumber,
+  euro,
+  fitFigure,
+  month,
+  percentPrecise,
+  shares,
+} from "@vestwise/brand"
 
-import { Mark } from "@/components/brand/mark"
 import { Part } from "@/components/brand/part"
-import { RollingNumber } from "@/components/brand/rolling-number"
-import { euro, month, percentPrecise, shares } from "@/lib/format"
 import { usePortfolioSummary } from "@/hooks/use-portfolio-summary"
-import { fitFigure } from "@/lib/utils"
 import type { Grant } from "@/types/grant"
 import type { ValuationEntry } from "@/types/valuation"
 

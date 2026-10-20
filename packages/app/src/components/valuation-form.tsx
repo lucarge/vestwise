@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { ArrowRight, ChevronDown } from "lucide-react"
+import { formatDate } from "@vestwise/brand"
 
 import { Button } from "@/components/ui/button"
 import { Calendar } from "@/components/ui/calendar"
@@ -15,7 +16,6 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
-import { formatDate } from "@/lib/format"
 import { cn } from "@/lib/utils"
 import type { ValuationEntry } from "@/types/valuation"
 

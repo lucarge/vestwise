@@ -1,6 +1,5 @@
-import { Mark } from "@/components/brand/mark"
+import { Mark, euro, shares } from "@vestwise/brand"
 import { Part } from "@/components/brand/part"
-import { euro, shares } from "@/lib/format"
 import type { YearlySummary as YearlySummaryData } from "@/types/vesting"
 
 interface YearlySummaryProps {

@@ -28,6 +28,7 @@ This is a Bun workspaces monorepo:
 
 - **`packages/app`** — The main application ([app.vestwise.app](https://app.vestwise.app))
 - **`packages/landing`** — Marketing landing page ([vestwise.app](https://vestwise.app))
+- **`packages/brand`** — The brand primitives both share (tokens, components, formatters), consumed as sources
 
 ## Getting started
 
