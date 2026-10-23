@@ -4,19 +4,23 @@ import { useNavigate } from "react-router-dom"
 import { PageHeader } from "@/components/brand/page-header"
 import { Part } from "@/components/brand/part"
 import { GrantForm } from "@/components/grant-form"
+import { useCompanies } from "@/hooks/use-companies"
 import { useGrants } from "@/hooks/use-grants"
 import { clearGrantHandoff, peekGrantHandoff } from "@/lib/grant-handoff"
+import type { Company } from "@/types/company"
 import type { Grant } from "@/types/grant"
 
 export function NewGrantPage() {
   const { addGrant } = useGrants()
+  const { companies, saveCompany } = useCompanies()
   const navigate = useNavigate()
   // A grant link from the landing page fills in the clause the first time
   // this page opens. It is never stored: coming back here starts empty.
   const [handoff] = useState(peekGrantHandoff)
   useEffect(clearGrantHandoff, [])
 
-  function handleAddGrant(grant: Grant) {
+  function handleAddGrant(grant: Grant, company?: Company) {
+    if (company) saveCompany(company)
     addGrant(grant)
     navigate("/grants")
   }
@@ -37,6 +41,7 @@ export function NewGrantPage() {
       </PageHeader>
       <Part>
         <GrantForm
+          companies={companies}
           onAddGrant={handleAddGrant}
           prefill={handoff?.status === "ready" ? handoff.prefill : undefined}
         />

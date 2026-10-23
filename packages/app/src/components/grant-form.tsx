@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react"
+import { startOfDay } from "date-fns"
 import { ArrowRight } from "lucide-react"
 import {
   BlankNumber,
@@ -7,16 +8,28 @@ import {
   RollingNumber,
   amount,
   euro,
+  euroPrecise,
   fitFigure,
+  formatDate,
   month,
   shares,
 } from "@vestwise/brand"
 
-import { BlankDate } from "@/components/brand/blank"
+import { BlankCompany, BlankDate } from "@/components/brand/blank"
 import { Split } from "@/components/brand/part"
 import { Button } from "@/components/ui/button"
+import {
+  type GrantLink,
+  companyOf,
+  findCompany,
+  grantPrice,
+  linkGrant,
+  priceOf,
+  valuationAt,
+} from "@/lib/company"
 import { validateGrantForm, type GrantFormErrors } from "@/lib/grant-validation"
 import { computeGrantTimeline } from "@/lib/vesting"
+import type { Company } from "@/types/company"
 import type {
   Grant,
   GrantFormData,
@@ -25,14 +38,18 @@ import type {
   VestingSchedule,
 } from "@/types/grant"
 
-const defaultFormData: GrantFormData = {
-  grantDate: new Date(),
-  vestingSchedule: "monthly",
-  vestingPeriodMonths: "48",
-  cliffMonths: "12",
-  grantedAmount: "",
-  vsopsValue: "",
-  vsopsStrikePrice: "",
+// A new clause starts today, as the calendar dates it: at midnight, so it
+// compares cleanly with a valuation recorded the same day
+function defaultFormData(): GrantFormData {
+  return {
+    grantDate: startOfDay(new Date()),
+    vestingSchedule: "monthly",
+    vestingPeriodMonths: "48",
+    cliffMonths: "12",
+    grantedAmount: "",
+    vsopsValue: "",
+    vsopsStrikePrice: "",
+  }
 }
 
 const SCHEDULES: { value: VestingSchedule; label: string }[] = [
@@ -46,8 +63,14 @@ const VALUE_MODES: { value: GrantValueMode; label: string }[] = [
   { value: "total", label: "in total" },
 ]
 
+// The company is checked here, not with the terms: grant links from the
+// landing page run through validateGrantForm and carry no company
+type ClauseErrors = GrantFormErrors & { company?: string }
+type ClauseField = keyof ClauseErrors
+
 // The order the margin reports problems in: the terms a reader fills first
-const FIELD_ORDER: (keyof GrantFormData)[] = [
+const FIELD_ORDER: ClauseField[] = [
+  "company",
   "grantedAmount",
   "vsopsValue",
   "vsopsStrikePrice",
@@ -74,7 +97,7 @@ function numberOf(text: string): number {
   return Number.isFinite(n) ? n : 0
 }
 
-function firstProblem(errors: GrantFormErrors | null): string | null {
+function firstProblem(errors: ClauseErrors | null): string | null {
   if (!errors) return null
   for (const key of FIELD_ORDER) {
     if (errors[key]) return errors[key]
@@ -82,12 +105,70 @@ function firstProblem(errors: GrantFormErrors | null): string | null {
   return null
 }
 
+// What a company brings to a grant made on a date: the price per share in
+// effect then, and its strike for new grants, as the form's inputs hold them
+function companyTerms(company: Company, date: Date | undefined) {
+  const entry = date ? valuationAt(company, date) : undefined
+  const price = entry ? priceOf(entry) : undefined
+  return {
+    price:
+      price !== undefined ? String(Math.round(price * 100) / 100) : undefined,
+    strike:
+      company.strikePrice !== undefined
+        ? String(company.strikePrice)
+        : undefined,
+  }
+}
+
+/** Which blanks hold the reader's own figures, which a company leaves alone */
+interface OwnTerms {
+  value: boolean
+  strike: boolean
+}
+
+// The grant the terms describe, before it has a company
+function termsToGrant(
+  id: string,
+  form: GrantFormData,
+  valueMode: GrantValueMode
+): Grant {
+  const count = parseFloat(form.grantedAmount)
+  const value = parseFloat(form.vsopsValue)
+  return {
+    id,
+    companyId: "",
+    grantDate: form.grantDate!,
+    vestingSchedule: form.vestingSchedule,
+    vestingPeriodMonths: parseInt(form.vestingPeriodMonths),
+    cliffMonths: parseInt(form.cliffMonths),
+    grantedAmount: count,
+    vsopsValue: valueMode === "per-share" ? value * count : value,
+    vsopsStrikePrice: parseFloat(form.vsopsStrikePrice),
+  }
+}
+
+function withCompanyTerms(
+  form: GrantFormData,
+  company: Company,
+  own: OwnTerms
+): GrantFormData {
+  const terms = companyTerms(company, form.grantDate)
+  return {
+    ...form,
+    ...(!own.value && terms.price ? { vsopsValue: terms.price } : {}),
+    ...(!own.strike && terms.strike ? { vsopsStrikePrice: terms.strike } : {}),
+  }
+}
+
 interface GrantFormProps {
-  onAddGrant?: (grant: Grant) => void
+  /** The reader's companies: the clause names one, or a new one */
+  companies: Company[]
+  /** Saving may add or change the grant's company too */
+  onAddGrant?: (grant: Grant, company?: Company) => void
   /** Starting values when adding a grant; ignored when editing */
   prefill?: GrantPrefill
   initialGrant?: Grant
-  onUpdateGrant?: (grant: Grant) => void
+  onUpdateGrant?: (grant: Grant, company?: Company) => void
   /** On a page the margin answers beside the clause; in a dialog, under it */
   variant?: "page" | "dialog"
 }
@@ -95,6 +176,7 @@ interface GrantFormProps {
 // The grant is a clause: the agreement's own sentence, with its blanks as
 // inputs, and VestWise's answer in the margin as the terms change
 export function GrantForm({
+  companies,
   onAddGrant,
   prefill,
   initialGrant,
@@ -102,11 +184,26 @@ export function GrantForm({
   variant = "page",
 }: GrantFormProps) {
   const isEditing = !!initialGrant
-  const [form, setForm] = useState<GrantFormData>(
+  // With one company on record, a new grant starts from it
+  const onlyCompany = companies.length === 1 ? companies[0] : undefined
+  // A grant's own terms and a grant link's are the reader's
+  const startsOwn: OwnTerms = {
+    value: !!(initialGrant || prefill),
+    strike: !!(initialGrant || prefill),
+  }
+  const [own, setOwn] = useState<OwnTerms>(startsOwn)
+  const [companyName, setCompanyName] = useState(() =>
     initialGrant
-      ? grantToFormData(initialGrant)
-      : (prefill?.form ?? defaultFormData)
+      ? (companyOf(initialGrant, companies)?.name ?? "")
+      : (onlyCompany?.name ?? "")
   )
+  const [form, setForm] = useState<GrantFormData>(() => {
+    if (initialGrant) return grantToFormData(initialGrant)
+    if (prefill) return prefill.form
+    return onlyCompany
+      ? withCompanyTerms(defaultFormData(), onlyCompany, startsOwn)
+      : defaultFormData()
+  })
   const [valueMode, setValueMode] = useState<GrantValueMode>(
     initialGrant ? "total" : (prefill?.valueMode ?? "per-share")
   )
@@ -121,6 +218,26 @@ export function GrantForm({
     setForm((prev) => ({ ...prev, [key]: value }))
   }
 
+  // A company the clause names fills the value and the strike, unless the
+  // reader typed their own
+  function fillFrom(company: Company | undefined, next: GrantFormData) {
+    if (!company) return
+    const filled = withCompanyTerms(next, company, own)
+    setForm(filled)
+    if (filled.vsopsValue !== next.vsopsValue) setValueMode("per-share")
+  }
+
+  function changeCompany(name: string) {
+    setCompanyName(name)
+    fillFrom(findCompany(companies, name), form)
+  }
+
+  function changeGrantDate(date: Date | undefined) {
+    const next = { ...form, grantDate: date }
+    setForm(next)
+    fillFrom(findCompany(companies, companyName), next)
+  }
+
   function switchValueMode(mode: GrantValueMode) {
     if (mode === valueMode) return
     const value = parseFloat(form.vsopsValue)
@@ -132,70 +249,64 @@ export function GrantForm({
     setValueMode(mode)
   }
 
-  const errors = validateGrantForm(form)
+  const errors = useMemo((): ClauseErrors | null => {
+    const termsErrors = validateGrantForm(form)
+    const companyError = companyName.trim()
+      ? undefined
+      : "Name the company that grants the shares."
+    if (!termsErrors && !companyError) return null
+    return { ...termsErrors, ...(companyError ? { company: companyError } : {}) }
+  }, [form, companyName])
   const problem = firstProblem(errors)
-  const flag = (key: keyof GrantFormData) => submitted && !!errors?.[key]
+  const flag = (key: ClauseField) => submitted && !!errors?.[key]
 
   // What the terms are worth, computed the moment they make sense
   const preview = useMemo(() => {
     if (errors) return null
-    const count = parseFloat(form.grantedAmount)
-    const value = parseFloat(form.vsopsValue)
-    const strike = parseFloat(form.vsopsStrikePrice)
-    const total = valueMode === "per-share" ? value * count : value
-    const grant: Grant = {
-      id: "preview",
-      grantDate: form.grantDate!,
-      vestingSchedule: form.vestingSchedule,
-      vestingPeriodMonths: parseInt(form.vestingPeriodMonths),
-      cliffMonths: parseInt(form.cliffMonths),
-      grantedAmount: count,
-      vsopsValue: total,
-      vsopsStrikePrice: strike,
-    }
+    const grant = termsToGrant(initialGrant?.id ?? "preview", form, valueMode)
     const timeline = computeGrantTimeline(grant)
     let vested = 0
     for (const ev of timeline.events) {
       if (ev.date.getTime() <= now) vested = ev.cumulativeVested
     }
-    const perShare = total / count
+    const perShare = grantPrice(grant)
     const last = timeline.events[timeline.events.length - 1]
     return {
-      shares: count,
+      grant,
+      link: linkGrant(grant, companyName, companies, () => "preview"),
+      shares: grant.grantedAmount,
       vestedShares: vested,
-      vestedNet: vested * (perShare - strike),
-      totalNet: total - strike * count,
+      vestedNet: vested * (perShare - grant.vsopsStrikePrice),
+      totalNet: grant.vsopsValue - grant.vsopsStrikePrice * grant.grantedAmount,
       fullyVested: last?.date ?? grant.grantDate,
-      underwater: perShare < strike,
+      underwater: perShare < grant.vsopsStrikePrice,
     }
-  }, [form, valueMode, errors, now])
+  }, [form, valueMode, errors, now, companyName, companies, initialGrant])
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     setSubmitted(true)
     if (errors) return
 
-    const totalValue =
-      valueMode === "per-share"
-        ? parseFloat(form.vsopsValue) * parseFloat(form.grantedAmount)
-        : parseFloat(form.vsopsValue)
-
-    const grant: Grant = {
-      id: isEditing ? initialGrant.id : crypto.randomUUID(),
-      grantDate: form.grantDate!,
-      vestingSchedule: form.vestingSchedule,
-      vestingPeriodMonths: parseInt(form.vestingPeriodMonths),
-      cliffMonths: parseInt(form.cliffMonths),
-      grantedAmount: parseFloat(form.grantedAmount),
-      vsopsValue: totalValue,
-      vsopsStrikePrice: parseFloat(form.vsopsStrikePrice),
-    }
+    const grant = termsToGrant(
+      isEditing ? initialGrant.id : crypto.randomUUID(),
+      form,
+      valueMode
+    )
+    const link = linkGrant(grant, companyName, companies)
 
     if (isEditing) {
-      onUpdateGrant?.(grant)
+      onUpdateGrant?.(link.grant, link.company)
     } else {
-      onAddGrant?.(grant)
-      setForm(defaultFormData)
+      onAddGrant?.(link.grant, link.company)
+      const fresh = { value: false, strike: false }
+      setOwn(fresh)
+      setCompanyName(onlyCompany?.name ?? "")
+      setForm(
+        onlyCompany
+          ? withCompanyTerms(defaultFormData(), onlyCompany, fresh)
+          : defaultFormData()
+      )
       setValueMode("per-share")
       setSubmitted(false)
     }
@@ -213,8 +324,16 @@ export function GrantForm({
             : "voice-clause text-[1.1875rem] leading-[1.9] lg:text-[1.375rem] lg:leading-[1.85]"
         }
       >
-        <span className="font-semibold">§ 1 Grant.</span> The Company grants the
-        Participant{" "}
+        <span className="font-semibold">§ 1 Grant.</span>{" "}
+        <BlankCompany
+          label="The company that grants the shares"
+          value={companyName}
+          names={companies.map((c) => c.name)}
+          onChange={changeCompany}
+          invalid={flag("company")}
+          describedBy="grant-status"
+        />{" "}
+        grants the Participant{" "}
         <BlankNumber
           label="Number of virtual shares"
           value={numberOf(form.grantedAmount)}
@@ -235,7 +354,10 @@ export function GrantForm({
               : "Value of all shares in euros"
           }
           value={numberOf(form.vsopsValue)}
-          onCommit={(v) => updateField("vsopsValue", String(v))}
+          onCommit={(v) => {
+            updateField("vsopsValue", String(v))
+            setOwn((prev) => ({ ...prev, value: true }))
+          }}
           format={amount}
           min={0}
           max={1_000_000_000_000}
@@ -254,7 +376,10 @@ export function GrantForm({
         <BlankNumber
           label="Strike price per share in euros"
           value={numberOf(form.vsopsStrikePrice)}
-          onCommit={(v) => updateField("vsopsStrikePrice", String(v))}
+          onCommit={(v) => {
+            updateField("vsopsStrikePrice", String(v))
+            setOwn((prev) => ({ ...prev, strike: true }))
+          }}
           format={amount}
           min={0}
           max={10_000_000}
@@ -286,7 +411,7 @@ export function GrantForm({
         <BlankDate
           label="Grant date"
           value={form.grantDate}
-          onChange={(date) => updateField("grantDate", date)}
+          onChange={changeGrantDate}
           invalid={flag("grantDate")}
           describedBy="grant-status"
         />
@@ -319,6 +444,12 @@ export function GrantForm({
                   <RollingNumber value={vested} />
                 </span>{" "}
                 net today, {euro(preview.totalNet)} once fully vested.
+                {preview.link.change && (
+                  <>
+                    {" "}
+                    <CompanyChange link={preview.link} grant={preview.grant} />
+                  </>
+                )}
               </>
             ) : (
               <span className="font-semibold text-ink">{problem}</span>
@@ -387,6 +518,11 @@ export function GrantForm({
               net once fully vested
             </p>
           </div>
+          {preview.link.change && (
+            <p className="mt-line max-w-[34ch] border-t border-ink pt-4 text-[0.9375rem] leading-snug text-ink-soft">
+              <CompanyChange link={preview.link} grant={preview.grant} />
+            </p>
+          )}
           <p className="mt-line text-[0.8125rem] leading-snug text-ink-muted">
             {preview.underwater
               ? "The strike price is above the value per share, so the grant is underwater for now."
@@ -398,4 +534,38 @@ export function GrantForm({
   )
 
   return <Split terms={clause} answer={margin} />
+}
+
+// What adding or saving the grant also does to its company, said before it
+// happens
+function CompanyChange({ link, grant }: { link: GrantLink; grant: Grant }) {
+  const name = link.company?.name
+  if (!link.change || !name) return null
+  const price = (
+    <span className="figures font-semibold text-ink">
+      {euroPrecise(grantPrice(grant))}
+    </span>
+  )
+  const date = formatDate(grant.grantDate)
+  switch (link.change) {
+    case "creates":
+      return (
+        <>
+          Also adds {name} to your companies, at {price} a share.
+        </>
+      )
+    case "records":
+      return (
+        <>
+          Also records {price} a share as {name}’s valuation on {date}.
+        </>
+      )
+    case "updates":
+      return (
+        <>
+          Also moves the valuation this grant recorded for {name} to {price} a
+          share on {date}.
+        </>
+      )
+  }
 }

@@ -3,6 +3,7 @@ import { ArrowRight, ChevronDown } from "lucide-react"
 import { Link } from "react-router-dom"
 import {
   BlankNumber,
+  BlankSelect,
   DILUTION_TICKS,
   MULTIPLE_STEPS,
   MULTIPLE_TICKS,
@@ -26,15 +27,19 @@ import { Label } from "@/components/ui/label"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { usePotential } from "@/hooks/use-potential"
 import { cn } from "@/lib/utils"
+import type { Company } from "@/types/company"
 import type { Grant } from "@/types/grant"
-import type { ValuationEntry } from "@/types/valuation"
 import { PotentialChart } from "./potential-chart"
 
 interface StockPotentialProps {
+  /** The grants of the company the exit is for */
   grants: Grant[]
+  company?: Company
+  /** Every company the reader holds grants in, to pick from */
+  companies: Company[]
+  onCompanyChange: (id: string) => void
   currentValuation?: number
   calculatedDilution?: number
-  valuations?: ValuationEntry[]
 }
 
 // Everything on the highlighter field is mark-ink, the tabs included
@@ -45,9 +50,11 @@ const FIELD_TAB =
 // left, the payout ledger on the right
 export function StockPotential({
   grants,
+  company,
+  companies,
+  onCompanyChange,
   currentValuation,
   calculatedDilution,
-  valuations,
 }: StockPotentialProps) {
   const {
     multiplier,
@@ -61,7 +68,7 @@ export function StockPotential({
     effectiveMultiplier,
     summary,
     curve,
-  } = usePotential(grants, currentValuation, calculatedDilution, valuations)
+  } = usePotential(grants, currentValuation, calculatedDilution, company)
 
   const [infoOpen, setInfoOpen] = useState(false)
 
@@ -101,8 +108,25 @@ export function StockPotential({
           What would an exit pay you?
         </h2>
         <p className="mt-3 max-w-[52ch] text-[0.9375rem] leading-snug">
-          Your {shares(totalShares)} shares at a future valuation, after the
-          strike price and the dilution still to come.
+          Your {shares(totalShares)} shares
+          {company && (
+            <>
+              {" "}
+              in{" "}
+              {companies.length > 1 ? (
+                <BlankSelect
+                  label="The company the exit is for"
+                  value={company.id}
+                  options={companies.map((c) => ({ value: c.id, label: c.name }))}
+                  onChange={onCompanyChange}
+                />
+              ) : (
+                company.name
+              )}
+            </>
+          )}{" "}
+          at a future valuation, after the strike price and the dilution still
+          to come.
         </p>
 
         <div className="mt-line grid gap-y-line lg:grid-cols-12 lg:gap-x-12">

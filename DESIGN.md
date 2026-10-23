@@ -580,7 +580,7 @@ The app (app.vestwise.app, `packages/app`) is an Operate surface of this world: 
 
 ### Signature move
 
-A grant is a clause. The Add Grant page sets the agreement's § 1 in the serif with its seven blanks as inputs: the shares, the value and whether it is per share or in total, the strike price, the schedule, the period, the start date and the cliff. The margin answers with the net value vested today under the highlighter, rolling as the terms change, or with one sentence naming the problem; invalid blanks strike through once the reader has tried to add the grant. A grant link from the landing opens the same sentence already filled in. The edit dialog holds the same clause with the answer as one line beneath it.
+A grant is a clause. The Add Grant page sets the agreement's § 1 in the serif with its blanks as inputs: the company that grants the shares, the shares, the value and whether it is per share or in total, the strike price, the schedule, the period, the start date and the cliff. The company blank takes any name, and its list (paper inside a 1px ink rule, like the calendar's) offers the reader's companies; naming one fills in the value per share and the strike, unless the reader typed their own. The margin answers with the net value vested today under the highlighter, rolling as the terms change, or with one sentence naming the problem; invalid blanks strike through once the reader has tried to add the grant. When adding the grant also adds its company, or records its price on the company, one more sentence under a rule says so first. A grant link from the landing opens the same sentence already filled in. The edit dialog holds the same clause with the answer as one line beneath it.
 
 ### Shell
 

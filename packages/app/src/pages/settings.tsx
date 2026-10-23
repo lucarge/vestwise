@@ -8,6 +8,7 @@ import {
 } from "lucide-react"
 import { format, formatDistanceToNow } from "date-fns"
 
+import { Notice } from "@/components/brand/notice"
 import { PageHeader } from "@/components/brand/page-header"
 import { Part } from "@/components/brand/part"
 import { useTheme } from "@/components/theme-provider"
@@ -28,7 +29,6 @@ import {
   isValidBackup,
   serializeSnapshot,
 } from "@/lib/backup-data"
-import { cn } from "@/lib/utils"
 
 function downloadExport() {
   const blob = new Blob([serializeSnapshot(getDataSnapshot())], {
@@ -40,27 +40,6 @@ function downloadExport() {
   a.download = `vsop-backup-${format(new Date(), "yyyy-MM-dd")}.json`
   a.click()
   URL.revokeObjectURL(url)
-}
-
-// A block that asks for a decision, ruled in ink, or in the state colour
-// when the decision cannot be undone
-function Notice({
-  tone = "ink",
-  children,
-}: {
-  tone?: "ink" | "state"
-  children: React.ReactNode
-}) {
-  return (
-    <div
-      className={cn(
-        "flex max-w-[60ch] flex-col gap-4 border p-4",
-        tone === "state" ? "border-destructive" : "border-ink"
-      )}
-    >
-      {children}
-    </div>
-  )
 }
 
 export function SettingsPage() {
@@ -142,7 +121,7 @@ export function SettingsPage() {
 
       <Part
         title="Your data"
-        description="Export your grants, valuations and preferences to a JSON file, or import one."
+        description="Export your grants, companies and preferences to a JSON file, or import one."
       >
         <div className="flex flex-col gap-4">
           <div className="flex flex-wrap gap-3">
@@ -333,7 +312,7 @@ export function SettingsPage() {
 
       <Part
         title="Clear all data"
-        description="Delete every grant, valuation and preference from this browser. A connected file is left as it is."
+        description="Delete every grant, company and preference from this browser. A connected file is left as it is."
       >
         <div className="flex flex-col gap-4">
           <div>
@@ -345,7 +324,7 @@ export function SettingsPage() {
           {pendingClear && (
             <Notice tone="state">
               <p className="text-[0.9375rem] leading-snug">
-                This deletes all your grants, valuations, column settings and
+                This deletes all your grants, companies, column settings and
                 theme from this browser. It cannot be undone.
               </p>
               <div className="flex flex-wrap gap-3">
@@ -353,6 +332,7 @@ export function SettingsPage() {
                   variant="destructive"
                   onClick={() => {
                     localStorage.removeItem("vsop-grants")
+                    localStorage.removeItem("vsop-companies")
                     localStorage.removeItem("vsop-valuations")
                     localStorage.removeItem("vsop-column-config")
                     localStorage.removeItem("vsop-sort-config")

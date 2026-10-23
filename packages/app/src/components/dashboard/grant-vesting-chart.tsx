@@ -44,11 +44,17 @@ const chartConfig = {
 
 interface GrantVestingChartProps {
   grant: Grant
+  /** The company that granted it, named when the reader has more than one */
+  companyName?: string
   timeline: GrantVestingTimeline
 }
 
 // One grant: its terms in the agreement's voice, its schedule as an exhibit
-export function GrantVestingChart({ grant, timeline }: GrantVestingChartProps) {
+export function GrantVestingChart({
+  grant,
+  companyName,
+  timeline,
+}: GrantVestingChartProps) {
   const id = useId().replace(/:/g, "")
   const [now] = useState(Date.now)
 
@@ -81,7 +87,8 @@ export function GrantVestingChart({ grant, timeline }: GrantVestingChartProps) {
     <article className="border-t border-ink pt-4">
       <p className="voice-clause text-[1.0625rem] leading-relaxed lg:text-[1.125rem]">
         <span className="font-semibold">
-          Grant of {formatDateLong(grant.grantDate)}.
+          Grant of {formatDateLong(grant.grantDate)}
+          {companyName ? ` by ${companyName}` : ""}.
         </span>{" "}
         {shares(grant.grantedAmount)} Virtual Shares at EUR{" "}
         {amount(valuePerShare)} per share, Strike Price EUR{" "}

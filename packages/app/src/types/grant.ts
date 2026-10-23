@@ -2,6 +2,8 @@ export type VestingSchedule = "monthly" | "quarterly" | "yearly"
 
 export interface Grant {
   id: string
+  /** The company that granted the shares */
+  companyId: string
   grantDate: Date
   vestingSchedule: VestingSchedule
   vestingPeriodMonths: number

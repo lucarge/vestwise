@@ -9,6 +9,7 @@ import {
 function makeGrant(overrides: Partial<Grant> = {}): Grant {
   return {
     id: "test-1",
+    companyId: "company-1",
     grantDate: new Date(2023, 2, 1), // March 1, 2023
     vestingSchedule: "quarterly",
     vestingPeriodMonths: 48,

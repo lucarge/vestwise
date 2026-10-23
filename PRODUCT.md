@@ -20,15 +20,15 @@ Built for virtual stock options in euros, not US ISO/NSO/RSU tooling. Equity is 
 
 ## Operating Context
 
-Visitors arrive holding a VSOP agreement or grant letter (usually a PDF) and know, or can look up, grant date, number of shares, strike price, cliff and vesting period, plus the company's last pre-money valuation and amount raised. Typical moments (inferred, not confirmed): a funding announcement at an all-hands, a refresh grant, comparing job offers, or deciding whether to stay.
+Visitors arrive holding a VSOP agreement or grant letter (usually a PDF) and know, or can look up, grant date, number of shares, strike price, cliff and vesting period, plus the company's latest valuation and share count, or the price per share their grant letter states. Typical moments (inferred, not confirmed): a funding announcement at an all-hands, a refresh grant, comparing job offers, or deciding whether to stay.
 
 ## Capabilities and Constraints
 
-- Grant fields: grant date, vesting schedule (Monthly / Quarterly / Yearly), vesting period in months (default 48), cliff in months (default 12), number of shares, value in EUR (total or per share), strike price in EUR (must be above 0). Shares vest every 1, 3 or 12 months; at the cliff all accrued shares release at once, then linearly.
+- Grant fields: the company that grants it (picked or named in the clause; naming one fills in the value per share and the strike), grant date, vesting schedule (Monthly / Quarterly / Yearly), vesting period in months (default 48), cliff in months (default 12), number of shares, value in EUR (total or per share), strike price in EUR (must be above 0). Shares vest every 1, 3 or 12 months; at the cliff all accrued shares release at once, then linearly.
 - Dashboard: a plain-language summary sentence (vested shares, net value, total value, fully-vested date), "Cumulative Vesting" (Shares / Value), "Yearly Vesting Summary" (bars plus table), and one chart per grant with "Cliff" and "Today" markers and a "Fully Vested" badge.
-- Grants table with configurable columns, including Net Value, Appreciation and Ownership.
-- Company Valuations: pre-money valuation history with optional amount raised; cumulative dilution is calculated from funding rounds; each grant is matched to the latest valuation on or before its grant date.
-- Stock Potential: "Multiplier" (0.5x to 20x, default 2x) or "Absolute Valuation" mode, dilution 0 to 75% prefilled from funding rounds, cards for Current Net Value, Simulated Net Value, Net Gain and Dilution Impact, and a "Value by Valuation Multiple" chart.
+- Grants table, one per company, with configurable columns, including Net Value, Appreciation and Ownership.
+- Companies: each company has a name, a strike price for new grants and dated valuations: a post-money valuation, a fully diluted share count and a price per share (any two give the third), with an optional amount raised. A grant keeps the price it was granted at; appreciation compares it with the company's latest price per share, and ownership divides the grant's shares by the latest share count. A grant newer than the latest valuation and priced differently records its price on the company. Cumulative dilution is calculated from funding rounds.
+- Stock Potential, for one company at a time (picked in the lede when there are several): "Multiplier" (0.5x to 20x, default 2x) or "Absolute Valuation" mode, dilution 0 to 75% prefilled from funding rounds, cards for Current Net Value, Simulated Net Value, Net Gain and Dilution Impact, and a "Value by Valuation Multiple" chart.
 - Settings: Light / Dark / System theme, JSON export and import, and an optional connected file that auto-saves after every change (Chromium browsers only; the file can sit in an iCloud Drive or Google Drive folder, but the app itself never talks to those services).
 - Constraints: EUR only, English only, virtual stock options only. No tax calculation, exercise tracking, liquidation-preference waterfalls, acceleration or leaver rules, sharing links, accounts, or cloud sync service.
 - Free, no sign-up.
@@ -44,7 +44,7 @@ Visitors arrive holding a VSOP agreement or grant letter (usually a PDF) and kno
 - The working product, from which live demonstrations can be built with synthetic sample data (label it as sample).
 - Public GitHub repository under MIT: https://github.com/lucarge/vestwise
 - No testimonials, user counts, press, ratings or customer logos exist. Future work must not fabricate any.
-- Privacy precision: grant and valuation data never leave the browser (no backend, no network calls in the app). Both sites do run cookieless Vercel Web Analytics page views, so "no tracking" or "no analytics" claims are false.
+- Privacy precision: grant, company and valuation data never leave the browser (no backend, no network calls in the app). Both sites do run cookieless Vercel Web Analytics page views, so "no tracking" or "no analytics" claims are false.
 
 ## Product Principles
 

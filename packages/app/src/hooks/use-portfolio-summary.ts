@@ -1,15 +1,15 @@
 import { useMemo } from "react"
 
-import { getAppreciationMultiplier } from "@/lib/valuation"
+import { appreciationMultiplier, companyOf } from "@/lib/company"
 import { computeGrantTimeline } from "@/lib/vesting"
+import type { Company } from "@/types/company"
 import type { Grant } from "@/types/grant"
-import type { ValuationEntry } from "@/types/valuation"
 
 // What every grant adds up to: vested today, in full once vested, and at
-// today's valuation when there is one
+// today's price per share where its company has one
 export function usePortfolioSummary(
   grants: Grant[],
-  valuations: ValuationEntry[],
+  companies: Company[],
   now: number
 ) {
   return useMemo(() => {
@@ -28,7 +28,10 @@ export function usePortfolioSummary(
     for (const { grant, timeline } of timelines) {
       const valuePerShare =
         grant.grantedAmount > 0 ? grant.vsopsValue / grant.grantedAmount : 0
-      const multiplier = getAppreciationMultiplier(valuations, grant.grantDate)
+      const multiplier = appreciationMultiplier(
+        grant,
+        companyOf(grant, companies)
+      )
       const effectiveMultiplier = multiplier ?? 1
       if (multiplier !== undefined) hasAppreciation = true
 
@@ -78,5 +81,5 @@ export function usePortfolioSummary(
       isFullyVested: fullVestingDate ? now >= fullVestingDate.getTime() : false,
       appreciationPct,
     }
-  }, [grants, valuations, now])
+  }, [grants, companies, now])
 }

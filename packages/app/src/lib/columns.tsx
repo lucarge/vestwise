@@ -7,9 +7,9 @@ import {
 } from "@vestwise/brand"
 
 import type { GrantTotals } from "@/hooks/use-grants"
-import type { GrantWithValuation } from "@/lib/valuation"
+import type { GrantWithCompany } from "@/lib/company"
 
-const SCHEDULE_LABELS: Record<GrantWithValuation["vestingSchedule"], string> = {
+const SCHEDULE_LABELS: Record<GrantWithCompany["vestingSchedule"], string> = {
   monthly: "Monthly",
   quarterly: "Quarterly",
   yearly: "Yearly",
@@ -28,7 +28,7 @@ export type ColumnId =
   | "ownership"
 
 export interface ColumnTotals extends GrantTotals {
-  totalOwnership: number
+  totalOwnership?: number
 }
 
 export interface ColumnDef {
@@ -36,8 +36,8 @@ export interface ColumnDef {
   label: string
   align: "left" | "right"
   tooltip?: string
-  sortValue?: (grant: GrantWithValuation) => number | string
-  renderCell: (grant: GrantWithValuation) => ReactNode
+  sortValue?: (grant: GrantWithCompany) => number | string
+  renderCell: (grant: GrantWithCompany) => ReactNode
   renderFooter?: (totals: ColumnTotals) => ReactNode
 }
 
@@ -134,21 +134,12 @@ export const COLUMN_DEFS: Record<ColumnId, ColumnDef> = {
     label: "Appreciation",
     align: "right",
     tooltip:
-      "How much the company's valuation has changed since the grant was made",
-    sortValue: (grant) => {
-      if (!grant.applicableValuation || !grant.latestValuation) return 0
-      return (
-        ((grant.latestValuation - grant.applicableValuation) /
-          grant.applicableValuation) *
-        100
-      )
-    },
+      "How the company's price per share has changed since the grant was made",
+    sortValue: (grant) =>
+      grant.appreciation !== undefined ? (grant.appreciation - 1) * 100 : 0,
     renderCell: (grant) => {
-      if (!grant.applicableValuation || !grant.latestValuation) return none
-      const pct =
-        ((grant.latestValuation - grant.applicableValuation) /
-          grant.applicableValuation) *
-        100
+      if (grant.appreciation === undefined) return none
+      const pct = (grant.appreciation - 1) * 100
       return `${pct >= 0 ? "+" : "−"}${percentPrecise(Math.abs(pct), 2)}`
     },
   },
@@ -156,20 +147,17 @@ export const COLUMN_DEFS: Record<ColumnId, ColumnDef> = {
     id: "ownership",
     label: "Ownership",
     align: "right",
-    tooltip: "The share of the company this grant represents",
-    sortValue: (grant) =>
-      grant.applicableValuation
-        ? (grant.vsopsValue / grant.applicableValuation) * 100
-        : 0,
+    tooltip:
+      "The share of the company this grant stands for, against the latest share count on record",
+    sortValue: (grant) => grant.ownership ?? 0,
     renderCell: (grant) =>
-      grant.applicableValuation
-        ? percentPrecise(
-            (grant.vsopsValue / grant.applicableValuation) * 100,
-            4
-          )
+      grant.ownership !== undefined
+        ? percentPrecise(grant.ownership, 4)
         : none,
     renderFooter: (totals) =>
-      totals.totalOwnership ? percentPrecise(totals.totalOwnership, 4) : none,
+      totals.totalOwnership !== undefined
+        ? percentPrecise(totals.totalOwnership, 4)
+        : none,
   },
 }
 

@@ -1,13 +1,13 @@
 import { addMonths, getYear } from "date-fns"
+import type { Company } from "@/types/company"
 import type { Grant } from "@/types/grant"
-import type { ValuationEntry } from "@/types/valuation"
 import type {
   CumulativePoint,
   GrantVestingTimeline,
   VestingEvent,
   YearlySummary,
 } from "@/types/vesting"
-import { getAppreciationMultiplier } from "@/lib/valuation"
+import { appreciationMultiplier, companyOf } from "@/lib/company"
 
 function periodMonths(schedule: Grant["vestingSchedule"]): number {
   switch (schedule) {
@@ -92,7 +92,7 @@ export function computeGrantTimeline(grant: Grant): GrantVestingTimeline {
 
 export function computeCumulativeTimeline(
   grants: Grant[],
-  valuations?: ValuationEntry[],
+  companies?: Company[],
 ): CumulativePoint[] {
   if (grants.length === 0) return []
 
@@ -106,9 +106,9 @@ export function computeCumulativeTimeline(
     0,
   )
 
-  // Compute per-grant appreciation multipliers
-  const appreciationMultipliers = valuations
-    ? grants.map((g) => getAppreciationMultiplier(valuations, g.grantDate))
+  // Compute per-grant appreciation multipliers, each from its own company
+  const appreciationMultipliers = companies
+    ? grants.map((g) => appreciationMultiplier(g, companyOf(g, companies)))
     : grants.map(() => undefined)
   const hasAppreciation = appreciationMultipliers.some((m) => m !== undefined)
 

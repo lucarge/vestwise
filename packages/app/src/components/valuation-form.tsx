@@ -1,142 +1,80 @@
-import { useState } from "react"
+import { useId, useState } from "react"
 import { ArrowRight, ChevronDown } from "lucide-react"
 import { formatDate } from "@vestwise/brand"
 
+import { Field } from "@/components/brand/field"
 import { Button } from "@/components/ui/button"
 import { Calendar } from "@/components/ui/calendar"
 import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip"
 import { cn } from "@/lib/utils"
+import {
+  type Figure,
+  type ValuationErrors,
+  type ValuationFormData,
+  emptyValuation,
+  entryToFormData,
+  formToEntry,
+  validateValuation,
+  workedOut,
+} from "@/lib/valuation-form"
 import type { ValuationEntry } from "@/types/valuation"
 
-interface ValuationFormData {
-  date: Date | undefined
-  valuation: string
-  amountRaised: string
+interface ValuationFieldsProps {
+  form: ValuationFormData
+  onChange: (form: ValuationFormData) => void
+  errors: ValuationErrors | null
 }
 
-const defaultFormData: ValuationFormData = {
-  date: new Date(),
-  valuation: "",
-  amountRaised: "",
-}
-
-function entryToFormData(entry: ValuationEntry): ValuationFormData {
-  return {
-    date: entry.date,
-    valuation: String(entry.valuation),
-    amountRaised: entry.amountRaised ? String(entry.amountRaised) : "",
-  }
-}
-
-interface ValuationFormProps {
-  onAdd?: (entry: ValuationEntry) => void
-  initialEntry?: ValuationEntry
-  onUpdate?: (entry: ValuationEntry) => void
-  className?: string
-}
-
-// A valuation is VestWise's own record, so its fields are labeled blanks
-// rather than a clause
-export function ValuationForm({
-  onAdd,
-  initialEntry,
-  onUpdate,
-  className,
-}: ValuationFormProps) {
-  const isEditing = !!initialEntry
-  const [form, setForm] = useState<ValuationFormData>(
-    initialEntry ? entryToFormData(initialEntry) : defaultFormData
-  )
-  const [errors, setErrors] = useState<
-    Partial<Record<keyof ValuationFormData, string>>
-  >({})
+// The fields of a valuation, shared by a new company and a new valuation
+export function ValuationFields({ form, onChange, errors }: ValuationFieldsProps) {
+  const id = useId()
   const [datePickerOpen, setDatePickerOpen] = useState(false)
+  const derived = workedOut(form)
 
-  function updateField<K extends keyof ValuationFormData>(
+  function update<K extends keyof ValuationFormData>(
     key: K,
     value: ValuationFormData[K]
   ) {
-    setForm((prev) => ({ ...prev, [key]: value }))
-    if (errors[key]) {
-      setErrors((prev) => {
-        const next = { ...prev }
-        delete next[key]
-        return next
-      })
-    }
+    onChange({ ...form, [key]: value })
   }
 
-  function validate(): Partial<Record<keyof ValuationFormData, string>> | null {
-    const errs: Partial<Record<keyof ValuationFormData, string>> = {}
-    if (!form.date) errs.date = "Choose the date of the valuation."
-    const val = parseFloat(form.valuation)
-    if (!form.valuation || isNaN(val) || val <= 0) {
-      errs.valuation = "Enter a valuation above zero."
-    }
-    if (form.amountRaised) {
-      const raised = parseFloat(form.amountRaised)
-      if (isNaN(raised) || raised <= 0) {
-        errs.amountRaised = "Enter an amount above zero, or leave it empty."
-      }
-    }
-    return Object.keys(errs).length > 0 ? errs : null
-  }
-
-  function handleSubmit(e: React.FormEvent) {
-    e.preventDefault()
-    const validationErrors = validate()
-    if (validationErrors) {
-      setErrors(validationErrors)
-      return
-    }
-
-    const amountRaised = form.amountRaised
-      ? parseFloat(form.amountRaised)
-      : undefined
-
-    const entry: ValuationEntry = {
-      id: isEditing ? initialEntry.id : crypto.randomUUID(),
-      date: form.date!,
-      valuation: parseFloat(form.valuation),
-      amountRaised,
-    }
-
-    if (isEditing) {
-      onUpdate?.(entry)
-    } else {
-      onAdd?.(entry)
-      setForm(defaultFormData)
-      setErrors({})
-    }
+  function figure(key: Figure, label: string, tooltip: string, placeholder: string) {
+    const isDerived = derived?.figure === key
+    return (
+      <Field
+        label={label}
+        htmlFor={`${id}-${key}`}
+        tooltip={tooltip}
+        hint={isDerived ? "Worked out from the other two." : undefined}
+        error={errors?.[key]}
+      >
+        <Input
+          id={`${id}-${key}`}
+          type="number"
+          inputMode="decimal"
+          min={0}
+          step="any"
+          placeholder={placeholder}
+          value={isDerived ? derived.value : form[key]}
+          disabled={isDerived}
+          onChange={(e) => update(key, e.target.value)}
+          aria-invalid={!!errors?.[key]}
+        />
+      </Field>
+    )
   }
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      noValidate
-      className={cn(
-        "grid gap-x-8 gap-y-5",
-        isEditing
-          ? "grid-cols-1"
-          : "sm:grid-cols-2 lg:grid-cols-[1fr_1fr_1fr_auto] lg:items-end",
-        className
-      )}
-    >
+    <>
       <Field
         label="Date"
         tooltip="The date this valuation applies from"
-        error={errors.date}
+        error={errors?.date}
       >
         <Popover open={datePickerOpen} onOpenChange={setDatePickerOpen}>
           <PopoverTrigger
@@ -147,7 +85,8 @@ export function ValuationForm({
                   "field-blank flex cursor-pointer items-center justify-between gap-2 text-left",
                   !form.date && "text-ink-muted"
                 )}
-                aria-invalid={!!errors.date}
+                aria-label="Date of the valuation"
+                aria-invalid={!!errors?.date}
               />
             }
           >
@@ -162,7 +101,7 @@ export function ValuationForm({
               endMonth={new Date(2040, 11)}
               selected={form.date}
               onSelect={(date) => {
-                updateField("date", date)
+                update("date", date)
                 setDatePickerOpen(false)
               }}
               autoFocus
@@ -172,91 +111,87 @@ export function ValuationForm({
       </Field>
 
       <Field
-        label="Company valuation"
-        tooltip="The pre-money valuation at this date, in euros"
-        error={errors.valuation}
-      >
-        <Input
-          type="number"
-          inputMode="decimal"
-          min={0}
-          step="0.01"
-          placeholder="10,000,000"
-          value={form.valuation}
-          onChange={(e) => updateField("valuation", e.target.value)}
-          aria-invalid={!!errors.valuation}
-        />
-      </Field>
-
-      <Field
         label="Amount raised"
-        tooltip="The capital raised in this round, in euros. Optional: it is what dilution is calculated from"
-        error={errors.amountRaised}
+        htmlFor={`${id}-raised`}
+        tooltip="The capital raised in this round, in euros. Optional: dilution is worked out from it"
+        error={errors?.amountRaised}
       >
         <Input
+          id={`${id}-raised`}
           type="number"
           inputMode="decimal"
           min={0}
-          step="0.01"
-          placeholder="2,000,000"
+          step="any"
+          placeholder="10,000,000"
           value={form.amountRaised}
-          onChange={(e) => updateField("amountRaised", e.target.value)}
-          aria-invalid={!!errors.amountRaised}
+          onChange={(e) => update("amountRaised", e.target.value)}
+          aria-invalid={!!errors?.amountRaised}
         />
       </Field>
 
-      <div
-        className={cn(
-          "flex",
-          isEditing ? "justify-end border-t border-ink pt-4" : "items-end"
-        )}
-      >
+      {figure(
+        "valuation",
+        "Post-money valuation",
+        "The company's valuation right after the round, in euros",
+        "40,000,000"
+      )}
+      {figure(
+        "shares",
+        "Shares",
+        "Fully diluted shares after the round: the count the price per share is based on",
+        "13,333"
+      )}
+      {figure(
+        "pricePerShare",
+        "Price per share",
+        "In euros. Give it, or the valuation and the shares to work it out",
+        "3,000"
+      )}
+    </>
+  )
+}
+
+interface ValuationFormProps {
+  initialEntry?: ValuationEntry
+  onSave: (entry: ValuationEntry) => void
+}
+
+// A valuation is VestWise's own record, so its fields are labeled blanks
+// rather than a clause
+export function ValuationForm({ initialEntry, onSave }: ValuationFormProps) {
+  const isEditing = !!initialEntry
+  const [form, setForm] = useState<ValuationFormData>(() =>
+    initialEntry ? entryToFormData(initialEntry) : emptyValuation()
+  )
+  const [submitted, setSubmitted] = useState(false)
+  const errors = validateValuation(form)
+
+  function handleSubmit(e: React.FormEvent) {
+    e.preventDefault()
+    setSubmitted(true)
+    if (errors) return
+    // Saving the reader's own figures makes the entry theirs, even one a
+    // grant recorded
+    onSave(formToEntry(form, initialEntry?.id ?? crypto.randomUUID()))
+  }
+
+  return (
+    <form
+      onSubmit={handleSubmit}
+      noValidate
+      className="grid gap-x-8 gap-y-5 sm:grid-cols-2"
+    >
+      <ValuationFields
+        form={form}
+        onChange={setForm}
+        errors={submitted ? errors : null}
+      />
+      <div className="flex justify-end border-t border-ink pt-4 sm:col-span-2">
         <Button type="submit">
-          {isEditing ? "Save changes" : "Add valuation"}
+          {isEditing ? "Save changes" : "Record valuation"}
           <ArrowRight data-icon="inline-end" strokeWidth={2.25} />
         </Button>
       </div>
     </form>
-  )
-}
-
-function Field({
-  label,
-  tooltip,
-  error,
-  children,
-}: {
-  label: string
-  tooltip?: string
-  error?: string
-  children: React.ReactNode
-}) {
-  return (
-    <div className="flex flex-col gap-2">
-      <div className="flex h-5 items-center">
-        {tooltip ? (
-          <Tooltip>
-            <TooltipTrigger
-              render={<Label />}
-              className="cursor-help underline decoration-ink-muted decoration-dotted underline-offset-4"
-            >
-              {label}
-            </TooltipTrigger>
-            <TooltipContent>{tooltip}</TooltipContent>
-          </Tooltip>
-        ) : (
-          <Label>{label}</Label>
-        )}
-      </div>
-      {children}
-      {error && (
-        <p
-          role="alert"
-          className="text-[0.8125rem] leading-snug text-destructive"
-        >
-          {error}
-        </p>
-      )}
-    </div>
   )
 }

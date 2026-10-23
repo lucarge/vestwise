@@ -12,6 +12,7 @@ import {
 
 import {
   type BackupData,
+  fileMatchesSnapshot,
   getDataSnapshot,
   isValidBackup,
   serializeSnapshot,
@@ -115,6 +116,12 @@ export function BackupSyncProvider({ children }: { children: ReactNode }) {
         lastWrittenContentsRef.current = currentContents
         setError(null)
         updateStatus("connected")
+        return
+      }
+      if (fileMatchesSnapshot(file.contents, currentContents)) {
+        // The file predates companies but holds the same data as this
+        // browser, which upgraded it on load: bring the file up to date.
+        await writeAndRecord(currentContents)
         return
       }
       // File diverges from local. Either:

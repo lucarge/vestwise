@@ -7,15 +7,18 @@ import "./index.css"
 import { AppLayout } from "@/components/app-layout"
 import { ThemeProvider } from "@/components/theme-provider"
 import { BackupSyncProvider } from "@/hooks/use-backup-sync"
+import { migrateStoredData } from "@/lib/backup-data"
 import { captureGrantHandoff } from "@/lib/grant-handoff"
+import { CompaniesPage } from "@/pages/companies"
 import { DashboardPage } from "@/pages/dashboard"
 import { GrantsPage } from "@/pages/grants"
 import { NewGrantPage } from "@/pages/new-grant"
 import { PotentialPage } from "@/pages/potential"
 import { SettingsPage } from "@/pages/settings"
-import { ValuationsPage } from "@/pages/valuations"
 
-// Before anything renders: a grant link's terms leave the address bar here
+// Before anything renders: data from before companies is upgraded, and a
+// grant link's terms leave the address bar
+migrateStoredData()
 captureGrantHandoff()
 
 // Analytics reports the full address, fragment included. Grant links are gone
@@ -34,7 +37,11 @@ createRoot(document.getElementById("root")!).render(
               <Route index element={<DashboardPage />} />
               <Route path="grants" element={<GrantsPage />} />
               <Route path="grants/new" element={<NewGrantPage />} />
-              <Route path="valuations" element={<ValuationsPage />} />
+              <Route path="companies" element={<CompaniesPage />} />
+              <Route
+                path="valuations"
+                element={<Navigate to="/companies" replace />}
+              />
               <Route path="potential" element={<PotentialPage />} />
               <Route path="settings" element={<SettingsPage />} />
               <Route path="*" element={<Navigate to="/" replace />} />

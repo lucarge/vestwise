@@ -4,8 +4,9 @@ import { Link } from "react-router-dom"
 import { Part } from "@/components/brand/part"
 import { Button } from "@/components/ui/button"
 import { useVesting } from "@/hooks/use-vesting"
+import { companyOf } from "@/lib/company"
+import type { Company } from "@/types/company"
 import type { Grant } from "@/types/grant"
-import type { ValuationEntry } from "@/types/valuation"
 import { CumulativeChart } from "./cumulative-chart"
 import { GrantVestingChart } from "./grant-vesting-chart"
 import { VestingSummary } from "./vesting-summary"
@@ -13,17 +14,19 @@ import { YearlySummary } from "./yearly-summary"
 
 interface VestingDashboardProps {
   grants: Grant[]
-  valuations: ValuationEntry[]
+  companies: Company[]
 }
 
 export function VestingDashboard({
   grants,
-  valuations,
+  companies,
 }: VestingDashboardProps) {
   const { grantTimelines, cumulativeTimeline, yearlySummary } = useVesting(
     grants,
-    valuations
+    companies
   )
+  // Grants from more than one company say which granted them
+  const manyCompanies = new Set(grants.map((g) => g.companyId)).size > 1
 
   if (grants.length === 0) {
     return (
@@ -46,7 +49,7 @@ export function VestingDashboard({
 
   return (
     <div className="flex flex-col gap-line">
-      <VestingSummary grants={grants} valuations={valuations} />
+      <VestingSummary grants={grants} companies={companies} />
       <CumulativeChart data={cumulativeTimeline} />
       <YearlySummary data={yearlySummary} />
       <Part
@@ -63,6 +66,9 @@ export function VestingDashboard({
             <GrantVestingChart
               key={grant.id}
               grant={grant}
+              companyName={
+                manyCompanies ? companyOf(grant, companies)?.name : undefined
+              }
               timeline={grantTimelines[i]}
             />
           ))}

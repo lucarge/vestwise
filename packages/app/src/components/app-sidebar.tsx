@@ -24,7 +24,7 @@ import {
 const navItems = [
   { to: "/", label: "Dashboard", icon: LayoutDashboardIcon, end: true },
   { to: "/grants", label: "Grants", icon: FileTextIcon },
-  { to: "/valuations", label: "Valuations", icon: LandmarkIcon },
+  { to: "/companies", label: "Companies", icon: LandmarkIcon },
   { to: "/potential", label: "Stock Potential", icon: TrendingUpIcon },
 ]
 

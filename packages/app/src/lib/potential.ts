@@ -1,6 +1,6 @@
+import type { Company } from "@/types/company"
 import type { Grant } from "@/types/grant"
-import type { ValuationEntry } from "@/types/valuation"
-import { getAppreciationMultiplier } from "@/lib/valuation"
+import { appreciationMultiplier } from "@/lib/company"
 
 export interface PotentialScenario {
   multiplier: number
@@ -16,16 +16,11 @@ export interface PotentialSummary {
 }
 
 /**
- * Compute per-grant appreciation multipliers from valuation history.
- * Falls back to 1 (no appreciation) when no valuation data is available.
+ * Compute per-grant appreciation multipliers from the company's prices.
+ * Falls back to 1 (no appreciation) when the company has no price to compare.
  */
-function getGrantMultipliers(
-  grants: Grant[],
-  valuations?: ValuationEntry[],
-): number[] {
-  return grants.map((g) =>
-    valuations ? (getAppreciationMultiplier(valuations, g.grantDate) ?? 1) : 1,
-  )
+function getGrantMultipliers(grants: Grant[], company?: Company): number[] {
+  return grants.map((g) => appreciationMultiplier(g, company) ?? 1)
 }
 
 /**
@@ -52,9 +47,9 @@ export function computePotentialAtMultiplier(
   grants: Grant[],
   multiplier: number,
   dilutionPercent: number,
-  valuations?: ValuationEntry[],
+  company?: Company,
 ): PotentialSummary {
-  const appreciationMultipliers = getGrantMultipliers(grants, valuations)
+  const appreciationMultipliers = getGrantMultipliers(grants, company)
   const currentNetValue = computeNetValue(grants, 1, appreciationMultipliers)
   const netBeforeDilution = computeNetValue(grants, multiplier, appreciationMultipliers)
   const simulatedNetValue = netBeforeDilution * (1 - dilutionPercent / 100)
@@ -71,22 +66,22 @@ export function computePotentialAtValuation(
   currentValuation: number,
   futureValuation: number,
   dilutionPercent: number,
-  valuations?: ValuationEntry[],
+  company?: Company,
 ): PotentialSummary {
   const multiplier = futureValuation / currentValuation
-  return computePotentialAtMultiplier(grants, multiplier, dilutionPercent, valuations)
+  return computePotentialAtMultiplier(grants, multiplier, dilutionPercent, company)
 }
 
 export function computePotentialCurve(
   grants: Grant[],
   dilutionPercent: number,
-  valuations?: ValuationEntry[],
+  company?: Company,
   steps = 20,
 ): PotentialScenario[] {
   const min = 0.5
   const max = 20
   const stepSize = (max - min) / steps
-  const appreciationMultipliers = getGrantMultipliers(grants, valuations)
+  const appreciationMultipliers = getGrantMultipliers(grants, company)
 
   const points: PotentialScenario[] = []
   for (let i = 0; i <= steps; i++) {

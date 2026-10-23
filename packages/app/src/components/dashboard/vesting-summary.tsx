@@ -11,19 +11,19 @@ import {
 
 import { Part } from "@/components/brand/part"
 import { usePortfolioSummary } from "@/hooks/use-portfolio-summary"
+import type { Company } from "@/types/company"
 import type { Grant } from "@/types/grant"
-import type { ValuationEntry } from "@/types/valuation"
 
 interface VestingSummaryProps {
   grants: Grant[]
-  valuations: ValuationEntry[]
+  companies: Company[]
 }
 
 // The margin figure, brought to the top of the sheet: what has vested today,
 // in euros, under the highlighter
-export function VestingSummary({ grants, valuations }: VestingSummaryProps) {
+export function VestingSummary({ grants, companies }: VestingSummaryProps) {
   const [now] = useState(Date.now)
-  const s = usePortfolioSummary(grants, valuations, now)
+  const s = usePortfolioSummary(grants, companies, now)
   const vested = euro(s.vestedNetValue)
   const across = grants.length > 1 ? ` across ${grants.length} grants` : ""
 

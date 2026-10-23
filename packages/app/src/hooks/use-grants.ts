@@ -9,6 +9,17 @@ export interface GrantTotals {
   totalStrikeCost: number
 }
 
+export function computeGrantTotals(grants: Grant[]): GrantTotals {
+  return {
+    totalGrantedAmount: grants.reduce((sum, g) => sum + g.grantedAmount, 0),
+    totalVsopsValue: grants.reduce((sum, g) => sum + g.vsopsValue, 0),
+    totalStrikeCost: grants.reduce(
+      (sum, g) => sum + g.vsopsStrikePrice * g.grantedAmount,
+      0,
+    ),
+  }
+}
+
 const STORAGE_KEY = "vsop-grants"
 
 function loadGrants(): Grant[] {
@@ -43,17 +54,7 @@ export function useGrants() {
     setGrants((prev) => prev.filter((g) => g.id !== id))
   }
 
-  const totals: GrantTotals = useMemo(
-    () => ({
-      totalGrantedAmount: grants.reduce((sum, g) => sum + g.grantedAmount, 0),
-      totalVsopsValue: grants.reduce((sum, g) => sum + g.vsopsValue, 0),
-      totalStrikeCost: grants.reduce(
-        (sum, g) => sum + g.vsopsStrikePrice * g.grantedAmount,
-        0,
-      ),
-    }),
-    [grants],
-  )
+  const totals: GrantTotals = useMemo(() => computeGrantTotals(grants), [grants])
 
   return { grants, addGrant, updateGrant, removeGrant, totals }
 }

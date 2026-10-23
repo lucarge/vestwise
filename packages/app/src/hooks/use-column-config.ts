@@ -8,7 +8,7 @@ import {
   type ColumnDef,
   type ColumnId,
 } from "@/lib/columns"
-import type { GrantWithValuation } from "@/lib/valuation"
+import type { GrantWithCompany } from "@/lib/company"
 
 const STORAGE_KEY = "vsop-column-config"
 const SORT_STORAGE_KEY = "vsop-sort-config"
@@ -110,7 +110,7 @@ export function useColumnConfig() {
   }, [])
 
   const sortGrants = useCallback(
-    (grants: GrantWithValuation[]): GrantWithValuation[] => {
+    (grants: GrantWithCompany[]): GrantWithCompany[] => {
       if (!sortConfig.column) return grants
       const colDef = COLUMN_DEFS[sortConfig.column]
       if (!colDef.sortValue) return grants

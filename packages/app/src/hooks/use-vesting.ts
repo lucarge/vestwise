@@ -1,21 +1,21 @@
 import { useMemo } from "react"
+import type { Company } from "@/types/company"
 import type { Grant } from "@/types/grant"
-import type { ValuationEntry } from "@/types/valuation"
 import {
   computeGrantTimeline,
   computeCumulativeTimeline,
   computeYearlySummary,
 } from "@/lib/vesting"
 
-export function useVesting(grants: Grant[], valuations?: ValuationEntry[]) {
+export function useVesting(grants: Grant[], companies?: Company[]) {
   const grantTimelines = useMemo(
     () => grants.map(computeGrantTimeline),
     [grants],
   )
 
   const cumulativeTimeline = useMemo(
-    () => computeCumulativeTimeline(grants, valuations),
-    [grants, valuations],
+    () => computeCumulativeTimeline(grants, companies),
+    [grants, companies],
   )
 
   const yearlySummary = useMemo(
